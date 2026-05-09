@@ -1,0 +1,123 @@
+table 'Fact UK Purchase Country Region Median'
+	lineageTag: 585825ff-f90a-4773-be27-5983a58a09cd
+
+	measure 'UK Purchase Latest Year' = CALCULATE(MAX('Fact UK Purchase Country Region Median'[Year]), REMOVEFILTERS('Dim Date'))
+		formatString: 0
+		lineageTag: a5f3534a-73a0-4288-914a-36bc6aed6cb7
+
+	measure 'UK Purchase Ratio' = AVERAGE('Fact UK Purchase Country Region Median'[MedianPurchaseAffordabilityRatioUK])
+		formatString: 0.0
+		lineageTag: 6d57a7c1-4fdb-4718-9be1-9b311626f3bc
+
+	measure 'UK Purchase Ratio Latest' =
+			VAR _latestYear = [UK Purchase Latest Year]
+			RETURN
+				CALCULATE(
+					[UK Purchase Ratio],
+					KEEPFILTERS('Dim Date'[Year] = _latestYear)
+				)
+		formatString: 0.0
+		lineageTag: 1ce9667c-dc9d-4471-8e8f-970900d70134
+
+	measure 'UK Median House Price' = AVERAGE('Fact UK Purchase Country Region Median'[MedianHousePrice])
+		formatString: £#,##0
+		lineageTag: bd8d1d32-0fe5-46b1-8836-939494f3114f
+
+	measure 'UK Median Disposable Income' = AVERAGE('Fact UK Purchase Country Region Median'[MedianEquivalisedDisposableIncome])
+		formatString: £#,##0
+		lineageTag: d34279cb-cf1e-4958-ae2c-2869b55df3c1
+
+	column GeographyCode
+		dataType: string
+		isHidden
+		lineageTag: 1799ec21-e3fa-421f-8d29-197b2d91d7aa
+		summarizeBy: none
+		sourceColumn: GeographyCode
+
+	column GeographyName
+		dataType: string
+		isHidden
+		lineageTag: 326cf16a-4632-4cc2-b3c1-8a3476fa5aca
+		summarizeBy: none
+		sourceColumn: GeographyName
+
+	column PeriodLabel
+		dataType: string
+		isHidden
+		lineageTag: 80dfe0aa-0bc3-4024-acc0-ec5045474634
+		summarizeBy: none
+		sourceColumn: PeriodLabel
+
+	column MedianHousePrice
+		dataType: double
+		isHidden
+		lineageTag: 2de913fe-ba0f-4518-b838-51efa56b2088
+		summarizeBy: none
+		sourceColumn: MedianHousePrice
+
+	column Year
+		dataType: int64
+		isHidden
+		lineageTag: 3b12a792-7c13-4a35-841e-a398442e5e3a
+		summarizeBy: none
+		sourceColumn: Year
+
+	column PeriodEndDate
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: b913c5c6-46fd-439f-b5c9-a8f8be7f63b2
+		summarizeBy: none
+		sourceColumn: PeriodEndDate
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column MedianEquivalisedDisposableIncome
+		dataType: double
+		isHidden
+		lineageTag: 2f0359d8-a1bd-40b3-b79f-29ea0c949bd2
+		summarizeBy: none
+		sourceColumn: MedianEquivalisedDisposableIncome
+
+	column MedianPurchaseAffordabilityRatioUK
+		dataType: double
+		isHidden
+		lineageTag: 8da9e811-8c69-4d87-8946-813f850cc82b
+		summarizeBy: none
+		sourceColumn: MedianPurchaseAffordabilityRatioUK
+
+	column GeographyLevel
+		dataType: string
+		isHidden
+		lineageTag: 55af9b98-f89b-412b-86ab-1d06819cb3a6
+		summarizeBy: none
+		sourceColumn: GeographyLevel
+
+	column AffordabilityThresholdPurchase
+		dataType: double
+		isHidden
+		lineageTag: d0142bb3-276e-4b3d-8749-923bcec3d73a
+		summarizeBy: none
+		sourceColumn: AffordabilityThresholdPurchase
+
+	partition 'Fact UK Purchase Country Region Median' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(CuratedDataFolder & "\fact_uk_purchase_country_region_median.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {
+						{"GeographyCode", type text},
+						{"GeographyName", type text},
+						{"PeriodLabel", type text},
+						{"MedianHousePrice", type number},
+						{"Year", Int64.Type},
+						{"PeriodEndDate", type date},
+						{"MedianEquivalisedDisposableIncome", type number},
+						{"MedianPurchaseAffordabilityRatioUK", type number},
+						{"GeographyLevel", type text},
+						{"AffordabilityThresholdPurchase", type number}
+					}, "en-GB")
+				in
+					Typed
+

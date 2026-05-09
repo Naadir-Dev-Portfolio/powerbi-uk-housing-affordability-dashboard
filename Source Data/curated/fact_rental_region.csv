@@ -1,0 +1,109 @@
+GeographyCode,GeographyName,PeriodLabel,MeanMonthlyRent,Year,PeriodEndDate,MedianPrivateRenterIncome,RentalAffordabilityRatio,GeographyLevel,AffordabilityThresholdRent,RentalPressureBand
+E12000004,East Midlands,2015/16,575,2016,2016-03-31,2304,0.25,Country or Region,0.3,Below 30%
+E12000004,East Midlands,2016/17,589,2017,2017-03-31,2183,0.27,Country or Region,0.3,Below 30%
+E12000004,East Midlands,2017/18,609,2018,2018-03-31,2431,0.251,Country or Region,0.3,Below 30%
+E12000004,East Midlands,2018/19,635,2019,2019-03-31,2826,0.225,Country or Region,0.3,Below 30%
+E12000004,East Midlands,2019/20,653,2020,2020-03-31,2691,0.243,Country or Region,0.3,Below 30%
+E12000004,East Midlands,2020/21,665,2021,2021-03-31,2848,0.233,Country or Region,0.3,Below 30%
+E12000004,East Midlands,2021/22,688,2022,2022-03-31,2661,0.259,Country or Region,0.3,Below 30%
+E12000004,East Midlands,2022/23,725,2023,2023-03-31,2818,0.257,Country or Region,0.3,Below 30%
+E12000004,East Midlands,2023/24,772,2024,2024-03-31,3161,0.244,Country or Region,0.3,Below 30%
+E12000006,East of England,2015/16,827,2016,2016-03-31,2496,0.331,Country or Region,0.3,30%-40%
+E12000006,East of England,2016/17,873,2017,2017-03-31,2674,0.326,Country or Region,0.3,30%-40%
+E12000006,East of England,2017/18,905,2018,2018-03-31,2718,0.333,Country or Region,0.3,30%-40%
+E12000006,East of England,2018/19,922,2019,2019-03-31,3057,0.302,Country or Region,0.3,30%-40%
+E12000006,East of England,2019/20,940,2020,2020-03-31,3048,0.308,Country or Region,0.3,30%-40%
+E12000006,East of England,2020/21,949,2021,2021-03-31,3005,0.316,Country or Region,0.3,30%-40%
+E12000006,East of England,2021/22,987,2022,2022-03-31,3561,0.277,Country or Region,0.3,Below 30%
+E12000006,East of England,2022/23,1031,2023,2023-03-31,3805,0.271,Country or Region,0.3,Below 30%
+E12000006,East of England,2023/24,1091,2024,2024-03-31,3774,0.289,Country or Region,0.3,Below 30%
+E92000001,England,2015/16,975,2016,2016-03-31,2474,0.394,Country or Region,0.3,30%-40%
+E92000001,England,2016/17,1009,2017,2017-03-31,2574,0.392,Country or Region,0.3,30%-40%
+E92000001,England,2017/18,1027,2018,2018-03-31,2631,0.39,Country or Region,0.3,30%-40%
+E92000001,England,2018/19,1035,2019,2019-03-31,2800,0.37,Country or Region,0.3,30%-40%
+E92000001,England,2019/20,1058,2020,2020-03-31,2991,0.354,Country or Region,0.3,30%-40%
+E92000001,England,2020/21,1073,2021,2021-03-31,2826,0.38,Country or Region,0.3,30%-40%
+E92000001,England,2021/22,1087,2022,2022-03-31,3048,0.357,Country or Region,0.3,30%-40%
+E92000001,England,2022/23,1142,2023,2023-03-31,3448,0.331,Country or Region,0.3,30%-40%
+E92000001,England,2023/24,1232,2024,2024-03-31,3396,0.363,Country or Region,0.3,30%-40%
+E12000007,London,2015/16,1643,2016,2016-03-31,3161,0.52,Country or Region,0.3,Above 40%
+E12000007,London,2016/17,1695,2017,2017-03-31,2974,0.57,Country or Region,0.3,Above 40%
+E12000007,London,2017/18,1698,2018,2018-03-31,3313,0.513,Country or Region,0.3,Above 40%
+E12000007,London,2018/19,1681,2019,2019-03-31,3631,0.463,Country or Region,0.3,Above 40%
+E12000007,London,2019/20,1723,2020,2020-03-31,3778,0.456,Country or Region,0.3,Above 40%
+E12000007,London,2020/21,1745,2021,2021-03-31,3596,0.485,Country or Region,0.3,Above 40%
+E12000007,London,2021/22,1709,2022,2022-03-31,4157,0.411,Country or Region,0.3,Above 40%
+E12000007,London,2022/23,1785,2023,2023-03-31,4639,0.385,Country or Region,0.3,30%-40%
+E12000007,London,2023/24,1957,2024,2024-03-31,4700,0.416,Country or Region,0.3,Above 40%
+E12000001,North East,2015/16,535,2016,2016-03-31,1909,0.28,Country or Region,0.3,Below 30%
+E12000001,North East,2016/17,547,2017,2017-03-31,2000,0.274,Country or Region,0.3,Below 30%
+E12000001,North East,2017/18,554,2018,2018-03-31,1883,0.294,Country or Region,0.3,Below 30%
+E12000001,North East,2018/19,556,2019,2019-03-31,1909,0.291,Country or Region,0.3,Below 30%
+E12000001,North East,2019/20,559,2020,2020-03-31,1965,0.284,Country or Region,0.3,Below 30%
+E12000001,North East,2020/21,568,2021,2021-03-31,1918,0.296,Country or Region,0.3,Below 30%
+E12000001,North East,2021/22,585,2022,2022-03-31,2144,0.273,Country or Region,0.3,Below 30%
+E12000001,North East,2022/23,607,2023,2023-03-31,2448,0.248,Country or Region,0.3,Below 30%
+E12000001,North East,2023/24,641,2024,2024-03-31,3244,0.198,Country or Region,0.3,Below 30%
+E12000002,North West,2015/16,600,2016,2016-03-31,1987,0.302,Country or Region,0.3,30%-40%
+E12000002,North West,2016/17,613,2017,2017-03-31,2183,0.281,Country or Region,0.3,Below 30%
+E12000002,North West,2017/18,628,2018,2018-03-31,2248,0.279,Country or Region,0.3,Below 30%
+E12000002,North West,2018/19,642,2019,2019-03-31,2609,0.246,Country or Region,0.3,Below 30%
+E12000002,North West,2019/20,651,2020,2020-03-31,2526,0.258,Country or Region,0.3,Below 30%
+E12000002,North West,2020/21,665,2021,2021-03-31,2513,0.265,Country or Region,0.3,Below 30%
+E12000002,North West,2021/22,687,2022,2022-03-31,2409,0.285,Country or Region,0.3,Below 30%
+E12000002,North West,2022/23,731,2023,2023-03-31,2391,0.306,Country or Region,0.3,30%-40%
+E12000002,North West,2023/24,788,2024,2024-03-31,2809,0.281,Country or Region,0.3,Below 30%
+N92000002,Northern Ireland,2015/16,536,2016,2016-03-31,2096,0.256,Country or Region,0.3,Below 30%
+N92000002,Northern Ireland,2016/17,541,2017,2017-03-31,2235,0.242,Country or Region,0.3,Below 30%
+N92000002,Northern Ireland,2017/18,552,2018,2018-03-31,2335,0.236,Country or Region,0.3,Below 30%
+N92000002,Northern Ireland,2018/19,569,2019,2019-03-31,2274,0.25,Country or Region,0.3,Below 30%
+N92000002,Northern Ireland,2019/20,580,2020,2020-03-31,2652,0.219,Country or Region,0.3,Below 30%
+N92000002,Northern Ireland,2020/21,594,2021,2021-03-31,2605,0.228,Country or Region,0.3,Below 30%
+N92000002,Northern Ireland,2021/22,633,2022,2022-03-31,2635,0.24,Country or Region,0.3,Below 30%
+N92000002,Northern Ireland,2022/23,692,2023,2023-03-31,2761,0.251,Country or Region,0.3,Below 30%
+N92000002,Northern Ireland,2023/24,751,2024,2024-03-31,2974,0.253,Country or Region,0.3,Below 30%
+E12000008,South East,2015/16,951,2016,2016-03-31,2861,0.332,Country or Region,0.3,30%-40%
+E12000008,South East,2016/17,997,2017,2017-03-31,2909,0.343,Country or Region,0.3,30%-40%
+E12000008,South East,2017/18,1024,2018,2018-03-31,2865,0.357,Country or Region,0.3,30%-40%
+E12000008,South East,2018/19,1037,2019,2019-03-31,2900,0.358,Country or Region,0.3,30%-40%
+E12000008,South East,2019/20,1057,2020,2020-03-31,3296,0.321,Country or Region,0.3,30%-40%
+E12000008,South East,2020/21,1065,2021,2021-03-31,2957,0.36,Country or Region,0.3,30%-40%
+E12000008,South East,2021/22,1091,2022,2022-03-31,3257,0.335,Country or Region,0.3,30%-40%
+E12000008,South East,2022/23,1146,2023,2023-03-31,3709,0.309,Country or Region,0.3,30%-40%
+E12000008,South East,2023/24,1229,2024,2024-03-31,4152,0.296,Country or Region,0.3,Below 30%
+E12000009,South West,2015/16,792,2016,2016-03-31,2470,0.321,Country or Region,0.3,30%-40%
+E12000009,South West,2016/17,822,2017,2017-03-31,2765,0.297,Country or Region,0.3,Below 30%
+E12000009,South West,2017/18,851,2018,2018-03-31,2483,0.343,Country or Region,0.3,30%-40%
+E12000009,South West,2018/19,866,2019,2019-03-31,2548,0.34,Country or Region,0.3,30%-40%
+E12000009,South West,2019/20,884,2020,2020-03-31,2848,0.31,Country or Region,0.3,30%-40%
+E12000009,South West,2020/21,904,2021,2021-03-31,2900,0.312,Country or Region,0.3,30%-40%
+E12000009,South West,2021/22,945,2022,2022-03-31,2757,0.343,Country or Region,0.3,30%-40%
+E12000009,South West,2022/23,1002,2023,2023-03-31,3622,0.277,Country or Region,0.3,Below 30%
+E12000009,South West,2023/24,1072,2024,2024-03-31,3409,0.314,Country or Region,0.3,30%-40%
+W92000004,Wales,2015/16,545,2016,2016-03-31,1731,0.315,Country or Region,0.3,30%-40%
+W92000004,Wales,2016/17,553,2017,2017-03-31,1870,0.296,Country or Region,0.3,Below 30%
+W92000004,Wales,2017/18,566,2018,2018-03-31,2148,0.264,Country or Region,0.3,Below 30%
+W92000004,Wales,2018/19,576,2019,2019-03-31,2026,0.284,Country or Region,0.3,Below 30%
+W92000004,Wales,2019/20,589,2020,2020-03-31,2274,0.259,Country or Region,0.3,Below 30%
+W92000004,Wales,2020/21,599,2021,2021-03-31,2348,0.255,Country or Region,0.3,Below 30%
+W92000004,Wales,2021/22,613,2022,2022-03-31,2391,0.256,Country or Region,0.3,Below 30%
+W92000004,Wales,2022/23,644,2023,2023-03-31,2452,0.263,Country or Region,0.3,Below 30%
+W92000004,Wales,2023/24,702,2024,2024-03-31,2713,0.259,Country or Region,0.3,Below 30%
+E12000005,West Midlands,2015/16,627,2016,2016-03-31,2304,0.272,Country or Region,0.3,Below 30%
+E12000005,West Midlands,2016/17,647,2017,2017-03-31,2439,0.265,Country or Region,0.3,Below 30%
+E12000005,West Midlands,2017/18,667,2018,2018-03-31,2513,0.265,Country or Region,0.3,Below 30%
+E12000005,West Midlands,2018/19,680,2019,2019-03-31,2339,0.291,Country or Region,0.3,Below 30%
+E12000005,West Midlands,2019/20,694,2020,2020-03-31,2696,0.257,Country or Region,0.3,Below 30%
+E12000005,West Midlands,2020/21,710,2021,2021-03-31,3205,0.222,Country or Region,0.3,Below 30%
+E12000005,West Midlands,2021/22,734,2022,2022-03-31,2422,0.303,Country or Region,0.3,30%-40%
+E12000005,West Midlands,2022/23,765,2023,2023-03-31,3091,0.247,Country or Region,0.3,Below 30%
+E12000005,West Midlands,2023/24,823,2024,2024-03-31,2822,0.292,Country or Region,0.3,Below 30%
+E12000003,Yorkshire and The Humber,2015/16,587,2016,2016-03-31,2235,0.263,Country or Region,0.3,Below 30%
+E12000003,Yorkshire and The Humber,2016/17,594,2017,2017-03-31,2065,0.288,Country or Region,0.3,Below 30%
+E12000003,Yorkshire and The Humber,2017/18,608,2018,2018-03-31,1991,0.305,Country or Region,0.3,30%-40%
+E12000003,Yorkshire and The Humber,2018/19,617,2019,2019-03-31,2218,0.278,Country or Region,0.3,Below 30%
+E12000003,Yorkshire and The Humber,2019/20,631,2020,2020-03-31,2439,0.259,Country or Region,0.3,Below 30%
+E12000003,Yorkshire and The Humber,2020/21,645,2021,2021-03-31,1852,0.348,Country or Region,0.3,30%-40%
+E12000003,Yorkshire and The Humber,2021/22,663,2022,2022-03-31,2613,0.254,Country or Region,0.3,Below 30%
+E12000003,Yorkshire and The Humber,2022/23,702,2023,2023-03-31,2818,0.249,Country or Region,0.3,Below 30%
+E12000003,Yorkshire and The Humber,2023/24,751,2024,2024-03-31,2739,0.274,Country or Region,0.3,Below 30%

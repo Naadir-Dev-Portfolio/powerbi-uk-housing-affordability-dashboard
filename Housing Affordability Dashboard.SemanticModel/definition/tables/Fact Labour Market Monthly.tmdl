@@ -1,0 +1,340 @@
+table 'Fact Labour Market Monthly'
+	lineageTag: c78d1dc6-7dcd-4fee-9947-39e5511575d9
+
+	measure 'Latest Labour Market Month' =
+			CALCULATE(
+				MAX('Fact Labour Market Monthly'[Date]),
+				FILTER(
+					ALL('Fact Labour Market Monthly'),
+					NOT ISBLANK('Fact Labour Market Monthly'[AverageWeeklyEarnings])
+						&& NOT ISBLANK('Fact Labour Market Monthly'[UKAverageHousePrice])
+				)
+			)
+		formatString: Long Date
+		lineageTag: d04e1700-84c7-4fc5-b489-39aa31ff4f45
+
+	measure 'Latest Unemployment Month' =
+			CALCULATE(
+				MAX('Fact Labour Market Monthly'[Date]),
+				FILTER(
+					ALL('Fact Labour Market Monthly'),
+					NOT ISBLANK('Fact Labour Market Monthly'[UnemploymentRate])
+				)
+			)
+		formatString: Long Date
+		lineageTag: 12414a15-799c-43dc-b28f-62c29eab08ab
+
+	measure 'Average Weekly Earnings' = AVERAGE('Fact Labour Market Monthly'[AverageWeeklyEarnings])
+		formatString: £#,##0
+		lineageTag: b7df1e9f-433e-4c78-b153-3569937e8df4
+
+	measure 'Average Weekly Earnings Latest' =
+			VAR _latestDate = [Latest Labour Market Month]
+			RETURN
+				CALCULATE(
+					[Average Weekly Earnings],
+					FILTER(
+						ALL('Fact Labour Market Monthly'),
+						'Fact Labour Market Monthly'[Date] = _latestDate
+					)
+				)
+		formatString: £#,##0
+		lineageTag: ba405242-2031-493a-b539-5cbdbfc97773
+
+	measure 'Average Weekly Earnings Annual Growth' = AVERAGE('Fact Labour Market Monthly'[AverageWeeklyEarningsAnnualGrowth])
+		formatString: 0.0%
+		lineageTag: 660010cb-60e6-4a89-be31-ba60b6f81076
+
+	measure 'Average Weekly Earnings Annual Growth Latest' =
+			VAR _latestDate = [Latest Labour Market Month]
+			RETURN
+				CALCULATE(
+					[Average Weekly Earnings Annual Growth],
+					FILTER(
+						ALL('Fact Labour Market Monthly'),
+						'Fact Labour Market Monthly'[Date] = _latestDate
+					)
+				)
+		formatString: 0.0%
+		lineageTag: 4b1a6eba-5249-48d0-bb42-5b9c886c857e
+
+	measure 'Unemployment Rate' = AVERAGE('Fact Labour Market Monthly'[UnemploymentRate])
+		formatString: 0.0%
+		lineageTag: 521ce3c4-47c3-4f21-9169-83db5b31961f
+
+	measure 'Unemployment Rate Latest' =
+			VAR _latestDate = [Latest Unemployment Month]
+			RETURN
+				CALCULATE(
+					[Unemployment Rate],
+					FILTER(
+						ALL('Fact Labour Market Monthly'),
+						'Fact Labour Market Monthly'[Date] = _latestDate
+					)
+				)
+		formatString: 0.0%
+		lineageTag: 2f601a82-a1cd-47cf-947b-dd81fee82c17
+
+	measure 'Unemployment Rate 12M Point Change' = AVERAGE('Fact Labour Market Monthly'[UnemploymentRatePointChange12M])
+		formatString: 0.0%
+		lineageTag: cdee471a-3cfa-41f5-b57c-312d768530cf
+
+	measure 'UK Average House Price Labour View' = AVERAGE('Fact Labour Market Monthly'[UKAverageHousePrice])
+		formatString: £#,##0
+		lineageTag: a0c83d5b-4087-4366-b484-a4d01d8cf886
+
+	measure 'UK House Price Annual Growth Labour View' = AVERAGE('Fact Labour Market Monthly'[UKHousePriceAnnualGrowth])
+		formatString: 0.0%
+		lineageTag: 17c5c768-36ac-4aab-a3ef-81769a899d05
+
+	measure 'House Price To Annual Wage Ratio' = AVERAGE('Fact Labour Market Monthly'[HousePriceToAnnualWageRatio])
+		formatString: 0.0
+		lineageTag: 7df3a336-64c7-414c-82e0-fd35768f5219
+
+	measure 'House Price To Annual Wage Ratio Latest' =
+			VAR _latestDate = [Latest Labour Market Month]
+			RETURN
+				CALCULATE(
+					[House Price To Annual Wage Ratio],
+					FILTER(
+						ALL('Fact Labour Market Monthly'),
+						'Fact Labour Market Monthly'[Date] = _latestDate
+					)
+				)
+		formatString: 0.0
+		lineageTag: 9719b265-9487-4907-9e49-69bb4ea4224a
+
+	measure 'House Price Growth Less Wage Growth' = AVERAGE('Fact Labour Market Monthly'[HousePriceGrowthLessWageGrowth])
+		formatString: 0.0%
+		lineageTag: 9230a487-8254-45bd-b287-c66c349212e3
+
+	measure 'House Price Growth Less Wage Growth Latest' =
+			VAR _latestDate = [Latest Labour Market Month]
+			RETURN
+				CALCULATE(
+					[House Price Growth Less Wage Growth],
+					FILTER(
+						ALL('Fact Labour Market Monthly'),
+						'Fact Labour Market Monthly'[Date] = _latestDate
+					)
+				)
+		formatString: 0.0%
+		lineageTag: 64ace836-f2e8-40b4-a578-fa117be213a7
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: cb83f4d6-bd74-4b90-86b9-b5041674a959
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PeriodLabel
+		dataType: string
+		isHidden
+		lineageTag: 8750f17a-c16a-4f18-8753-30ee9199e2a0
+		summarizeBy: none
+		sourceColumn: PeriodLabel
+
+	column Year
+		dataType: int64
+		isHidden
+		lineageTag: 564719bf-b6ff-4f4d-8083-d158b98d3d2f
+		summarizeBy: none
+		sourceColumn: Year
+
+	column MonthNumber
+		dataType: int64
+		isHidden
+		lineageTag: afb941ad-682b-4227-814a-1e252e99f177
+		summarizeBy: none
+		sourceColumn: MonthNumber
+
+	column UKAverageHousePrice
+		dataType: double
+		isHidden
+		lineageTag: df517db9-2ded-4d8d-a076-6df629396791
+		summarizeBy: none
+		sourceColumn: UKAverageHousePrice
+
+	column UKHPIIndex
+		dataType: double
+		isHidden
+		lineageTag: 2cc0510c-bf84-4679-a704-6afd6f90f76f
+		summarizeBy: none
+		sourceColumn: UKHPIIndex
+
+	column UKHousePriceMonthlyGrowth
+		dataType: double
+		isHidden
+		lineageTag: 476e4c26-ee56-4a98-81c5-2c8fc3128d0d
+		summarizeBy: none
+		sourceColumn: UKHousePriceMonthlyGrowth
+
+	column UKHousePriceAnnualGrowth
+		dataType: double
+		isHidden
+		lineageTag: d9b6be56-e546-42f6-8a48-5fb0e90066d7
+		summarizeBy: none
+		sourceColumn: UKHousePriceAnnualGrowth
+
+	column AverageWeeklyEarnings
+		dataType: double
+		isHidden
+		lineageTag: 0ec049bd-5084-4e1b-a0a9-cc664509ae33
+		summarizeBy: none
+		sourceColumn: AverageWeeklyEarnings
+
+	column AverageWeeklyEarningsAnnualGrowth
+		dataType: double
+		isHidden
+		lineageTag: 2e4292b0-9d68-4635-8743-63ac09779901
+		summarizeBy: none
+		sourceColumn: AverageWeeklyEarningsAnnualGrowth
+
+	column AnnualisedWeeklyEarnings
+		dataType: double
+		isHidden
+		lineageTag: d6851e4a-8b60-4e93-98ef-ef5d400ba4d0
+		summarizeBy: none
+		sourceColumn: AnnualisedWeeklyEarnings
+
+	column UnemploymentRate
+		dataType: double
+		isHidden
+		lineageTag: 6f225183-982b-4518-b41a-c0d165f88826
+		summarizeBy: none
+		sourceColumn: UnemploymentRate
+
+	column UnemploymentRatePointChange12M
+		dataType: double
+		isHidden
+		lineageTag: cccaef65-9695-4e2b-8e56-5e49447115c5
+		summarizeBy: none
+		sourceColumn: UnemploymentRatePointChange12M
+
+	column BankRatePct
+		dataType: double
+		isHidden
+		lineageTag: e0c92f91-8125-4240-8155-74835d9e6c4e
+		summarizeBy: none
+		sourceColumn: BankRatePct
+
+	column BankRatePctPointChange12M
+		dataType: double
+		isHidden
+		lineageTag: 4a6d4d8b-095d-4cd2-8be1-fd807dcbc1da
+		summarizeBy: none
+		sourceColumn: BankRatePctPointChange12M
+
+	column HousePriceToAnnualWageRatio
+		dataType: double
+		isHidden
+		lineageTag: d8e1b2c7-9baa-4244-bc1b-a99ffa5115af
+		summarizeBy: none
+		sourceColumn: HousePriceToAnnualWageRatio
+
+	column HousePriceGrowthLessWageGrowth
+		dataType: double
+		isHidden
+		lineageTag: a727e860-c1bb-4577-84b5-20dda7d9cbf3
+		summarizeBy: none
+		sourceColumn: HousePriceGrowthLessWageGrowth
+
+	column UKAverageHousePriceIndexCommonBase
+		dataType: double
+		isHidden
+		lineageTag: 360c204a-f35f-4818-b6fb-442af84e3f3e
+		summarizeBy: none
+		sourceColumn: UKAverageHousePriceIndexCommonBase
+
+	column AverageWeeklyEarningsIndexCommonBase
+		dataType: double
+		isHidden
+		lineageTag: 9295dedb-b437-46ee-b06f-b1904588e014
+		summarizeBy: none
+		sourceColumn: AverageWeeklyEarningsIndexCommonBase
+
+	column UnemploymentRateIndexCommonBase
+		dataType: double
+		isHidden
+		lineageTag: e3674622-da22-4d1e-8ebb-bbb0dcfcb998
+		summarizeBy: none
+		sourceColumn: UnemploymentRateIndexCommonBase
+
+	column CommonIndexBaseDate
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 0d2469e8-3759-41f1-a85e-065d0f5f28a8
+		summarizeBy: none
+		sourceColumn: CommonIndexBaseDate
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column AverageWeeklyEarningsSourcePeriod
+		dataType: string
+		isHidden
+		lineageTag: a4b34a10-e789-4e41-8d33-6aa8ed8b899e
+		summarizeBy: none
+		sourceColumn: AverageWeeklyEarningsSourcePeriod
+
+	column AverageWeeklyEarningsUpdateDate
+		dataType: string
+		isHidden
+		lineageTag: f09d7702-cb7d-47f7-837d-741bb6b7393a
+		summarizeBy: none
+		sourceColumn: AverageWeeklyEarningsUpdateDate
+
+	column UnemploymentRateSourcePeriod
+		dataType: string
+		isHidden
+		lineageTag: a00dbbfe-6d9e-4d56-8830-801ace28ee80
+		summarizeBy: none
+		sourceColumn: UnemploymentRateSourcePeriod
+
+	column UnemploymentRateUpdateDate
+		dataType: string
+		isHidden
+		lineageTag: cb69def2-851d-4a46-ad7b-00d13483f111
+		summarizeBy: none
+		sourceColumn: UnemploymentRateUpdateDate
+
+	partition 'Fact Labour Market Monthly' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(CuratedDataFolder & "\fact_labour_market_monthly.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {
+						{"Date", type date},
+						{"PeriodLabel", type text},
+						{"Year", Int64.Type},
+						{"MonthNumber", Int64.Type},
+						{"UKAverageHousePrice", type number},
+						{"UKHPIIndex", type number},
+						{"UKHousePriceMonthlyGrowth", type number},
+						{"UKHousePriceAnnualGrowth", type number},
+						{"AverageWeeklyEarnings", type number},
+						{"AverageWeeklyEarningsAnnualGrowth", type number},
+						{"AnnualisedWeeklyEarnings", type number},
+						{"UnemploymentRate", type number},
+						{"UnemploymentRatePointChange12M", type number},
+						{"BankRatePct", type number},
+						{"BankRatePctPointChange12M", type number},
+						{"HousePriceToAnnualWageRatio", type number},
+						{"HousePriceGrowthLessWageGrowth", type number},
+						{"UKAverageHousePriceIndexCommonBase", type number},
+						{"AverageWeeklyEarningsIndexCommonBase", type number},
+						{"UnemploymentRateIndexCommonBase", type number},
+						{"CommonIndexBaseDate", type date},
+						{"AverageWeeklyEarningsSourcePeriod", type text},
+						{"AverageWeeklyEarningsUpdateDate", type text},
+						{"UnemploymentRateSourcePeriod", type text},
+						{"UnemploymentRateUpdateDate", type text}
+					}, "en-GB")
+				in
+					Typed
+

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "386f5cab284858d0f7a4",
+  "position": {
+    "x": 53.19587628865979,
+    "y": 112.57731958762886,
+    "z": 28000,
+    "height": 86.5979381443299,
+    "width": 307.42268041237111,
+    "tabOrder": 24000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Reading this page: Bank Rate is the Bank of England policy rate. The rate-reaction chart groups months by the previous 12-month Bank Rate move and shows average house-price growth 12 months later.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#666666"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,68 @@
+table 'Fact Market Events Monthly'
+	lineageTag: 35fe4b1f-f478-431a-a4d6-67d1b9f5c25d
+
+	measure 'Event Flag' = SUM('Fact Market Events Monthly'[EventFlag])
+		formatString: 0
+		lineageTag: 90b3bb2b-8d25-4bc9-baa8-f7110413aab4
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 67ca69ab-bfd5-460e-b088-5fba5b30ae08
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EventSort
+		dataType: int64
+		isHidden
+		lineageTag: 7d2ba251-1987-49e0-a57b-ac4e9ec7e50a
+		summarizeBy: none
+		sourceColumn: EventSort
+
+	column EventLabel
+		dataType: string
+		lineageTag: 92e67316-a8d8-4a4e-8fb4-90dba9686dab
+		summarizeBy: none
+		sourceColumn: EventLabel
+		sortByColumn: EventSort
+
+	column EventShortLabel
+		dataType: string
+		isHidden
+		lineageTag: 4ee65e0b-c1fb-47ea-b3e4-38810c824c6f
+		summarizeBy: none
+		sourceColumn: EventShortLabel
+
+	column EventDescription
+		dataType: string
+		lineageTag: 0dfddd1c-d0a7-43d6-8527-a2fd4479c190
+		summarizeBy: none
+		sourceColumn: EventDescription
+
+	column EventFlag
+		dataType: int64
+		isHidden
+		lineageTag: 8498fa4f-1952-4792-8884-f98dc8854fb7
+		summarizeBy: none
+		sourceColumn: EventFlag
+
+	partition 'Fact Market Events Monthly' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(CuratedDataFolder & "\fact_market_events_monthly.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {
+						{"Date", type date},
+						{"EventSort", Int64.Type},
+						{"EventLabel", type text},
+						{"EventShortLabel", type text},
+						{"EventDescription", type text},
+						{"EventFlag", Int64.Type}
+					}, "en-GB")
+				in
+					Typed
+

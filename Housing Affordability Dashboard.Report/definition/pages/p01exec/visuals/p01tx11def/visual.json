@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "p01tx11def",
+  "position": {
+    "x": 672.98969072164948,
+    "y": 423.71134020618558,
+    "z": 11000,
+    "height": 33.402061855670105,
+    "width": 579.58762886597935,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Country bars compare median-price-to-median-income ratios. Higher bars indicate stronger purchase pressure.",
+                    "textStyle": {
+                      "fontSize": "8pt",
+                      "color": "#13293d"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

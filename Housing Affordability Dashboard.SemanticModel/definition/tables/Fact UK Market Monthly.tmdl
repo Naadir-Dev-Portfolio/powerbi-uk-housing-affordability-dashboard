@@ -1,0 +1,372 @@
+table 'Fact UK Market Monthly'
+	lineageTag: fb7f4329-018e-44ac-8ba2-c8dbb7e46904
+
+	measure 'Latest UK Market Month' =
+			CALCULATE(
+				MAX('Fact UK Market Monthly'[Date]),
+				FILTER(
+					ALL('Fact UK Market Monthly'),
+					'Fact UK Market Monthly'[Scenario] = "Actual"
+						&& NOT ISBLANK('Fact UK Market Monthly'[DisplayPrice])
+				)
+			)
+		formatString: Long Date
+		lineageTag: e96b5226-7781-4acb-b0af-1c9e212b31af
+
+	measure 'UK Average House Price' = AVERAGE('Fact UK Market Monthly'[DisplayPrice])
+		formatString: £#,##0
+		lineageTag: c579688b-fae7-48cb-9756-2843ad684c74
+
+	measure 'UK Average House Price Latest' =
+			VAR _latestDate = [Latest UK Market Month]
+			RETURN
+				CALCULATE(
+					[UK Average House Price],
+					FILTER(
+						ALL('Fact UK Market Monthly'),
+						'Fact UK Market Monthly'[Date] = _latestDate
+							&& 'Fact UK Market Monthly'[Scenario] = "Actual"
+					)
+				)
+		formatString: £#,##0
+		lineageTag: 6cbbcd7f-d591-4057-a440-7a0404b1eb7f
+
+	measure 'UK HPI Index' = AVERAGE('Fact UK Market Monthly'[Index])
+		formatString: 0.0
+		lineageTag: 44207fcd-17c6-4dbb-9907-3c761d6f4b18
+
+	measure 'UK HPI Index Latest' =
+			VAR _latestDate = [Latest UK Market Month]
+			RETURN
+				CALCULATE(
+					[UK HPI Index],
+					FILTER(
+						ALL('Fact UK Market Monthly'),
+						'Fact UK Market Monthly'[Date] = _latestDate
+							&& 'Fact UK Market Monthly'[Scenario] = "Actual"
+					)
+				)
+		formatString: 0.0
+		lineageTag: f8a5e791-ff93-49d7-a1b4-2c062df25b4b
+
+	measure 'UK HPI Annual Change' = AVERAGE('Fact UK Market Monthly'[AnnualChangePct])
+		formatString: 0.0%
+		lineageTag: 9394c4bc-77d0-4527-8f03-c71d748a57d7
+
+	measure 'UK HPI Annual Change Latest' =
+			VAR _latestDate = [Latest UK Market Month]
+			RETURN
+				CALCULATE(
+					[UK HPI Annual Change],
+					FILTER(
+						ALL('Fact UK Market Monthly'),
+						'Fact UK Market Monthly'[Date] = _latestDate
+							&& 'Fact UK Market Monthly'[Scenario] = "Actual"
+					)
+				)
+		formatString: 0.0%
+		lineageTag: d522240f-e6ee-4d24-9650-4c2bc068da7d
+
+	measure 'UK Bank Rate' = AVERAGE('Fact UK Market Monthly'[BankRatePct])
+		formatString: 0.00%
+		lineageTag: 647b5fd4-5785-4b2c-a54d-bd44235c35b5
+
+	measure 'UK Bank Rate Latest At HPI Month' =
+			VAR _latestDate = [Latest UK Market Month]
+			RETURN
+				CALCULATE(
+					[UK Bank Rate],
+					FILTER(
+						ALL('Fact UK Market Monthly'),
+						'Fact UK Market Monthly'[Date] = _latestDate
+							&& 'Fact UK Market Monthly'[Scenario] = "Actual"
+					)
+				)
+		formatString: 0.00%
+		lineageTag: dc601c13-7029-4b8a-a16a-ed41acfa72ad
+
+	measure 'UK Rate vs Price Growth Correlation 36M' =
+			VAR _latestDate = [Latest UK Market Month]
+			RETURN
+				CALCULATE(
+					AVERAGE('Fact UK Market Monthly'[RatePriceCorrelation36M]),
+					FILTER(
+						ALL('Fact UK Market Monthly'),
+						'Fact UK Market Monthly'[Date] = _latestDate
+							&& 'Fact UK Market Monthly'[Scenario] = "Actual"
+					)
+				)
+		formatString: 0.00
+		lineageTag: 45da4d93-0354-49fb-8cb1-84d8d430083e
+
+	measure 'UK Forecast End Month' =
+			CALCULATE(
+				MAX('Fact UK Market Monthly'[Date]),
+				FILTER(
+					ALL('Fact UK Market Monthly'),
+					'Fact UK Market Monthly'[Scenario] = "Forecast"
+						&& NOT ISBLANK('Fact UK Market Monthly'[DisplayPrice])
+				)
+			)
+		formatString: Long Date
+		lineageTag: 10b6af5f-2b95-4775-9477-1e583166d4fe
+
+	measure 'UK Forecast End Price' =
+			VAR _forecastDate = [UK Forecast End Month]
+			RETURN
+				CALCULATE(
+					[UK Average House Price],
+					FILTER(
+						ALL('Fact UK Market Monthly'),
+						'Fact UK Market Monthly'[Date] = _forecastDate
+							&& 'Fact UK Market Monthly'[Scenario] = "Forecast"
+					)
+				)
+		formatString: £#,##0
+		lineageTag: c416996f-13eb-473b-8ad2-aab781ee362f
+
+	measure 'UK Forecast Price 12M Change' = DIVIDE([UK Forecast End Price] - [UK Average House Price Latest], [UK Average House Price Latest])
+		formatString: 0.0%
+		lineageTag: b3206411-6a8e-4a9b-99d9-ceef7d960239
+
+	measure 'UK HPI Growth 12M After Rate Move' = AVERAGE('Fact UK Market Monthly'[HousePriceAnnualGrowthLead12M])
+		formatString: 0.0%
+		lineageTag: 91cd0d52-ff54-4b1c-86ad-0effd7140abf
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 35a6c9ec-4688-4b81-a489-a07e423f956a
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PeriodLabel
+		dataType: string
+		isHidden
+		lineageTag: c7eda74c-f1e7-4df3-8350-6f1c68fe7ec2
+		summarizeBy: none
+		sourceColumn: PeriodLabel
+
+	column Year
+		dataType: int64
+		isHidden
+		lineageTag: c6a2d01b-e393-45ee-bc62-2116df42ad67
+		summarizeBy: none
+		sourceColumn: Year
+
+	column MonthNumber
+		dataType: int64
+		isHidden
+		lineageTag: f79ec335-bbfd-44bc-aac1-9f78931868e4
+		summarizeBy: none
+		sourceColumn: MonthNumber
+
+	column Scenario
+		dataType: string
+		lineageTag: 0adfd43e-6d5f-4249-8f79-438bf1fa616c
+		summarizeBy: none
+		sourceColumn: Scenario
+		sortByColumn: ScenarioSort
+
+	column ScenarioSort
+		dataType: int64
+		isHidden
+		lineageTag: 9b0ac2a4-6fa2-4eee-b066-90f04cc3419c
+		summarizeBy: none
+		sourceColumn: ScenarioSort
+
+	column ForecastMethod
+		dataType: string
+		isHidden
+		lineageTag: a511d253-93cc-4530-961d-3616f16f3323
+		summarizeBy: none
+		sourceColumn: ForecastMethod
+
+	column AveragePrice
+		dataType: double
+		isHidden
+		lineageTag: 3b7213a6-f85c-432b-9553-80a45f298ffc
+		summarizeBy: none
+		sourceColumn: AveragePrice
+
+	column AveragePriceSA
+		dataType: double
+		isHidden
+		lineageTag: d3a93810-01f9-45a3-8b95-399b03c90756
+		summarizeBy: none
+		sourceColumn: AveragePriceSA
+
+	column DisplayPrice
+		dataType: double
+		isHidden
+		lineageTag: 7af4f291-9132-4b4f-a6d4-fb633e82a0ec
+		summarizeBy: none
+		sourceColumn: DisplayPrice
+
+	column ActualPriceForPeriod
+		dataType: double
+		isHidden
+		lineageTag: 822b2c0d-462e-4490-ae52-dbbf5d3f6e4a
+		summarizeBy: none
+		sourceColumn: ActualPriceForPeriod
+
+	column ForecastPrice
+		dataType: double
+		isHidden
+		lineageTag: f347975c-f9f7-4c8b-9b1e-1707c6238251
+		summarizeBy: none
+		sourceColumn: ForecastPrice
+
+	column Index
+		dataType: double
+		isHidden
+		lineageTag: 87f5ef93-9c1d-4ef8-9c8e-198c246271d7
+		summarizeBy: none
+		sourceColumn: Index
+
+	column IndexSeasonallyAdjusted
+		dataType: double
+		isHidden
+		lineageTag: 8add1b87-e61c-41c4-a422-d65804950252
+		summarizeBy: none
+		sourceColumn: IndexSeasonallyAdjusted
+
+	column MonthlyChangePct
+		dataType: double
+		isHidden
+		lineageTag: 5d9ab6ce-b85f-4e16-9e7a-42553f8b6b7f
+		summarizeBy: none
+		sourceColumn: MonthlyChangePct
+
+	column AnnualChangePct
+		dataType: double
+		isHidden
+		lineageTag: c5f3a991-e6b7-47dc-9876-a59f83ef702f
+		summarizeBy: none
+		sourceColumn: AnnualChangePct
+
+	column SalesVolume
+		dataType: double
+		isHidden
+		lineageTag: 0338c7cc-8460-48e8-9b0f-36c7de26316b
+		summarizeBy: none
+		sourceColumn: SalesVolume
+
+	column BankRatePct
+		dataType: double
+		isHidden
+		lineageTag: 1f6d956f-d24d-4f70-a2fd-f4e6ada6c229
+		summarizeBy: none
+		sourceColumn: BankRatePct
+
+	column BankRatePctPointChange1M
+		dataType: double
+		isHidden
+		lineageTag: b5d2e6a0-b257-4031-bb0a-8a3b302ffb8d
+		summarizeBy: none
+		sourceColumn: BankRatePctPointChange1M
+
+	column BankRatePctPointChange12M
+		dataType: double
+		isHidden
+		lineageTag: 73e4d37d-355c-4657-81c1-535bfb09f5ca
+		summarizeBy: none
+		sourceColumn: BankRatePctPointChange12M
+
+	column BankRateLag12M
+		dataType: double
+		isHidden
+		lineageTag: 7abdb354-8c28-45e0-9d49-f7ed9928c798
+		summarizeBy: none
+		sourceColumn: BankRateLag12M
+
+	column RatePriceCorrelation36M
+		dataType: double
+		isHidden
+		lineageTag: f0591fe9-1daa-4965-906a-f673cbfe5d2c
+		summarizeBy: none
+		sourceColumn: RatePriceCorrelation36M
+
+	column HousePriceAnnualGrowthLead12M
+		dataType: double
+		isHidden
+		lineageTag: b9b0dff4-c0c8-4154-8472-dabb360a6381
+		summarizeBy: none
+		sourceColumn: HousePriceAnnualGrowthLead12M
+
+	column BankRateChangeBand12M
+		dataType: string
+		lineageTag: a967875b-d82b-490e-a26c-66e51387fa43
+		summarizeBy: none
+		sourceColumn: BankRateChangeBand12M
+		sortByColumn: BankRateChangeBandSort
+
+	column BankRateChangeBandSort
+		dataType: int64
+		isHidden
+		lineageTag: a526c87e-68e5-4856-b0c0-3e50da84e2d8
+		summarizeBy: none
+		sourceColumn: BankRateChangeBandSort
+
+	column CrisisPeriod
+		dataType: string
+		isHidden
+		lineageTag: 6e0489bb-d3e8-480b-b4de-19188b9ae88c
+		summarizeBy: none
+		sourceColumn: CrisisPeriod
+
+	column MarketPeriod
+		dataType: string
+		lineageTag: 639f927f-d498-40f8-9373-0402835623dc
+		summarizeBy: none
+		sourceColumn: MarketPeriod
+
+	column IsMarketStressPeriod
+		dataType: boolean
+		isHidden
+		lineageTag: 011c217f-df3d-4936-86d0-3d0edcdd656d
+		summarizeBy: none
+		sourceColumn: IsMarketStressPeriod
+
+	partition 'Fact UK Market Monthly' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(CuratedDataFolder & "\fact_uk_market_monthly.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {
+						{"Date", type date},
+						{"PeriodLabel", type text},
+						{"Year", Int64.Type},
+						{"MonthNumber", Int64.Type},
+						{"Scenario", type text},
+						{"ScenarioSort", Int64.Type},
+						{"ForecastMethod", type text},
+						{"AveragePrice", type number},
+						{"AveragePriceSA", type number},
+						{"DisplayPrice", type number},
+						{"ActualPriceForPeriod", type number},
+						{"ForecastPrice", type number},
+						{"Index", type number},
+						{"IndexSeasonallyAdjusted", type number},
+						{"MonthlyChangePct", type number},
+						{"AnnualChangePct", type number},
+						{"SalesVolume", type number},
+						{"BankRatePct", type number},
+						{"BankRatePctPointChange1M", type number},
+						{"BankRatePctPointChange12M", type number},
+						{"BankRateLag12M", type number},
+						{"RatePriceCorrelation36M", type number},
+						{"HousePriceAnnualGrowthLead12M", type number},
+						{"BankRateChangeBand12M", type text},
+						{"BankRateChangeBandSort", Int64.Type},
+						{"CrisisPeriod", type text},
+						{"MarketPeriod", type text},
+						{"IsMarketStressPeriod", type logical}
+					}, "en-GB")
+				in
+					Typed
+

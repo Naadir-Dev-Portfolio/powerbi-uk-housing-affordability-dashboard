@@ -1,0 +1,336 @@
+GeographyCode,GeographyName,GeographyLevel,ParentGeographyCode,ParentGeographyName,CountryCode,CountryName,GeographyLevelSort,MapCountry,GeoLabel,IsEngland,IsWales,IsScotland,IsNorthernIreland
+K04000001,England and Wales,England and Wales,,,,,1,United Kingdom,"England and Wales, United Kingdom",False,False,False,False
+E92000001,England,Country,,,E92000001,England,2,United Kingdom,"England, United Kingdom",True,False,False,False
+N92000002,Northern Ireland,Country,,,N92000002,Northern Ireland,2,United Kingdom,"Northern Ireland, United Kingdom",False,False,False,True
+S92000003,Scotland,Country,,,S92000003,Scotland,2,United Kingdom,"Scotland, United Kingdom",False,False,True,False
+K02000001,United Kingdom,Country,,,K02000001,United Kingdom,2,United Kingdom,"United Kingdom, United Kingdom",False,False,False,False
+W92000004,Wales,Country,,,W92000004,Wales,2,United Kingdom,"Wales, United Kingdom",False,True,False,False
+E12000004,East Midlands,Region,E92000001,England,E92000001,England,3,United Kingdom,"East Midlands, United Kingdom",True,False,False,False
+E12000006,East of England,Region,E92000001,England,E92000001,England,3,United Kingdom,"East of England, United Kingdom",True,False,False,False
+E12000007,London,Region,E92000001,England,E92000001,England,3,United Kingdom,"London, United Kingdom",True,False,False,False
+E12000001,North East,Region,E92000001,England,E92000001,England,3,United Kingdom,"North East, United Kingdom",True,False,False,False
+E12000002,North West,Region,E92000001,England,E92000001,England,3,United Kingdom,"North West, United Kingdom",True,False,False,False
+E12000008,South East,Region,E92000001,England,E92000001,England,3,United Kingdom,"South East, United Kingdom",True,False,False,False
+E12000009,South West,Region,E92000001,England,E92000001,England,3,United Kingdom,"South West, United Kingdom",True,False,False,False
+E12000005,West Midlands,Region,E92000001,England,E92000001,England,3,United Kingdom,"West Midlands, United Kingdom",True,False,False,False
+E12000003,Yorkshire and The Humber,Region,E92000001,England,E92000001,England,3,United Kingdom,"Yorkshire and The Humber, United Kingdom",True,False,False,False
+E07000032,Amber Valley,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Amber Valley, United Kingdom",True,False,False,False
+E07000170,Ashfield,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Ashfield, United Kingdom",True,False,False,False
+E07000171,Bassetlaw,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Bassetlaw, United Kingdom",True,False,False,False
+E07000129,Blaby,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Blaby, United Kingdom",True,False,False,False
+E07000033,Bolsover,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Bolsover, United Kingdom",True,False,False,False
+E07000136,Boston,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Boston, United Kingdom",True,False,False,False
+E07000172,Broxtowe,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Broxtowe, United Kingdom",True,False,False,False
+E07000130,Charnwood,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Charnwood, United Kingdom",True,False,False,False
+E07000034,Chesterfield,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Chesterfield, United Kingdom",True,False,False,False
+E06000015,Derby,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Derby, United Kingdom",True,False,False,False
+E07000035,Derbyshire Dales,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Derbyshire Dales, United Kingdom",True,False,False,False
+E07000137,East Lindsey,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"East Lindsey, United Kingdom",True,False,False,False
+E07000036,Erewash,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Erewash, United Kingdom",True,False,False,False
+E07000173,Gedling,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Gedling, United Kingdom",True,False,False,False
+E07000131,Harborough,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Harborough, United Kingdom",True,False,False,False
+E07000037,High Peak,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"High Peak, United Kingdom",True,False,False,False
+E07000132,Hinckley and Bosworth,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Hinckley and Bosworth, United Kingdom",True,False,False,False
+E06000016,Leicester,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Leicester, United Kingdom",True,False,False,False
+E07000138,Lincoln,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Lincoln, United Kingdom",True,False,False,False
+E07000174,Mansfield,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Mansfield, United Kingdom",True,False,False,False
+E07000133,Melton,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Melton, United Kingdom",True,False,False,False
+E07000175,Newark and Sherwood,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Newark and Sherwood, United Kingdom",True,False,False,False
+E07000038,North East Derbyshire,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"North East Derbyshire, United Kingdom",True,False,False,False
+E07000139,North Kesteven,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"North Kesteven, United Kingdom",True,False,False,False
+E06000061,North Northamptonshire,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"North Northamptonshire, United Kingdom",True,False,False,False
+E07000134,North West Leicestershire,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"North West Leicestershire, United Kingdom",True,False,False,False
+E06000018,Nottingham,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Nottingham, United Kingdom",True,False,False,False
+E07000135,Oadby and Wigston,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Oadby and Wigston, United Kingdom",True,False,False,False
+E07000176,Rushcliffe,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Rushcliffe, United Kingdom",True,False,False,False
+E06000017,Rutland,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"Rutland, United Kingdom",True,False,False,False
+E07000039,South Derbyshire,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"South Derbyshire, United Kingdom",True,False,False,False
+E07000140,South Holland,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"South Holland, United Kingdom",True,False,False,False
+E07000141,South Kesteven,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"South Kesteven, United Kingdom",True,False,False,False
+E07000142,West Lindsey,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"West Lindsey, United Kingdom",True,False,False,False
+E06000062,West Northamptonshire,Local Authority,E12000004,East Midlands,E92000001,England,4,United Kingdom,"West Northamptonshire, United Kingdom",True,False,False,False
+E07000200,Babergh,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Babergh, United Kingdom",True,False,False,False
+E07000066,Basildon,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Basildon, United Kingdom",True,False,False,False
+E06000055,Bedford,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Bedford, United Kingdom",True,False,False,False
+E07000067,Braintree,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Braintree, United Kingdom",True,False,False,False
+E07000143,Breckland,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Breckland, United Kingdom",True,False,False,False
+E07000068,Brentwood,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Brentwood, United Kingdom",True,False,False,False
+E07000144,Broadland,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Broadland, United Kingdom",True,False,False,False
+E07000095,Broxbourne,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Broxbourne, United Kingdom",True,False,False,False
+E07000008,Cambridge,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Cambridge, United Kingdom",True,False,False,False
+E07000069,Castle Point,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Castle Point, United Kingdom",True,False,False,False
+E06000056,Central Bedfordshire,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Central Bedfordshire, United Kingdom",True,False,False,False
+E07000070,Chelmsford,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Chelmsford, United Kingdom",True,False,False,False
+E07000071,Colchester,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Colchester, United Kingdom",True,False,False,False
+E07000096,Dacorum,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Dacorum, United Kingdom",True,False,False,False
+E07000009,East Cambridgeshire,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"East Cambridgeshire, United Kingdom",True,False,False,False
+E07000242,East Hertfordshire,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"East Hertfordshire, United Kingdom",True,False,False,False
+E07000244,East Suffolk,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"East Suffolk, United Kingdom",True,False,False,False
+E07000072,Epping Forest,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Epping Forest, United Kingdom",True,False,False,False
+E07000010,Fenland,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Fenland, United Kingdom",True,False,False,False
+E07000145,Great Yarmouth,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Great Yarmouth, United Kingdom",True,False,False,False
+E07000073,Harlow,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Harlow, United Kingdom",True,False,False,False
+E07000098,Hertsmere,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Hertsmere, United Kingdom",True,False,False,False
+E07000011,Huntingdonshire,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Huntingdonshire, United Kingdom",True,False,False,False
+E07000202,Ipswich,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Ipswich, United Kingdom",True,False,False,False
+E07000146,King's Lynn and West Norfolk,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"King's Lynn and West Norfolk, United Kingdom",True,False,False,False
+E06000032,Luton,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Luton, United Kingdom",True,False,False,False
+E07000074,Maldon,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Maldon, United Kingdom",True,False,False,False
+E07000203,Mid Suffolk,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Mid Suffolk, United Kingdom",True,False,False,False
+E07000099,North Hertfordshire,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"North Hertfordshire, United Kingdom",True,False,False,False
+E07000147,North Norfolk,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"North Norfolk, United Kingdom",True,False,False,False
+E07000148,Norwich,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Norwich, United Kingdom",True,False,False,False
+E06000031,Peterborough,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Peterborough, United Kingdom",True,False,False,False
+E07000075,Rochford,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Rochford, United Kingdom",True,False,False,False
+E07000012,South Cambridgeshire,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"South Cambridgeshire, United Kingdom",True,False,False,False
+E07000149,South Norfolk,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"South Norfolk, United Kingdom",True,False,False,False
+E06000033,Southend-on-Sea,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Southend-on-Sea, United Kingdom",True,False,False,False
+E07000240,St Albans,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"St Albans, United Kingdom",True,False,False,False
+E07000243,Stevenage,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Stevenage, United Kingdom",True,False,False,False
+E07000076,Tendring,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Tendring, United Kingdom",True,False,False,False
+E07000102,Three Rivers,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Three Rivers, United Kingdom",True,False,False,False
+E06000034,Thurrock,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Thurrock, United Kingdom",True,False,False,False
+E07000077,Uttlesford,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Uttlesford, United Kingdom",True,False,False,False
+E07000103,Watford,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Watford, United Kingdom",True,False,False,False
+E07000241,Welwyn Hatfield,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"Welwyn Hatfield, United Kingdom",True,False,False,False
+E07000245,West Suffolk,Local Authority,E12000006,East of England,E92000001,England,4,United Kingdom,"West Suffolk, United Kingdom",True,False,False,False
+E09000002,Barking and Dagenham,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Barking and Dagenham, United Kingdom",True,False,False,False
+E09000003,Barnet,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Barnet, United Kingdom",True,False,False,False
+E09000004,Bexley,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Bexley, United Kingdom",True,False,False,False
+E09000005,Brent,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Brent, United Kingdom",True,False,False,False
+E09000006,Bromley,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Bromley, United Kingdom",True,False,False,False
+E09000007,Camden,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Camden, United Kingdom",True,False,False,False
+E09000001,City of London,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"City of London, United Kingdom",True,False,False,False
+E09000008,Croydon,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Croydon, United Kingdom",True,False,False,False
+E09000009,Ealing,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Ealing, United Kingdom",True,False,False,False
+E09000010,Enfield,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Enfield, United Kingdom",True,False,False,False
+E09000011,Greenwich,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Greenwich, United Kingdom",True,False,False,False
+E09000012,Hackney,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Hackney, United Kingdom",True,False,False,False
+E09000013,Hammersmith and Fulham,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Hammersmith and Fulham, United Kingdom",True,False,False,False
+E09000014,Haringey,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Haringey, United Kingdom",True,False,False,False
+E09000015,Harrow,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Harrow, United Kingdom",True,False,False,False
+E09000016,Havering,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Havering, United Kingdom",True,False,False,False
+E09000017,Hillingdon,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Hillingdon, United Kingdom",True,False,False,False
+E09000018,Hounslow,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Hounslow, United Kingdom",True,False,False,False
+E09000019,Islington,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Islington, United Kingdom",True,False,False,False
+E09000020,Kensington and Chelsea,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Kensington and Chelsea, United Kingdom",True,False,False,False
+E09000021,Kingston upon Thames,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Kingston upon Thames, United Kingdom",True,False,False,False
+E09000022,Lambeth,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Lambeth, United Kingdom",True,False,False,False
+E09000023,Lewisham,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Lewisham, United Kingdom",True,False,False,False
+E09000024,Merton,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Merton, United Kingdom",True,False,False,False
+E09000025,Newham,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Newham, United Kingdom",True,False,False,False
+E09000026,Redbridge,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Redbridge, United Kingdom",True,False,False,False
+E09000027,Richmond upon Thames,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Richmond upon Thames, United Kingdom",True,False,False,False
+E09000028,Southwark,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Southwark, United Kingdom",True,False,False,False
+E09000029,Sutton,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Sutton, United Kingdom",True,False,False,False
+E09000030,Tower Hamlets,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Tower Hamlets, United Kingdom",True,False,False,False
+E09000031,Waltham Forest,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Waltham Forest, United Kingdom",True,False,False,False
+E09000032,Wandsworth,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Wandsworth, United Kingdom",True,False,False,False
+E09000033,Westminster,Local Authority,E12000007,London,E92000001,England,4,United Kingdom,"Westminster, United Kingdom",True,False,False,False
+E06000047,County Durham,Local Authority,E12000001,North East,E92000001,England,4,United Kingdom,"County Durham, United Kingdom",True,False,False,False
+E06000005,Darlington,Local Authority,E12000001,North East,E92000001,England,4,United Kingdom,"Darlington, United Kingdom",True,False,False,False
+E08000037,Gateshead,Local Authority,E12000001,North East,E92000001,England,4,United Kingdom,"Gateshead, United Kingdom",True,False,False,False
+E06000001,Hartlepool,Local Authority,E12000001,North East,E92000001,England,4,United Kingdom,"Hartlepool, United Kingdom",True,False,False,False
+E06000002,Middlesbrough,Local Authority,E12000001,North East,E92000001,England,4,United Kingdom,"Middlesbrough, United Kingdom",True,False,False,False
+E08000021,Newcastle upon Tyne,Local Authority,E12000001,North East,E92000001,England,4,United Kingdom,"Newcastle upon Tyne, United Kingdom",True,False,False,False
+E08000022,North Tyneside,Local Authority,E12000001,North East,E92000001,England,4,United Kingdom,"North Tyneside, United Kingdom",True,False,False,False
+E06000057,Northumberland,Local Authority,E12000001,North East,E92000001,England,4,United Kingdom,"Northumberland, United Kingdom",True,False,False,False
+E06000003,Redcar and Cleveland,Local Authority,E12000001,North East,E92000001,England,4,United Kingdom,"Redcar and Cleveland, United Kingdom",True,False,False,False
+E08000023,South Tyneside,Local Authority,E12000001,North East,E92000001,England,4,United Kingdom,"South Tyneside, United Kingdom",True,False,False,False
+E06000004,Stockton-on-Tees,Local Authority,E12000001,North East,E92000001,England,4,United Kingdom,"Stockton-on-Tees, United Kingdom",True,False,False,False
+E08000024,Sunderland,Local Authority,E12000001,North East,E92000001,England,4,United Kingdom,"Sunderland, United Kingdom",True,False,False,False
+E06000008,Blackburn with Darwen,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Blackburn with Darwen, United Kingdom",True,False,False,False
+E06000009,Blackpool,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Blackpool, United Kingdom",True,False,False,False
+E08000001,Bolton,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Bolton, United Kingdom",True,False,False,False
+E07000117,Burnley,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Burnley, United Kingdom",True,False,False,False
+E08000002,Bury,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Bury, United Kingdom",True,False,False,False
+E06000049,Cheshire East,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Cheshire East, United Kingdom",True,False,False,False
+E06000050,Cheshire West and Chester,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Cheshire West and Chester, United Kingdom",True,False,False,False
+E07000118,Chorley,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Chorley, United Kingdom",True,False,False,False
+E06000063,Cumberland,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Cumberland, United Kingdom",True,False,False,False
+E07000119,Fylde,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Fylde, United Kingdom",True,False,False,False
+E06000006,Halton,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Halton, United Kingdom",True,False,False,False
+E07000120,Hyndburn,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Hyndburn, United Kingdom",True,False,False,False
+E08000011,Knowsley,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Knowsley, United Kingdom",True,False,False,False
+E07000121,Lancaster,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Lancaster, United Kingdom",True,False,False,False
+E08000012,Liverpool,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Liverpool, United Kingdom",True,False,False,False
+E08000003,Manchester,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Manchester, United Kingdom",True,False,False,False
+E08000004,Oldham,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Oldham, United Kingdom",True,False,False,False
+E07000122,Pendle,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Pendle, United Kingdom",True,False,False,False
+E07000123,Preston,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Preston, United Kingdom",True,False,False,False
+E07000124,Ribble Valley,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Ribble Valley, United Kingdom",True,False,False,False
+E08000005,Rochdale,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Rochdale, United Kingdom",True,False,False,False
+E07000125,Rossendale,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Rossendale, United Kingdom",True,False,False,False
+E08000006,Salford,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Salford, United Kingdom",True,False,False,False
+E08000014,Sefton,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Sefton, United Kingdom",True,False,False,False
+E07000126,South Ribble,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"South Ribble, United Kingdom",True,False,False,False
+E08000013,St. Helens,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"St. Helens, United Kingdom",True,False,False,False
+E08000007,Stockport,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Stockport, United Kingdom",True,False,False,False
+E08000008,Tameside,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Tameside, United Kingdom",True,False,False,False
+E08000009,Trafford,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Trafford, United Kingdom",True,False,False,False
+E06000007,Warrington,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Warrington, United Kingdom",True,False,False,False
+E07000127,West Lancashire,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"West Lancashire, United Kingdom",True,False,False,False
+E06000064,Westmorland and Furness,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Westmorland and Furness, United Kingdom",True,False,False,False
+E08000010,Wigan,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Wigan, United Kingdom",True,False,False,False
+E08000015,Wirral,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Wirral, United Kingdom",True,False,False,False
+E07000128,Wyre,Local Authority,E12000002,North West,E92000001,England,4,United Kingdom,"Wyre, United Kingdom",True,False,False,False
+E07000223,Adur,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Adur, United Kingdom",True,False,False,False
+E07000224,Arun,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Arun, United Kingdom",True,False,False,False
+E07000105,Ashford,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Ashford, United Kingdom",True,False,False,False
+E07000084,Basingstoke and Deane,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Basingstoke and Deane, United Kingdom",True,False,False,False
+E06000036,Bracknell Forest,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Bracknell Forest, United Kingdom",True,False,False,False
+E06000043,Brighton and Hove,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Brighton and Hove, United Kingdom",True,False,False,False
+E06000060,Buckinghamshire,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Buckinghamshire, United Kingdom",True,False,False,False
+E07000106,Canterbury,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Canterbury, United Kingdom",True,False,False,False
+E07000177,Cherwell,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Cherwell, United Kingdom",True,False,False,False
+E07000225,Chichester,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Chichester, United Kingdom",True,False,False,False
+E07000226,Crawley,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Crawley, United Kingdom",True,False,False,False
+E07000107,Dartford,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Dartford, United Kingdom",True,False,False,False
+E07000108,Dover,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Dover, United Kingdom",True,False,False,False
+E07000085,East Hampshire,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"East Hampshire, United Kingdom",True,False,False,False
+E07000061,Eastbourne,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Eastbourne, United Kingdom",True,False,False,False
+E07000086,Eastleigh,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Eastleigh, United Kingdom",True,False,False,False
+E07000207,Elmbridge,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Elmbridge, United Kingdom",True,False,False,False
+E07000208,Epsom and Ewell,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Epsom and Ewell, United Kingdom",True,False,False,False
+E07000087,Fareham,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Fareham, United Kingdom",True,False,False,False
+E07000112,Folkestone and Hythe,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Folkestone and Hythe, United Kingdom",True,False,False,False
+E07000088,Gosport,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Gosport, United Kingdom",True,False,False,False
+E07000109,Gravesham,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Gravesham, United Kingdom",True,False,False,False
+E07000209,Guildford,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Guildford, United Kingdom",True,False,False,False
+E07000089,Hart,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Hart, United Kingdom",True,False,False,False
+E07000062,Hastings,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Hastings, United Kingdom",True,False,False,False
+E07000090,Havant,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Havant, United Kingdom",True,False,False,False
+E07000227,Horsham,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Horsham, United Kingdom",True,False,False,False
+E06000046,Isle of Wight,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Isle of Wight, United Kingdom",True,False,False,False
+E07000063,Lewes,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Lewes, United Kingdom",True,False,False,False
+E07000110,Maidstone,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Maidstone, United Kingdom",True,False,False,False
+E06000035,Medway,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Medway, United Kingdom",True,False,False,False
+E07000228,Mid Sussex,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Mid Sussex, United Kingdom",True,False,False,False
+E06000042,Milton Keynes,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Milton Keynes, United Kingdom",True,False,False,False
+E07000210,Mole Valley,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Mole Valley, United Kingdom",True,False,False,False
+E07000091,New Forest,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"New Forest, United Kingdom",True,False,False,False
+E07000178,Oxford,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Oxford, United Kingdom",True,False,False,False
+E06000044,Portsmouth,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Portsmouth, United Kingdom",True,False,False,False
+E06000038,Reading,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Reading, United Kingdom",True,False,False,False
+E07000211,Reigate and Banstead,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Reigate and Banstead, United Kingdom",True,False,False,False
+E07000064,Rother,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Rother, United Kingdom",True,False,False,False
+E07000212,Runnymede,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Runnymede, United Kingdom",True,False,False,False
+E07000092,Rushmoor,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Rushmoor, United Kingdom",True,False,False,False
+E07000111,Sevenoaks,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Sevenoaks, United Kingdom",True,False,False,False
+E06000039,Slough,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Slough, United Kingdom",True,False,False,False
+E07000179,South Oxfordshire,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"South Oxfordshire, United Kingdom",True,False,False,False
+E06000045,Southampton,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Southampton, United Kingdom",True,False,False,False
+E07000213,Spelthorne,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Spelthorne, United Kingdom",True,False,False,False
+E07000214,Surrey Heath,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Surrey Heath, United Kingdom",True,False,False,False
+E07000113,Swale,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Swale, United Kingdom",True,False,False,False
+E07000215,Tandridge,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Tandridge, United Kingdom",True,False,False,False
+E07000093,Test Valley,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Test Valley, United Kingdom",True,False,False,False
+E07000114,Thanet,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Thanet, United Kingdom",True,False,False,False
+E07000115,Tonbridge and Malling,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Tonbridge and Malling, United Kingdom",True,False,False,False
+E07000116,Tunbridge Wells,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Tunbridge Wells, United Kingdom",True,False,False,False
+E07000180,Vale of White Horse,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Vale of White Horse, United Kingdom",True,False,False,False
+E07000216,Waverley,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Waverley, United Kingdom",True,False,False,False
+E07000065,Wealden,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Wealden, United Kingdom",True,False,False,False
+E06000037,West Berkshire,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"West Berkshire, United Kingdom",True,False,False,False
+E07000181,West Oxfordshire,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"West Oxfordshire, United Kingdom",True,False,False,False
+E07000094,Winchester,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Winchester, United Kingdom",True,False,False,False
+E06000040,Windsor and Maidenhead,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Windsor and Maidenhead, United Kingdom",True,False,False,False
+E07000217,Woking,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Woking, United Kingdom",True,False,False,False
+E06000041,Wokingham,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Wokingham, United Kingdom",True,False,False,False
+E07000229,Worthing,Local Authority,E12000008,South East,E92000001,England,4,United Kingdom,"Worthing, United Kingdom",True,False,False,False
+E06000022,Bath and North East Somerset,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Bath and North East Somerset, United Kingdom",True,False,False,False
+E06000058,"Bournemouth, Christchurch and Poole",Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Bournemouth, Christchurch and Poole, United Kingdom",True,False,False,False
+E06000023,"Bristol, City of",Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Bristol, City of, United Kingdom",True,False,False,False
+E07000078,Cheltenham,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Cheltenham, United Kingdom",True,False,False,False
+E06000052,Cornwall,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Cornwall, United Kingdom",True,False,False,False
+E07000079,Cotswold,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Cotswold, United Kingdom",True,False,False,False
+E06000059,Dorset,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Dorset, United Kingdom",True,False,False,False
+E07000040,East Devon,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"East Devon, United Kingdom",True,False,False,False
+E07000041,Exeter,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Exeter, United Kingdom",True,False,False,False
+E07000080,Forest of Dean,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Forest of Dean, United Kingdom",True,False,False,False
+E07000081,Gloucester,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Gloucester, United Kingdom",True,False,False,False
+E06000053,Isles of Scilly,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Isles of Scilly, United Kingdom",True,False,False,False
+E07000042,Mid Devon,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Mid Devon, United Kingdom",True,False,False,False
+E07000043,North Devon,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"North Devon, United Kingdom",True,False,False,False
+E06000024,North Somerset,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"North Somerset, United Kingdom",True,False,False,False
+E06000026,Plymouth,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Plymouth, United Kingdom",True,False,False,False
+E06000066,Somerset,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Somerset, United Kingdom",True,False,False,False
+E06000025,South Gloucestershire,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"South Gloucestershire, United Kingdom",True,False,False,False
+E07000044,South Hams,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"South Hams, United Kingdom",True,False,False,False
+E07000082,Stroud,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Stroud, United Kingdom",True,False,False,False
+E06000030,Swindon,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Swindon, United Kingdom",True,False,False,False
+E07000045,Teignbridge,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Teignbridge, United Kingdom",True,False,False,False
+E07000083,Tewkesbury,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Tewkesbury, United Kingdom",True,False,False,False
+E06000027,Torbay,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Torbay, United Kingdom",True,False,False,False
+E07000046,Torridge,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Torridge, United Kingdom",True,False,False,False
+E07000047,West Devon,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"West Devon, United Kingdom",True,False,False,False
+E06000054,Wiltshire,Local Authority,E12000009,South West,E92000001,England,4,United Kingdom,"Wiltshire, United Kingdom",True,False,False,False
+E08000025,Birmingham,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Birmingham, United Kingdom",True,False,False,False
+E07000234,Bromsgrove,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Bromsgrove, United Kingdom",True,False,False,False
+E07000192,Cannock Chase,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Cannock Chase, United Kingdom",True,False,False,False
+E08000026,Coventry,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Coventry, United Kingdom",True,False,False,False
+E08000027,Dudley,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Dudley, United Kingdom",True,False,False,False
+E07000193,East Staffordshire,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"East Staffordshire, United Kingdom",True,False,False,False
+E06000019,"Herefordshire, County of",Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Herefordshire, County of, United Kingdom",True,False,False,False
+E07000194,Lichfield,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Lichfield, United Kingdom",True,False,False,False
+E07000235,Malvern Hills,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Malvern Hills, United Kingdom",True,False,False,False
+E07000195,Newcastle-under-Lyme,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Newcastle-under-Lyme, United Kingdom",True,False,False,False
+E07000218,North Warwickshire,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"North Warwickshire, United Kingdom",True,False,False,False
+E07000219,Nuneaton and Bedworth,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Nuneaton and Bedworth, United Kingdom",True,False,False,False
+E07000236,Redditch,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Redditch, United Kingdom",True,False,False,False
+E07000220,Rugby,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Rugby, United Kingdom",True,False,False,False
+E08000028,Sandwell,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Sandwell, United Kingdom",True,False,False,False
+E06000051,Shropshire,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Shropshire, United Kingdom",True,False,False,False
+E08000029,Solihull,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Solihull, United Kingdom",True,False,False,False
+E07000196,South Staffordshire,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"South Staffordshire, United Kingdom",True,False,False,False
+E07000197,Stafford,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Stafford, United Kingdom",True,False,False,False
+E07000198,Staffordshire Moorlands,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Staffordshire Moorlands, United Kingdom",True,False,False,False
+E06000021,Stoke-on-Trent,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Stoke-on-Trent, United Kingdom",True,False,False,False
+E07000221,Stratford-on-Avon,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Stratford-on-Avon, United Kingdom",True,False,False,False
+E07000199,Tamworth,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Tamworth, United Kingdom",True,False,False,False
+E06000020,Telford and Wrekin,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Telford and Wrekin, United Kingdom",True,False,False,False
+E08000030,Walsall,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Walsall, United Kingdom",True,False,False,False
+E07000222,Warwick,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Warwick, United Kingdom",True,False,False,False
+E08000031,Wolverhampton,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Wolverhampton, United Kingdom",True,False,False,False
+E07000237,Worcester,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Worcester, United Kingdom",True,False,False,False
+E07000238,Wychavon,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Wychavon, United Kingdom",True,False,False,False
+E07000239,Wyre Forest,Local Authority,E12000005,West Midlands,E92000001,England,4,United Kingdom,"Wyre Forest, United Kingdom",True,False,False,False
+E08000038,Barnsley,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"Barnsley, United Kingdom",True,False,False,False
+E08000016,Barnsley,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"Barnsley, United Kingdom",True,False,False,False
+E08000032,Bradford,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"Bradford, United Kingdom",True,False,False,False
+E08000033,Calderdale,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"Calderdale, United Kingdom",True,False,False,False
+E08000017,Doncaster,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"Doncaster, United Kingdom",True,False,False,False
+E06000011,East Riding of Yorkshire,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"East Riding of Yorkshire, United Kingdom",True,False,False,False
+E06000010,"Kingston upon Hull, City of",Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"Kingston upon Hull, City of, United Kingdom",True,False,False,False
+E08000034,Kirklees,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"Kirklees, United Kingdom",True,False,False,False
+E08000035,Leeds,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"Leeds, United Kingdom",True,False,False,False
+E06000012,North East Lincolnshire,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"North East Lincolnshire, United Kingdom",True,False,False,False
+E06000013,North Lincolnshire,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"North Lincolnshire, United Kingdom",True,False,False,False
+E06000065,North Yorkshire,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"North Yorkshire, United Kingdom",True,False,False,False
+E08000018,Rotherham,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"Rotherham, United Kingdom",True,False,False,False
+E08000039,Sheffield,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"Sheffield, United Kingdom",True,False,False,False
+E08000019,Sheffield,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"Sheffield, United Kingdom",True,False,False,False
+E08000036,Wakefield,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"Wakefield, United Kingdom",True,False,False,False
+E06000014,York,Local Authority,E12000003,Yorkshire and The Humber,E92000001,England,4,United Kingdom,"York, United Kingdom",True,False,False,False
+W06000019,Blaenau Gwent,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Blaenau Gwent, United Kingdom",False,True,False,False
+W06000013,Bridgend,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Bridgend, United Kingdom",False,True,False,False
+W06000018,Caerphilly,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Caerphilly, United Kingdom",False,True,False,False
+W06000015,Cardiff,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Cardiff, United Kingdom",False,True,False,False
+W06000010,Carmarthenshire,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Carmarthenshire, United Kingdom",False,True,False,False
+W06000008,Ceredigion,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Ceredigion, United Kingdom",False,True,False,False
+W06000003,Conwy,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Conwy, United Kingdom",False,True,False,False
+W06000004,Denbighshire,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Denbighshire, United Kingdom",False,True,False,False
+W06000005,Flintshire,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Flintshire, United Kingdom",False,True,False,False
+W06000002,Gwynedd,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Gwynedd, United Kingdom",False,True,False,False
+W06000001,Isle of Anglesey,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Isle of Anglesey, United Kingdom",False,True,False,False
+W06000024,Merthyr Tydfil,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Merthyr Tydfil, United Kingdom",False,True,False,False
+W06000021,Monmouthshire,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Monmouthshire, United Kingdom",False,True,False,False
+W06000012,Neath Port Talbot,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Neath Port Talbot, United Kingdom",False,True,False,False
+W06000022,Newport,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Newport, United Kingdom",False,True,False,False
+W06000009,Pembrokeshire,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Pembrokeshire, United Kingdom",False,True,False,False
+W06000023,Powys,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Powys, United Kingdom",False,True,False,False
+W06000016,Rhondda Cynon Taf,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Rhondda Cynon Taf, United Kingdom",False,True,False,False
+W06000011,Swansea,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Swansea, United Kingdom",False,True,False,False
+W06000020,Torfaen,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Torfaen, United Kingdom",False,True,False,False
+W06000014,Vale of Glamorgan,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Vale of Glamorgan, United Kingdom",False,True,False,False
+W06000006,Wrexham,Local Authority,W92000004,Wales,W92000004,Wales,4,United Kingdom,"Wrexham, United Kingdom",False,True,False,False

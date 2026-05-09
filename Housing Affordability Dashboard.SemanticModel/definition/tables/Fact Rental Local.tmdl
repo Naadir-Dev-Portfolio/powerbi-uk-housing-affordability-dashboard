@@ -1,0 +1,233 @@
+table 'Fact Rental Local'
+	lineageTag: 4a6df5ad-f721-418f-b133-4361846b4e1e
+
+	measure 'Local Rental Latest Year' = CALCULATE(MAX('Fact Rental Local'[Year]), REMOVEFILTERS('Dim Date'))
+		formatString: 0
+		lineageTag: 879a883f-977c-4548-b728-4243dbc7a53d
+
+	measure 'Local Rental Ratio' = AVERAGE('Fact Rental Local'[RentalAffordabilityRatio])
+		formatString: 0.0%
+		lineageTag: 07b66ef3-f1de-44ca-9c6e-a4018e666c0b
+
+	measure 'Local Rental Ratio Latest' =
+			VAR _latestYear = [Local Rental Latest Year]
+			RETURN
+				CALCULATE(
+					[Local Rental Ratio],
+					KEEPFILTERS('Dim Date'[Year] = _latestYear)
+				)
+		formatString: 0.0%
+		lineageTag: 56018c89-03fe-40ae-8da3-c0b3defc30bb
+
+	measure 'Local Rental Rank (Latest)' =
+			VAR _latestYear = [Local Rental Latest Year]
+			RETURN
+				IF(
+					ISINSCOPE('Dim Geography'[GeographyName]),
+					RANKX(
+						FILTER(
+							ALLSELECTED('Dim Geography'[GeographyCode], 'Dim Geography'[GeographyName]),
+							NOT ISBLANK(
+								CALCULATE(
+									[Local Rental Ratio],
+									KEEPFILTERS('Dim Date'[Year] = _latestYear)
+								)
+							)
+						),
+						CALCULATE(
+							[Local Rental Ratio],
+							KEEPFILTERS('Dim Date'[Year] = _latestYear)
+						),
+						,
+						DESC,
+						Dense
+					)
+				)
+		formatString: 0
+		lineageTag: e36892c9-e651-458d-9348-8e1ac6242ddb
+
+	measure 'Areas Above 30% Rent Count' =
+			VAR _latestYear = [Local Rental Latest Year]
+			RETURN
+				COUNTROWS(
+					FILTER(
+						VALUES('Dim Geography'[GeographyCode]),
+						CALCULATE(
+							[Local Rental Ratio],
+							KEEPFILTERS('Dim Date'[Year] = _latestYear)
+						) > 0.3
+					)
+				)
+		formatString: #,##0
+		lineageTag: 2b492dbc-d33d-4978-8bb8-329cbb57b1a3
+
+	measure 'Areas Above 30% Rent Share' =
+			VAR _latestYear = [Local Rental Latest Year]
+			VAR _total =
+				COUNTROWS(
+					FILTER(
+						VALUES('Dim Geography'[GeographyCode]),
+						NOT ISBLANK(
+							CALCULATE(
+								[Local Rental Ratio],
+								KEEPFILTERS('Dim Date'[Year] = _latestYear)
+							)
+						)
+					)
+				)
+			RETURN
+				DIVIDE([Areas Above 30% Rent Count], _total)
+		formatString: 0.0%
+		lineageTag: 92396008-01bd-4a7b-a4c4-1e6f357fe643
+
+	measure 'Local Rental Ratio YoY Change' =
+			VAR _year = MAX('Dim Date'[Year])
+			VAR _previous =
+				CALCULATE(
+					[Local Rental Ratio],
+					REMOVEFILTERS('Dim Date'[Date]),
+					'Dim Date'[Year] = _year - 1
+				)
+			RETURN
+				IF(NOT ISBLANK(_year), [Local Rental Ratio] - _previous)
+		formatString: 0.0%
+		lineageTag: 14427b4e-05bf-46ad-aab7-05cd3a072191
+
+	measure 'Local Rental Ratio YoY Change Latest' =
+			VAR _latestYear = [Local Rental Latest Year]
+			RETURN
+				CALCULATE(
+					[Local Rental Ratio YoY Change],
+					KEEPFILTERS('Dim Date'[Year] = _latestYear)
+				)
+		formatString: 0.0%
+		lineageTag: dfd58b58-5de3-426c-89f5-36d60215f984
+
+	measure 'Highest Rental Pressure Area' =
+			VAR _latestYear = [Local Rental Latest Year]
+			VAR _topArea =
+				TOPN(
+					1,
+					FILTER(
+						ALL('Dim Geography'[GeographyCode], 'Dim Geography'[GeographyName]),
+						NOT ISBLANK(
+							CALCULATE(
+								[Local Rental Ratio],
+								KEEPFILTERS('Dim Date'[Year] = _latestYear)
+							)
+						)
+					),
+					CALCULATE(
+						[Local Rental Ratio],
+						KEEPFILTERS('Dim Date'[Year] = _latestYear)
+					),
+					DESC,
+					'Dim Geography'[GeographyName],
+					ASC
+				)
+			RETURN
+				CONCATENATEX(_topArea, 'Dim Geography'[GeographyName], ", ")
+		lineageTag: 1abdb4e2-f403-4dce-b865-c608dc95a4a0
+
+	column GeographyCode
+		dataType: string
+		isHidden
+		lineageTag: cd19afc6-4a75-4b07-8f76-0b5096ee1e26
+		summarizeBy: none
+		sourceColumn: GeographyCode
+
+	column GeographyName
+		dataType: string
+		isHidden
+		lineageTag: 425a644d-5295-46e2-beac-0f3980e08302
+		summarizeBy: none
+		sourceColumn: GeographyName
+
+	column RegionCode
+		dataType: string
+		isHidden
+		lineageTag: 67231d55-7cc2-4817-bfd5-4fb7d3106f33
+		summarizeBy: none
+		sourceColumn: RegionCode
+
+	column RegionName
+		dataType: string
+		isHidden
+		lineageTag: 5c327bb9-850d-42d4-9347-ac6136a2e9d7
+		summarizeBy: none
+		sourceColumn: RegionName
+
+	column PeriodLabel
+		dataType: string
+		isHidden
+		lineageTag: e850bd52-a59f-43d5-80fb-085df94b0311
+		summarizeBy: none
+		sourceColumn: PeriodLabel
+
+	column RentalAffordabilityRatio
+		dataType: double
+		isHidden
+		lineageTag: c7612a4e-e3b0-4de9-ae26-a503c73d5eae
+		summarizeBy: none
+		sourceColumn: RentalAffordabilityRatio
+
+	column Year
+		dataType: int64
+		isHidden
+		lineageTag: d885c45a-1b85-412c-a579-52f72e94a700
+		summarizeBy: none
+		sourceColumn: Year
+
+	column PeriodEndDate
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 46bf5e18-473c-4b84-a2b8-f898f57139d4
+		summarizeBy: none
+		sourceColumn: PeriodEndDate
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column GeographyLevel
+		dataType: string
+		isHidden
+		lineageTag: b7c54284-6075-4db5-b75d-d49725612208
+		summarizeBy: none
+		sourceColumn: GeographyLevel
+
+	column AffordabilityThresholdRent
+		dataType: double
+		isHidden
+		lineageTag: 6b6e3157-da53-4a05-8a41-406919742cfe
+		summarizeBy: none
+		sourceColumn: AffordabilityThresholdRent
+
+	column RentalPressureBand
+		dataType: string
+		isHidden
+		lineageTag: 0b583dad-d41d-4145-a440-6e0eaf16a7cd
+		summarizeBy: none
+		sourceColumn: RentalPressureBand
+
+	partition 'Fact Rental Local' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(CuratedDataFolder & "\fact_rental_local.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {
+						{"GeographyCode", type text},
+						{"GeographyName", type text},
+						{"RegionCode", type text},
+						{"RegionName", type text},
+						{"PeriodLabel", type text},
+						{"RentalAffordabilityRatio", type number},
+						{"Year", Int64.Type},
+						{"PeriodEndDate", type date},
+						{"GeographyLevel", type text},
+						{"AffordabilityThresholdRent", type number},
+						{"RentalPressureBand", type text}
+					}, "en-GB")
+				in
+					Typed
+

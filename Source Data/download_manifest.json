@@ -1,0 +1,75 @@
+{
+  "generated_at_utc": "2026-05-07T09:36:13Z",
+  "datasets": [
+    {
+      "slug": "ons_workplace_affordability",
+      "title": "House price to workplace-based earnings ratio",
+      "dataset_page_url": "https://www.ons.gov.uk/peoplepopulationandcommunity/housing/datasets/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian",
+      "download_url": "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/housing/datasets/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian/current/aff1ratioofhousepricetoworkplacebasedearnings.xlsx",
+      "output_path": "Source Data\\raw\\ons_house_price_to_workplace_earnings_ratio.xlsx",
+      "bytes": 513860,
+      "sha256": "585bc98112e801fc3dd45dbc5238d05c6507d4e48dc3ec3afab4867eded1c2f4",
+      "notes": "Core England and Wales local-authority affordability source with median and lower-quartile house prices, earnings, and ratios."
+    },
+    {
+      "slug": "ons_private_rental_affordability",
+      "title": "Private rental affordability, England, Wales and Northern Ireland",
+      "dataset_page_url": "https://www.ons.gov.uk/peoplepopulationandcommunity/housing/datasets/privaterentalaffordabilityengland",
+      "download_url": "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/housing/datasets/privaterentalaffordabilityengland/2024/privaterentalaffordability2024.xlsx",
+      "output_path": "Source Data\\raw\\ons_private_rental_affordability.xlsx",
+      "bytes": 86471,
+      "sha256": "b52e0b5203fd67dafc16511d22c9cf9cf0ae244fa01aae11085671a216e40f8d",
+      "notes": "Rental pressure source covering countries, English regions, and local authorities in England and Wales."
+    },
+    {
+      "slug": "ons_uk_purchase_affordability",
+      "title": "Housing purchase affordability, by UK country and English region",
+      "dataset_page_url": "https://www.ons.gov.uk/peoplepopulationandcommunity/housing/datasets/housingpurchaseaffordabilityingreatbritain",
+      "download_url": "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/housing/datasets/housingpurchaseaffordabilityingreatbritain/2024/housingpurchaseaffordabilityukbycountryandenglishregion2024.xlsx",
+      "output_path": "Source Data\\raw\\ons_uk_purchase_affordability.xlsx",
+      "bytes": 302061,
+      "sha256": "8a9da8c50455e0a03c51804db129036be2c56e4d0cb9391f89528a646c311f65",
+      "notes": "UK country and English region purchase-affordability context for the executive summary and national comparison views."
+    },
+    {
+      "slug": "hmlr_uk_hpi_monthly_full",
+      "title": "UK House Price Index full monthly file (February 2026 release)",
+      "dataset_page_url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-february-2026",
+      "download_url": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/UK-HPI-full-file-2026-02.csv",
+      "output_path": "Source Data\\raw\\uk_hpi_monthly_full_2026_02.csv",
+      "bytes": 34455733,
+      "sha256": "05ff6a516ea71e03fb51b0e2f0d76b4cdc2d36db1b7806e35227fba562b202f0",
+      "notes": "Official monthly UK HPI source with average price, index, and monthly and annual change at UK, country, region, and local-authority level."
+    },
+    {
+      "slug": "boe_bank_rate_history",
+      "title": "Monthly average of Official Bank Rate",
+      "dataset_page_url": "https://www.bankofengland.co.uk/boeapps/database/",
+      "download_url": "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/1975&Dateto=now&SeriesCodes=IUMABEDR&UsingCodes=Y&CSVF=TN&VPD=Y&VFD=N",
+      "output_path": "Source Data\\raw\\boe_monthly_average_bank_rate.csv",
+      "bytes": 11302,
+      "sha256": "8ed8a93c0b91199e56edd62c2e81981e444b973f1ff2eb6c0c4aaff90b3014bb",
+      "notes": "Official Bank of England IADB CSV export for series IUMABEDR, the monthly average of Official Bank Rate. This is machine-readable and aligned to the monthly HPI grain."
+    },
+    {
+      "slug": "ons_awe_total_pay_kab9",
+      "title": "Average weekly earnings, whole economy total pay",
+      "dataset_page_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/timeseries/kab9/lms",
+      "download_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/timeseries/kab9/lms/data",
+      "output_path": "Source Data\\raw\\ons_awe_total_pay_kab9_lms.json",
+      "bytes": 93977,
+      "sha256": "bda6051618e0452223be3013da0b59b9f2e8d75cc4a5c84193a2328f80cffad2",
+      "notes": "ONS Labour Market Statistics JSON time-series endpoint for KAB9: average weekly earnings, whole economy, seasonally adjusted total pay."
+    },
+    {
+      "slug": "ons_unemployment_rate_mgsx",
+      "title": "Unemployment rate, aged 16 and over, seasonally adjusted",
+      "dataset_page_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsx/lms",
+      "download_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsx/lms/data",
+      "output_path": "Source Data\\raw\\ons_unemployment_rate_mgsx_lms.json",
+      "bytes": 172254,
+      "sha256": "5573737b5f9defff82ea883982f143dbf467a88eed02bf508a9435b7d86f7eeb",
+      "notes": "ONS Labour Market Statistics JSON time-series endpoint for MGSX: UK unemployment rate, aged 16 and over, seasonally adjusted."
+    }
+  ]
+}

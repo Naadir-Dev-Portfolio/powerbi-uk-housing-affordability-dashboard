@@ -1,0 +1,21 @@
+{
+  "section": "powerbi",
+  "category": "dashboards",
+  "n": 7,
+  "title": "UK Housing Affordability",
+  "img": "powerbi-uk-housing-affordability-dashboard.png",
+  "imgFeatured": "powerbi-uk-housing-affordability-dashboard-featured.png",
+  "desc": "Housing analytics dashboard using ONS and Land Registry data to track price-to-income ratios across UK regions and local authorities, and show whether affordability is improving or deteriorating.",
+  "demo": "https://app.powerbi.com/view?r=eyJrIjoiNDMxMjJiZmQtM2Q5ZS00YThkLWExNmUtMDdiMzEzMThkYzBkIiwidCI6IjFmMjM5NGIwLWJiZmUtNDZlYS04MDIyLTFhZjJiZjg4ZDBkZCJ9",
+  "code": "https://github.com/Naadir-Dev-Portfolio/powerbi-uk-housing-affordability-dashboard",
+  "details": "https://github.com/Naadir-Dev-Portfolio/powerbi-uk-housing-affordability-dashboard/blob/main/README.md",
+  "tags": [
+    "Power BI",
+    "DAX",
+    "Power Query",
+    "Python",
+    "PBIP",
+    "Housing",
+    "Open Data"
+  ]
+}

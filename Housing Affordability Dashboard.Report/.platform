@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Housing Affordability Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "7a419dab-eb59-4717-977f-b317426033be"
+  }
+}

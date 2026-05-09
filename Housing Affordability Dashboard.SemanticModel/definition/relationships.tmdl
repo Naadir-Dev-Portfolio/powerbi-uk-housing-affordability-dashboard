@@ -1,0 +1,73 @@
+relationship 'Fact Purchase Local to Dim Date'
+	fromColumn: 'Fact Purchase Local'.PeriodEndDate
+	toColumn: 'Dim Date'.Date
+
+relationship 'Fact Purchase Local to Dim Geography'
+	fromColumn: 'Fact Purchase Local'.GeographyCode
+	toColumn: 'Dim Geography'.GeographyCode
+
+relationship 'Fact Purchase Region to Dim Date'
+	fromColumn: 'Fact Purchase Region'.PeriodEndDate
+	toColumn: 'Dim Date'.Date
+
+relationship 'Fact Purchase Region to Dim Geography'
+	fromColumn: 'Fact Purchase Region'.GeographyCode
+	toColumn: 'Dim Geography'.GeographyCode
+
+relationship 'Fact Rental Local to Dim Date'
+	fromColumn: 'Fact Rental Local'.PeriodEndDate
+	toColumn: 'Dim Date'.Date
+
+relationship 'Fact Rental Local to Dim Geography'
+	fromColumn: 'Fact Rental Local'.GeographyCode
+	toColumn: 'Dim Geography'.GeographyCode
+
+relationship 'Fact Rental Region to Dim Date'
+	fromColumn: 'Fact Rental Region'.PeriodEndDate
+	toColumn: 'Dim Date'.Date
+
+relationship 'Fact Rental Region to Dim Geography'
+	fromColumn: 'Fact Rental Region'.GeographyCode
+	toColumn: 'Dim Geography'.GeographyCode
+
+relationship 'Fact UK Purchase Country Region Median to Dim Date'
+	fromColumn: 'Fact UK Purchase Country Region Median'.PeriodEndDate
+	toColumn: 'Dim Date'.Date
+
+relationship 'Fact UK Purchase Country Region Median to Dim Geography'
+	fromColumn: 'Fact UK Purchase Country Region Median'.GeographyCode
+	toColumn: 'Dim Geography'.GeographyCode
+
+relationship a954ead0-a91b-48ba-a166-9badbb7d373c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Dim Date'.Date
+	toColumn: LocalDateTable_2287f54a-4d49-446b-8030-85079721df5d.Date
+
+relationship 'Fact HPI Monthly to Dim Date'
+	fromColumn: 'Fact HPI Monthly'.Date
+	toColumn: 'Dim Date'.Date
+
+relationship 'Fact HPI Monthly to Dim Geography'
+	fromColumn: 'Fact HPI Monthly'.GeographyCode
+	toColumn: 'Dim Geography'.GeographyCode
+
+relationship 'Fact Market Events Monthly to Dim Date'
+	fromColumn: 'Fact Market Events Monthly'.Date
+	toColumn: 'Dim Date'.Date
+
+relationship 'Fact Bank Rate Monthly to Dim Date'
+	fromColumn: 'Fact Bank Rate Monthly'.Date
+	toColumn: 'Dim Date'.Date
+
+relationship 'Fact UK Market Monthly to Dim Date'
+	fromColumn: 'Fact UK Market Monthly'.Date
+	toColumn: 'Dim Date'.Date
+
+relationship 'Fact Labour Market Monthly to Dim Date'
+	fromColumn: 'Fact Labour Market Monthly'.Date
+	toColumn: 'Dim Date'.Date
+
+relationship 'Fact Macro Indicator Monthly to Dim Date'
+	fromColumn: 'Fact Macro Indicator Monthly'.Date
+	toColumn: 'Dim Date'.Date
+

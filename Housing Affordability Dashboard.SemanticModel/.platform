@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Housing Affordability Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "12e50b11-ef77-4d96-a532-438d45e2d3b7"
+  }
+}

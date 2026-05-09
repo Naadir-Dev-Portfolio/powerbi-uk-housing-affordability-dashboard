@@ -1,0 +1,275 @@
+table 'Fact HPI Monthly'
+	lineageTag: 4c310867-8538-43a5-b23c-d5051124f157
+
+	measure 'Monthly HPI Latest Actual Date' =
+			CALCULATE(
+				MAX('Fact HPI Monthly'[Date]),
+				REMOVEFILTERS('Dim Date'),
+				'Fact HPI Monthly'[Scenario] = "Actual"
+			)
+		formatString: Long Date
+		lineageTag: 54d845ca-7206-4868-b35a-d1f7b7a5b1e0
+
+	measure 'Monthly HPI Price' = AVERAGE('Fact HPI Monthly'[DisplayPrice])
+		formatString: £#,##0
+		lineageTag: ea8cc1fd-c0d3-442f-9c7d-4dc63cf83631
+
+	measure 'Monthly HPI Price Latest' =
+			VAR _latestDate = [Monthly HPI Latest Actual Date]
+			RETURN
+				CALCULATE(
+					[Monthly HPI Price],
+					KEEPFILTERS('Dim Date'[Date] = _latestDate),
+					'Fact HPI Monthly'[Scenario] = "Actual"
+				)
+		formatString: £#,##0
+		lineageTag: f156e1ee-1b6e-4060-a8df-f9334abbb5d0
+
+	measure 'Monthly HPI Annual Change' = AVERAGE('Fact HPI Monthly'[AnnualChangePct])
+		formatString: 0.0%
+		lineageTag: 1d905ee1-df0f-4dd0-95a2-4f66b6c8b1c8
+
+	measure 'Monthly HPI Annual Change Latest' =
+			VAR _latestDate = [Monthly HPI Latest Actual Date]
+			RETURN
+				CALCULATE(
+					[Monthly HPI Annual Change],
+					KEEPFILTERS('Dim Date'[Date] = _latestDate),
+					'Fact HPI Monthly'[Scenario] = "Actual"
+				)
+		formatString: 0.0%
+		lineageTag: d0c60c8e-41b7-4c14-ba74-4416ce5bc94f
+
+	measure 'Monthly HPI Monthly Change' = AVERAGE('Fact HPI Monthly'[MonthlyChangePct])
+		formatString: 0.0%
+		lineageTag: 99cbf2ad-5993-4cc6-8c52-f6189116f6e0
+
+	measure 'Monthly HPI Monthly Change Latest' =
+			VAR _latestDate = [Monthly HPI Latest Actual Date]
+			RETURN
+				CALCULATE(
+					[Monthly HPI Monthly Change],
+					KEEPFILTERS('Dim Date'[Date] = _latestDate),
+					'Fact HPI Monthly'[Scenario] = "Actual"
+				)
+		formatString: 0.0%
+		lineageTag: 8296335d-22c8-4d93-a54d-f40244059568
+
+	measure 'Monthly HPI Forecast End Date' =
+			CALCULATE(
+				MAX('Fact HPI Monthly'[Date]),
+				REMOVEFILTERS('Dim Date'),
+				'Fact HPI Monthly'[Scenario] = "Forecast"
+			)
+		formatString: Long Date
+		lineageTag: a6b68365-0d83-458d-b3bd-2f50b56dab84
+
+	measure 'Monthly HPI Forecast End Price' =
+			VAR _forecastDate = [Monthly HPI Forecast End Date]
+			RETURN
+				IF(
+					NOT ISBLANK(_forecastDate),
+					CALCULATE(
+						[Monthly HPI Price],
+						KEEPFILTERS('Dim Date'[Date] = _forecastDate),
+						'Fact HPI Monthly'[Scenario] = "Forecast"
+					)
+				)
+		formatString: £#,##0
+		lineageTag: 26dffcc0-53bb-4ea7-af3b-0db4aee568b8
+
+	measure 'Monthly HPI Forecast 12M %' = DIVIDE([Monthly HPI Forecast End Price] - [Monthly HPI Price Latest], [Monthly HPI Price Latest])
+		formatString: 0.0%
+		lineageTag: 402bb406-4e0e-429f-9ce6-c7ca6fc70818
+
+	measure 'Monthly HPI Peak Price' =
+			CALCULATE(
+				MAX('Fact HPI Monthly'[DisplayPrice]),
+				REMOVEFILTERS('Dim Date'),
+				'Fact HPI Monthly'[Scenario] = "Actual"
+			)
+		formatString: £#,##0
+		lineageTag: 3087277d-5a0d-4491-b2ea-83b9d3988105
+
+	measure 'Monthly HPI Drawdown %' = DIVIDE([Monthly HPI Price Latest] - [Monthly HPI Peak Price], [Monthly HPI Peak Price])
+		formatString: 0.0%
+		lineageTag: 430c9ed8-d91d-4d29-9447-87fffc83d336
+
+	measure 'Monthly HPI Direction' =
+			VAR _forecast = [Monthly HPI Forecast 12M %]
+			RETURN
+				SWITCH(
+					TRUE(),
+					ISBLANK(_forecast), BLANK(),
+					_forecast <= -0.01, "Forecast softening",
+					_forecast >= 0.03, "Forecast rising",
+					"Forecast broadly flat"
+				)
+		lineageTag: dfbd6bc5-1c35-4fda-8eb5-a2d57ef662db
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 1b6e996f-c8d4-4169-8af6-c3b5ef3e0a3a
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PeriodLabel
+		dataType: string
+		isHidden
+		lineageTag: 2f7c68cc-5340-4972-ad79-1277d927d986
+		summarizeBy: none
+		sourceColumn: PeriodLabel
+
+	column Year
+		dataType: int64
+		isHidden
+		lineageTag: 4c6dc077-a13e-470a-8e8e-3f50ef21e30b
+		summarizeBy: none
+		sourceColumn: Year
+
+	column MonthNumber
+		dataType: int64
+		isHidden
+		lineageTag: 6bc5a5f2-0ff0-46cf-9d9e-8afbf0602df8
+		summarizeBy: none
+		sourceColumn: MonthNumber
+
+	column GeographyCode
+		dataType: string
+		isHidden
+		lineageTag: 75dd13dc-fdb9-4b18-9640-aeab4e93ed20
+		summarizeBy: none
+		sourceColumn: GeographyCode
+
+	column GeographyName
+		dataType: string
+		isHidden
+		lineageTag: a6306318-9f51-4e1e-bcd8-7c3924a8ad12
+		summarizeBy: none
+		sourceColumn: GeographyName
+
+	column GeographyLevel
+		dataType: string
+		isHidden
+		lineageTag: dc9bbce4-3514-43df-8dd9-f79bbec43078
+		summarizeBy: none
+		sourceColumn: GeographyLevel
+
+	column Scenario
+		dataType: string
+		lineageTag: 4f9b50bc-cc25-4a21-a5c0-b6dd23c0355b
+		summarizeBy: none
+		sourceColumn: Scenario
+		sortByColumn: ScenarioSort
+
+	column ScenarioSort
+		dataType: int64
+		isHidden
+		lineageTag: 5f284ad6-f3f7-4914-9d08-a877f94f1dd5
+		summarizeBy: none
+		sourceColumn: ScenarioSort
+
+	column ForecastMethod
+		dataType: string
+		isHidden
+		lineageTag: c847d17d-612c-47ea-bc3e-ae5b07f4d18c
+		summarizeBy: none
+		sourceColumn: ForecastMethod
+
+	column AveragePrice
+		dataType: double
+		isHidden
+		lineageTag: 12c86c72-5ee4-4ed7-8168-245efb4c9073
+		summarizeBy: none
+		sourceColumn: AveragePrice
+
+	column AveragePriceSA
+		dataType: double
+		isHidden
+		lineageTag: 5b020d8a-8ff1-4f5e-8f23-dfb59ea6af16
+		summarizeBy: none
+		sourceColumn: AveragePriceSA
+
+	column DisplayPrice
+		dataType: double
+		isHidden
+		lineageTag: 9fc54d92-88f4-4ad8-bf74-6ca7d0a31439
+		summarizeBy: none
+		sourceColumn: DisplayPrice
+
+	column Index
+		dataType: double
+		isHidden
+		lineageTag: 914de34b-39b7-4d33-a4d6-c25bb7ab0db7
+		summarizeBy: none
+		sourceColumn: Index
+
+	column IndexSeasonallyAdjusted
+		dataType: double
+		isHidden
+		lineageTag: 6edafe70-d40d-4877-b344-9907267c9737
+		summarizeBy: none
+		sourceColumn: IndexSeasonallyAdjusted
+
+	column MonthlyChangePct
+		dataType: double
+		isHidden
+		lineageTag: 1d0bdce4-9b62-4fa9-bfca-f6e90573ab1d
+		summarizeBy: none
+		sourceColumn: MonthlyChangePct
+
+	column AnnualChangePct
+		dataType: double
+		isHidden
+		lineageTag: 3769572d-b4ea-4c42-bca9-2d18d549f28d
+		summarizeBy: none
+		sourceColumn: AnnualChangePct
+
+	column SalesVolume
+		dataType: double
+		isHidden
+		lineageTag: f24ed707-5998-48d0-bf7d-ac14b8754d66
+		summarizeBy: none
+		sourceColumn: SalesVolume
+
+	column CrisisPeriod
+		dataType: string
+		isHidden
+		lineageTag: c167a84d-a11f-4d8f-a43a-b9654ad112c5
+		summarizeBy: none
+		sourceColumn: CrisisPeriod
+
+	partition 'Fact HPI Monthly' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(CuratedDataFolder & "\fact_hpi_monthly.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {
+						{"Date", type date},
+						{"PeriodLabel", type text},
+						{"Year", Int64.Type},
+						{"MonthNumber", Int64.Type},
+						{"GeographyCode", type text},
+						{"GeographyName", type text},
+						{"GeographyLevel", type text},
+						{"Scenario", type text},
+						{"ScenarioSort", Int64.Type},
+						{"ForecastMethod", type text},
+						{"AveragePrice", type number},
+						{"AveragePriceSA", type number},
+						{"DisplayPrice", type number},
+						{"Index", type number},
+						{"IndexSeasonallyAdjusted", type number},
+						{"MonthlyChangePct", type number},
+						{"AnnualChangePct", type number},
+						{"SalesVolume", type number},
+						{"CrisisPeriod", type text}
+					}, "en-GB")
+				in
+					Typed
+

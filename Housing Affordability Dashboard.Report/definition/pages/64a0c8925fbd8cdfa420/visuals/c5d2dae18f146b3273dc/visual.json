@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "c5d2dae18f146b3273dc",
+  "position": {
+    "x": 981.64948453608247,
+    "y": 573.40206185567013,
+    "z": 26000,
+    "height": 89.69072164948453,
+    "width": 291.95876288659792,
+    "tabOrder": 22000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Area split: monthly HPI average price, seasonally adjusted where available. Use it to compare whether price cycles are broad-based or concentrated in specific countries and regions.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#666666"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "right"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

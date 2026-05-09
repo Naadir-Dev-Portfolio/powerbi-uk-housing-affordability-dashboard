@@ -1,0 +1,128 @@
+table 'Fact Macro Indicator Monthly'
+	lineageTag: e4123a79-e177-4fcc-a211-0201a390dfba
+
+	measure 'Macro Indexed Value' = AVERAGE('Fact Macro Indicator Monthly'[IndexedValue])
+		formatString: 0.0
+		lineageTag: 695b6a05-8075-4054-ac9f-de015adb0ca3
+
+	measure 'Macro Actual Value' = AVERAGE('Fact Macro Indicator Monthly'[ActualValue])
+		formatString: 0.0
+		lineageTag: c7484b6e-4682-4443-a96e-57306816404a
+
+	measure 'Macro Annual Movement' = AVERAGE('Fact Macro Indicator Monthly'[AnnualMovementValue])
+		formatString: 0.0%
+		lineageTag: 6d47b4cf-93b5-4014-8302-c67b056252e4
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: a8c3f995-f80f-427c-af16-e2ac2f2abdd4
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PeriodLabel
+		dataType: string
+		isHidden
+		lineageTag: 8802c4d1-85f2-473f-8357-9af3bb79450b
+		summarizeBy: none
+		sourceColumn: PeriodLabel
+
+	column Year
+		dataType: int64
+		isHidden
+		lineageTag: b929b31b-27a0-43f5-b768-55ed21a721f2
+		summarizeBy: none
+		sourceColumn: Year
+
+	column MonthNumber
+		dataType: int64
+		isHidden
+		lineageTag: 1e2b1d5d-6bb6-485e-bd96-727749790910
+		summarizeBy: none
+		sourceColumn: MonthNumber
+
+	column ActualValue
+		dataType: double
+		isHidden
+		lineageTag: fa9ddc76-4efb-4127-9396-a487dcede33d
+		summarizeBy: none
+		sourceColumn: ActualValue
+
+	column IndexedValue
+		dataType: double
+		isHidden
+		lineageTag: c349b7d6-eef4-4f78-9266-53da3eec9577
+		summarizeBy: none
+		sourceColumn: IndexedValue
+
+	column AnnualMovementValue
+		dataType: double
+		isHidden
+		lineageTag: abd744db-072f-4fb6-a85a-cb24a471e2be
+		summarizeBy: none
+		sourceColumn: AnnualMovementValue
+
+	column CommonIndexBaseDate
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 3a2a0b08-663c-4ad6-b22d-6245de3732c1
+		summarizeBy: none
+		sourceColumn: CommonIndexBaseDate
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column IndicatorSort
+		dataType: int64
+		isHidden
+		lineageTag: 446cf44c-c320-4489-9546-c6ebe46c2d8e
+		summarizeBy: none
+		sourceColumn: IndicatorSort
+
+	column Indicator
+		dataType: string
+		lineageTag: c9b10c9f-aa8d-49c9-a618-0a6447b89d75
+		summarizeBy: none
+		sourceColumn: Indicator
+		sortByColumn: IndicatorSort
+
+	column IndicatorLabel
+		dataType: string
+		lineageTag: 8e99f714-04a8-4363-a1b7-0e41863eab48
+		summarizeBy: none
+		sourceColumn: IndicatorLabel
+		sortByColumn: IndicatorSort
+
+	column Unit
+		dataType: string
+		isHidden
+		lineageTag: 56ea6681-780c-434c-b6fc-f1a09242ce50
+		summarizeBy: none
+		sourceColumn: Unit
+
+	partition 'Fact Macro Indicator Monthly' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(CuratedDataFolder & "\fact_macro_indicator_monthly.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {
+						{"Date", type date},
+						{"PeriodLabel", type text},
+						{"Year", Int64.Type},
+						{"MonthNumber", Int64.Type},
+						{"ActualValue", type number},
+						{"IndexedValue", type number},
+						{"AnnualMovementValue", type number},
+						{"CommonIndexBaseDate", type date},
+						{"IndicatorSort", Int64.Type},
+						{"Indicator", type text},
+						{"IndicatorLabel", type text},
+						{"Unit", type text}
+					}, "en-GB")
+				in
+					Typed
+

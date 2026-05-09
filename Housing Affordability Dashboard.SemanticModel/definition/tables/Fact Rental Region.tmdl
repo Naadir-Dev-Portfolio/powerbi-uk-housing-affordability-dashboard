@@ -1,0 +1,230 @@
+table 'Fact Rental Region'
+	lineageTag: 93556877-16f5-4c49-8e04-ed3c810ee2e7
+
+	measure 'Rental Latest Year' = CALCULATE(MAX('Fact Rental Region'[Year]), REMOVEFILTERS('Dim Date'))
+		formatString: 0
+		lineageTag: 2197bca8-201c-4413-bbce-be0b8efae347
+
+	measure 'Rental Ratio' = AVERAGE('Fact Rental Region'[RentalAffordabilityRatio])
+		formatString: 0.0%
+		lineageTag: c14f88b2-5bda-4ab4-a957-97ad104e649a
+
+	measure 'Rental Ratio Latest' =
+			VAR _latestYear = [Rental Latest Year]
+			RETURN
+				CALCULATE(
+					[Rental Ratio],
+					KEEPFILTERS('Dim Date'[Year] = _latestYear)
+				)
+		formatString: 0.0%
+		lineageTag: e4eb1403-985f-4c02-8a59-2ab39db26557
+
+	measure 'Rental Ratio YoY Change' =
+			VAR _year = MAX('Dim Date'[Year])
+			VAR _previous =
+				CALCULATE(
+					[Rental Ratio],
+					REMOVEFILTERS('Dim Date'[Date]),
+					'Dim Date'[Year] = _year - 1
+				)
+			RETURN
+				IF(NOT ISBLANK(_year), [Rental Ratio] - _previous)
+		formatString: 0.0%
+		lineageTag: ddf8cba6-d861-40bd-b60f-342a29026a85
+
+	measure 'Mean Monthly Rent' = AVERAGE('Fact Rental Region'[MeanMonthlyRent])
+		formatString: £#,##0
+		lineageTag: 7a8168fe-7a2b-4aff-b237-601610adfff8
+
+	measure 'Median Private Renter Income' = AVERAGE('Fact Rental Region'[MedianPrivateRenterIncome])
+		formatString: £#,##0
+		lineageTag: 5ed130e6-a782-4a7b-8871-283de8c92612
+
+	measure 'Rent Since 2021 %' =
+			VAR _latestYear = [Rental Latest Year]
+			VAR _current =
+				CALCULATE(
+					[Mean Monthly Rent],
+					REMOVEFILTERS('Dim Date'[Date]),
+					'Dim Date'[Year] = _latestYear
+				)
+			VAR _baseline =
+				CALCULATE(
+					[Mean Monthly Rent],
+					REMOVEFILTERS('Dim Date'[Date]),
+					'Dim Date'[Year] = 2021
+				)
+			RETURN
+				DIVIDE(_current - _baseline, _baseline)
+		formatString: 0.0%
+		lineageTag: ee92f4e5-d22e-495c-b675-a56092ab2b09
+
+	measure 'Private Renter Income Since 2021 %' =
+			VAR _latestYear = [Rental Latest Year]
+			VAR _current =
+				CALCULATE(
+					[Median Private Renter Income],
+					REMOVEFILTERS('Dim Date'[Date]),
+					'Dim Date'[Year] = _latestYear
+				)
+			VAR _baseline =
+				CALCULATE(
+					[Median Private Renter Income],
+					REMOVEFILTERS('Dim Date'[Date]),
+					'Dim Date'[Year] = 2021
+				)
+			RETURN
+				DIVIDE(_current - _baseline, _baseline)
+		formatString: 0.0%
+		lineageTag: 5c7a2c33-4561-4f92-8c81-b35c7669b109
+
+	measure 'Rental Pressure Direction' =
+			VAR _latestYear = [Rental Latest Year]
+			VAR _current =
+				CALCULATE(
+					[Rental Ratio],
+					REMOVEFILTERS('Dim Date'[Date]),
+					'Dim Date'[Year] = _latestYear
+				)
+			VAR _baseline =
+				CALCULATE(
+					[Rental Ratio],
+					REMOVEFILTERS('Dim Date'[Date]),
+					'Dim Date'[Year] = 2021
+				)
+			VAR _change = _current - _baseline
+			RETURN
+				SWITCH(
+					TRUE(),
+					ISBLANK(_change), BLANK(),
+					_change <= -0.01, "Easing since 2021",
+					_change >= 0.01, "Tightening since 2021",
+					"Broadly flat since 2021"
+				)
+		lineageTag: 82aafed4-ec1f-46d9-a2c8-39fb53ee948a
+
+	measure 'Mean Monthly Rent YoY Change' =
+			VAR _year = MAX('Dim Date'[Year])
+			VAR _previous =
+				CALCULATE(
+					[Mean Monthly Rent],
+					REMOVEFILTERS('Dim Date'[Date]),
+					'Dim Date'[Year] = _year - 1
+				)
+			RETURN
+				DIVIDE([Mean Monthly Rent] - _previous, _previous)
+		formatString: 0.0%
+		lineageTag: c85d08c2-8d14-498d-ab71-e4cc5c31823b
+
+	measure 'Mean Monthly Rent YoY Change Latest' =
+			VAR _latestYear = [Rental Latest Year]
+			RETURN
+				CALCULATE(
+					[Mean Monthly Rent YoY Change],
+					KEEPFILTERS('Dim Date'[Year] = _latestYear)
+				)
+		formatString: 0.0%
+		lineageTag: 41356091-deb4-45a0-80b7-3a81bc0a223c
+
+	column GeographyCode
+		dataType: string
+		isHidden
+		lineageTag: 5048e646-a1a4-4880-8427-33a2f19632b9
+		summarizeBy: none
+		sourceColumn: GeographyCode
+
+	column GeographyName
+		dataType: string
+		isHidden
+		lineageTag: cb04e5c1-8822-41d0-9ec0-5f7591a6a644
+		summarizeBy: none
+		sourceColumn: GeographyName
+
+	column PeriodLabel
+		dataType: string
+		isHidden
+		lineageTag: c7be3a27-968b-476a-bb95-d0f060a6e031
+		summarizeBy: none
+		sourceColumn: PeriodLabel
+
+	column MeanMonthlyRent
+		dataType: double
+		isHidden
+		lineageTag: fca53aa7-9eae-49b8-9e56-10f7284bdac6
+		summarizeBy: none
+		sourceColumn: MeanMonthlyRent
+
+	column Year
+		dataType: int64
+		isHidden
+		lineageTag: b4a4dd00-1429-4ded-95df-87b4bd78fe97
+		summarizeBy: none
+		sourceColumn: Year
+
+	column PeriodEndDate
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 3bc13097-fdf2-45b6-978c-dc85a1584796
+		summarizeBy: none
+		sourceColumn: PeriodEndDate
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column MedianPrivateRenterIncome
+		dataType: double
+		isHidden
+		lineageTag: bf66a67c-dd33-44c1-bb88-e16ec7fdf4ff
+		summarizeBy: none
+		sourceColumn: MedianPrivateRenterIncome
+
+	column RentalAffordabilityRatio
+		dataType: double
+		isHidden
+		lineageTag: 8e9dd494-936f-4f0e-8e0e-2adfb5e07ccb
+		summarizeBy: none
+		sourceColumn: RentalAffordabilityRatio
+
+	column GeographyLevel
+		dataType: string
+		isHidden
+		lineageTag: d0a23721-95d8-4081-883e-185182a081a9
+		summarizeBy: none
+		sourceColumn: GeographyLevel
+
+	column AffordabilityThresholdRent
+		dataType: double
+		isHidden
+		lineageTag: 0f8009d7-ba8e-4f48-9200-8140f78f0eb5
+		summarizeBy: none
+		sourceColumn: AffordabilityThresholdRent
+
+	column RentalPressureBand
+		dataType: string
+		isHidden
+		lineageTag: 364b3642-d4b0-4b0b-a681-0ad91da0e37e
+		summarizeBy: none
+		sourceColumn: RentalPressureBand
+
+	partition 'Fact Rental Region' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(CuratedDataFolder & "\fact_rental_region.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {
+						{"GeographyCode", type text},
+						{"GeographyName", type text},
+						{"PeriodLabel", type text},
+						{"MeanMonthlyRent", type number},
+						{"Year", Int64.Type},
+						{"PeriodEndDate", type date},
+						{"MedianPrivateRenterIncome", type number},
+						{"RentalAffordabilityRatio", type number},
+						{"GeographyLevel", type text},
+						{"AffordabilityThresholdRent", type number},
+						{"RentalPressureBand", type text}
+					}, "en-GB")
+				in
+					Typed
+

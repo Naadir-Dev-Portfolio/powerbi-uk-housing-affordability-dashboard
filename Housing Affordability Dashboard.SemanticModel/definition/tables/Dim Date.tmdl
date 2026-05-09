@@ -1,0 +1,176 @@
+table 'Dim Date'
+	lineageTag: 162a373c-369a-423a-95eb-8246e4511df1
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Long Date
+		lineageTag: fd3977a9-cfc9-4032-a804-cd0c658cca72
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: a954ead0-a91b-48ba-a166-9badbb7d373c
+			defaultHierarchy: LocalDateTable_2287f54a-4d49-446b-8030-85079721df5d.'Date Hierarchy'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateKey
+		dataType: int64
+		isHidden
+		lineageTag: bfd26f61-ecf1-4344-98bc-0b6436766a4f
+		summarizeBy: count
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		lineageTag: b1367278-9907-4ef8-ab69-122c1edd02ad
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		dataType: int64
+		isHidden
+		lineageTag: 6872ca43-327b-428a-800b-a180c671e627
+		summarizeBy: sum
+		sourceColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNameShort
+		dataType: string
+		lineageTag: 3085e6f1-b64b-48a2-9be6-c5dca47d7312
+		summarizeBy: none
+		sourceColumn: MonthNameShort
+		sortByColumn: MonthNumber
+
+	column MonthNameLong
+		dataType: string
+		isHidden
+		lineageTag: 07b3917c-54d4-4a46-acbe-8591f176cb83
+		summarizeBy: none
+		sourceColumn: MonthNameLong
+
+	column Quarter
+		dataType: string
+		lineageTag: 0799d517-482c-4927-b063-b40682e65a86
+		summarizeBy: none
+		sourceColumn: Quarter
+
+	column YearMonth
+		dataType: string
+		isHidden
+		lineageTag: 93ae6ba1-6137-48d9-b304-d99ec5732f27
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+	column YearQuarter
+		dataType: string
+		lineageTag: 601f210e-626a-446e-9e2b-f7ab27f5f3aa
+		summarizeBy: none
+		sourceColumn: YearQuarter
+
+	column DayOfMonth
+		dataType: int64
+		isHidden
+		lineageTag: 89691634-82d2-4521-b398-9b16fa436e10
+		summarizeBy: sum
+		sourceColumn: DayOfMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeekNumber
+		dataType: int64
+		isHidden
+		lineageTag: 71b5e9b6-232a-4735-b7bc-3d11c2b2366f
+		summarizeBy: sum
+		sourceColumn: DayOfWeekNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeekName
+		dataType: string
+		isHidden
+		lineageTag: b14bfd84-6ab8-41fc-b5ad-79c0815090d6
+		summarizeBy: none
+		sourceColumn: DayOfWeekName
+
+	column IsMonthEnd
+		dataType: boolean
+		isHidden
+		lineageTag: d2460fbc-6bc3-46ca-9da0-14be8ed069f7
+		summarizeBy: none
+		sourceColumn: IsMonthEnd
+
+	column IsQuarterEnd
+		dataType: boolean
+		isHidden
+		lineageTag: e5c77686-6e4b-46d3-94bc-ddbe4881bfe7
+		summarizeBy: none
+		sourceColumn: IsQuarterEnd
+
+	column IsYearEnd
+		dataType: boolean
+		isHidden
+		lineageTag: 5fe54376-9086-487a-98f1-b9136eaa6308
+		summarizeBy: none
+		sourceColumn: IsYearEnd
+
+	column FinancialYearEnding
+		dataType: int64
+		lineageTag: e2d1fb3b-f307-475f-87f7-87a43da82fd5
+		summarizeBy: sum
+		sourceColumn: FinancialYearEnding
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinancialYearLabel
+		dataType: string
+		lineageTag: abe6a5c5-ddbf-4752-9500-2659b99d8570
+		summarizeBy: none
+		sourceColumn: FinancialYearLabel
+		sortByColumn: FinancialYearEnding
+
+	column HousingPurchasePeriodEndYear
+		dataType: int64
+		isHidden
+		lineageTag: 7884b3f5-8f90-4a2e-97eb-acc1f3547671
+		summarizeBy: sum
+		sourceColumn: HousingPurchasePeriodEndYear
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim Date' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(CuratedDataFolder & "\dim_date.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {
+						{"Date", type date},
+						{"DateKey", Int64.Type},
+						{"Year", Int64.Type},
+						{"MonthNumber", Int64.Type},
+						{"MonthNameShort", type text},
+						{"MonthNameLong", type text},
+						{"Quarter", type text},
+						{"YearMonth", type text},
+						{"YearQuarter", type text},
+						{"DayOfMonth", Int64.Type},
+						{"DayOfWeekNumber", Int64.Type},
+						{"DayOfWeekName", type text},
+						{"IsMonthEnd", type logical},
+						{"IsQuarterEnd", type logical},
+						{"IsYearEnd", type logical},
+						{"FinancialYearEnding", Int64.Type},
+						{"FinancialYearLabel", type text},
+						{"HousingPurchasePeriodEndYear", Int64.Type}
+					}, "en-GB")
+				in
+					Typed
+

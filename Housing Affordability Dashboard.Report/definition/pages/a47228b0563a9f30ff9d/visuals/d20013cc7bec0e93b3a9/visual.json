@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "d20013cc7bec0e93b3a9",
+  "position": {
+    "x": 53.19587628865979,
+    "y": 113.81443298969072,
+    "z": 17000,
+    "height": 79.175257731958766,
+    "width": 249.2783505154639,
+    "tabOrder": 18000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Show where lower-quartile buyers are furthest behind, whether rent pressure reinforces the same map, and how current local market momentum fits in.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#13293d"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

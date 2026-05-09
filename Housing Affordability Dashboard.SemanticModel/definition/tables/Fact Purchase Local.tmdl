@@ -1,0 +1,414 @@
+table 'Fact Purchase Local'
+	lineageTag: 84b1fc67-3e8e-43bb-b341-ba7b9aea85f8
+
+	measure 'Local Purchase Latest Year' = CALCULATE(MAX('Fact Purchase Local'[Year]), REMOVEFILTERS('Dim Date'))
+		formatString: 0
+		lineageTag: d170a365-5b6d-4f5d-9e85-35a54802e92d
+
+	measure 'Local Purchase Ratio' = AVERAGE('Fact Purchase Local'[MedianAffordabilityRatio])
+		formatString: 0.0
+		lineageTag: dbe7f13b-6115-416c-b7c2-a7108610e58d
+
+	measure 'Local Purchase Ratio Latest' =
+			VAR _latestYear = [Local Purchase Latest Year]
+			RETURN
+				CALCULATE(
+					[Local Purchase Ratio],
+					KEEPFILTERS('Dim Date'[Year] = _latestYear)
+				)
+		formatString: 0.0
+		lineageTag: df23c337-5381-4772-b5f3-b2ca2fc94aed
+
+	measure 'Local Purchase Ratio YoY Change' =
+			VAR _year = MAX('Dim Date'[Year])
+			VAR _previous =
+				CALCULATE(
+					[Local Purchase Ratio],
+					REMOVEFILTERS('Dim Date'[Date]),
+					'Dim Date'[Year] = _year - 1
+				)
+			RETURN
+				IF(NOT ISBLANK(_year), [Local Purchase Ratio] - _previous)
+		formatString: 0.0
+		lineageTag: 121694d9-a301-4e3e-8c0e-be57107780b7
+
+	measure 'Local Purchase Ratio Since 2019 Change' =
+			VAR _latestYear = [Local Purchase Latest Year]
+			VAR _current =
+				CALCULATE(
+					[Local Purchase Ratio],
+					REMOVEFILTERS('Dim Date'[Date]),
+					'Dim Date'[Year] = _latestYear
+				)
+			VAR _baseline =
+				CALCULATE(
+					[Local Purchase Ratio],
+					REMOVEFILTERS('Dim Date'[Date]),
+					'Dim Date'[Year] = 2019
+				)
+			RETURN
+				_current - _baseline
+		formatString: 0.0
+		lineageTag: fcb50af5-2236-4118-b3c0-72d9c3ce6a1b
+
+	measure 'Local Median House Price' = AVERAGE('Fact Purchase Local'[MedianHousePrice])
+		formatString: £#,##0
+		lineageTag: 7d3e0525-0b07-4507-b8d0-9aca9acaf7ed
+
+	measure 'Local Median Earnings' = AVERAGE('Fact Purchase Local'[MedianWorkplaceEarnings])
+		formatString: £#,##0
+		lineageTag: 23859d65-8c25-441d-a754-6e08cb27090d
+
+	measure 'Local Lower Quartile Purchase Ratio' = AVERAGE('Fact Purchase Local'[LowerQuartileAffordabilityRatio])
+		formatString: 0.0
+		lineageTag: f43c5539-1e18-4e28-b23d-f953be8861c4
+
+	measure 'Local Lower Quartile Gap vs Median' = [Local Lower Quartile Purchase Ratio] - [Local Purchase Ratio]
+		formatString: 0.0
+		lineageTag: 90c0cbef-e3f6-4f4d-9581-d0cf09b31c74
+
+	measure 'Local Purchase Rank (Latest)' =
+			VAR _latestYear = [Local Purchase Latest Year]
+			RETURN
+				IF(
+					ISINSCOPE('Dim Geography'[GeographyName]),
+					RANKX(
+						FILTER(
+							ALLSELECTED('Dim Geography'[GeographyCode], 'Dim Geography'[GeographyName]),
+							NOT ISBLANK(
+								CALCULATE(
+									[Local Purchase Ratio],
+									KEEPFILTERS('Dim Date'[Year] = _latestYear)
+								)
+							)
+						),
+						CALCULATE(
+							[Local Purchase Ratio],
+							KEEPFILTERS('Dim Date'[Year] = _latestYear)
+						),
+						,
+						DESC,
+						Dense
+					)
+				)
+		formatString: 0
+		lineageTag: 79c585d7-8266-4431-a77d-636b56e98794
+
+	measure 'Total Local Areas Count' =
+			VAR _latestYear = [Local Purchase Latest Year]
+			RETURN
+				COUNTROWS(
+					FILTER(
+						VALUES('Dim Geography'[GeographyCode]),
+						NOT ISBLANK(
+							CALCULATE(
+								[Local Purchase Ratio],
+								KEEPFILTERS('Dim Date'[Year] = _latestYear)
+							)
+						)
+					)
+				)
+		formatString: #,##0
+		lineageTag: d1b6af73-3bc9-40ac-bd3f-d0cd9025aa02
+
+	measure 'Affordable Areas Count' =
+			VAR _latestYear = [Local Purchase Latest Year]
+			RETURN
+				COUNTROWS(
+					FILTER(
+						VALUES('Dim Geography'[GeographyCode]),
+						CALCULATE(
+							[Local Purchase Ratio],
+							KEEPFILTERS('Dim Date'[Year] = _latestYear)
+						) <= 5
+					)
+				)
+		formatString: #,##0
+		lineageTag: 0b8f3965-25ee-41b4-ae9b-34d6e23ec54d
+
+	measure 'Affordable Areas Share' = DIVIDE([Affordable Areas Count], [Total Local Areas Count])
+		formatString: 0.0%
+		lineageTag: bf6faf6b-a898-4a67-ad49-5a079d423d72
+
+	measure 'Severe Pressure Areas Count' =
+			VAR _latestYear = [Local Purchase Latest Year]
+			RETURN
+				COUNTROWS(
+					FILTER(
+						VALUES('Dim Geography'[GeographyCode]),
+						CALCULATE(
+							[Local Purchase Ratio],
+							KEEPFILTERS('Dim Date'[Year] = _latestYear)
+						) >= 12
+					)
+				)
+		formatString: #,##0
+		lineageTag: 80426910-9cef-497d-a0fc-e5044ea33581
+
+	measure 'Common Latest Local Year' = MIN([Local Purchase Latest Year], [Local Rental Latest Year])
+		formatString: 0
+		lineageTag: 52e048be-9683-4e01-8309-fab41aaf6af1
+
+	measure 'Dual Pressure Areas Count' =
+			VAR _year = [Common Latest Local Year]
+			RETURN
+				COUNTROWS(
+					FILTER(
+						VALUES('Dim Geography'[GeographyCode]),
+						CALCULATE(
+							[Local Purchase Ratio],
+							KEEPFILTERS('Dim Date'[Year] = _year)
+						) >= 8
+							&& CALCULATE(
+								[Local Rental Ratio],
+								KEEPFILTERS('Dim Date'[Year] = _year)
+							) > 0.3
+					)
+				)
+		formatString: #,##0
+		lineageTag: b95f31a5-a703-4b92-9e7c-7c30f3a057d2
+
+	measure 'Local Median House Price Latest' =
+			VAR _latestYear = [Local Purchase Latest Year]
+			RETURN
+				CALCULATE(
+					[Local Median House Price],
+					KEEPFILTERS('Dim Date'[Year] = _latestYear)
+				)
+		formatString: £#,##0
+		lineageTag: 0f67d7dd-1e12-491a-8d76-30a2bca4df7e
+
+	measure 'Local Median Earnings Latest' =
+			VAR _latestYear = [Local Purchase Latest Year]
+			RETURN
+				CALCULATE(
+					[Local Median Earnings],
+					KEEPFILTERS('Dim Date'[Year] = _latestYear)
+				)
+		formatString: £#,##0
+		lineageTag: 21d08244-1f15-46a7-b5f8-dc3ce6412b54
+
+	measure 'Local Lower Quartile Purchase Ratio Latest' =
+			VAR _latestYear = [Local Purchase Latest Year]
+			RETURN
+				CALCULATE(
+					[Local Lower Quartile Purchase Ratio],
+					KEEPFILTERS('Dim Date'[Year] = _latestYear)
+				)
+		formatString: 0.0
+		lineageTag: 88837a70-835f-42b2-b720-e1e5268bb6ea
+
+	measure 'Local Lower Quartile Gap vs Median Latest' = [Local Lower Quartile Purchase Ratio Latest] - [Local Purchase Ratio Latest]
+		formatString: 0.0
+		lineageTag: a8c66110-fa0f-4786-865d-eb70dd677ab0
+
+	measure 'Highest Pressure Area' =
+			VAR _latestYear = [Local Purchase Latest Year]
+			VAR _topArea =
+				TOPN(
+					1,
+					FILTER(
+						ALL('Dim Geography'[GeographyCode], 'Dim Geography'[GeographyName]),
+						NOT ISBLANK(
+							CALCULATE(
+								[Local Purchase Ratio],
+								KEEPFILTERS('Dim Date'[Year] = _latestYear)
+							)
+						)
+					),
+					CALCULATE(
+						[Local Purchase Ratio],
+						KEEPFILTERS('Dim Date'[Year] = _latestYear)
+					),
+					DESC,
+					'Dim Geography'[GeographyName],
+					ASC
+				)
+			RETURN
+				CONCATENATEX(_topArea, 'Dim Geography'[GeographyName], ", ")
+		lineageTag: 6af0a90e-91d2-45f2-87da-852e737d9e8a
+
+	measure 'Widest Lower Quartile Gap Area' =
+			VAR _latestYear = [Local Purchase Latest Year]
+			VAR _topArea =
+				TOPN(
+					1,
+					FILTER(
+						ALL('Dim Geography'[GeographyCode], 'Dim Geography'[GeographyName]),
+						NOT ISBLANK(
+							CALCULATE(
+								[Local Lower Quartile Gap vs Median],
+								KEEPFILTERS('Dim Date'[Year] = _latestYear)
+							)
+						)
+					),
+					CALCULATE(
+						[Local Lower Quartile Gap vs Median],
+						KEEPFILTERS('Dim Date'[Year] = _latestYear)
+					),
+					DESC,
+					'Dim Geography'[GeographyName],
+					ASC
+				)
+			RETURN
+				CONCATENATEX(_topArea, 'Dim Geography'[GeographyName], ", ")
+		lineageTag: e0606209-a241-4538-809e-6e0ecc9a2fe3
+
+	column RegionCode
+		dataType: string
+		isHidden
+		lineageTag: 78311307-517a-4c86-9fd1-02415dcd63c4
+		summarizeBy: none
+		sourceColumn: RegionCode
+
+	column RegionName
+		dataType: string
+		isHidden
+		lineageTag: 77988727-7d93-4d53-ae89-b9a74520a99b
+		summarizeBy: none
+		sourceColumn: RegionName
+
+	column GeographyCode
+		dataType: string
+		isHidden
+		lineageTag: e6ccafa8-cd2c-483b-b0f0-a2a00eb199e6
+		summarizeBy: none
+		sourceColumn: GeographyCode
+
+	column GeographyName
+		dataType: string
+		isHidden
+		lineageTag: b49c1764-15fc-4a20-99c0-9ffdacb79c61
+		summarizeBy: none
+		sourceColumn: GeographyName
+
+	column PeriodLabel
+		dataType: string
+		isHidden
+		lineageTag: 198bcbdf-4600-4be6-9257-2d299cc275b0
+		summarizeBy: none
+		sourceColumn: PeriodLabel
+
+	column MedianHousePrice
+		dataType: double
+		isHidden
+		lineageTag: 1f251a84-02a0-48e0-ab73-d7e082423ec7
+		summarizeBy: none
+		sourceColumn: MedianHousePrice
+
+	column Year
+		dataType: int64
+		isHidden
+		lineageTag: 3882f659-5e5d-4d8f-84e9-fdb873a82df7
+		summarizeBy: none
+		sourceColumn: Year
+
+	column PeriodEndDate
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: ce382123-d192-4405-bc36-f5835530913a
+		summarizeBy: none
+		sourceColumn: PeriodEndDate
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column MedianWorkplaceEarnings
+		dataType: double
+		isHidden
+		lineageTag: e1853943-d486-45c2-98ed-95dadfaa9fed
+		summarizeBy: none
+		sourceColumn: MedianWorkplaceEarnings
+
+	column MedianAffordabilityRatio
+		dataType: double
+		isHidden
+		lineageTag: d60cd88a-6caf-4a21-949a-b46131d6aa40
+		summarizeBy: none
+		sourceColumn: MedianAffordabilityRatio
+
+	column MedianFiveYearAverageAffordabilityRatio
+		dataType: double
+		isHidden
+		lineageTag: b21abbf4-c6e7-4cb3-9645-3e9e3a16fca5
+		summarizeBy: none
+		sourceColumn: MedianFiveYearAverageAffordabilityRatio
+
+	column LowerQuartileHousePrice
+		dataType: double
+		isHidden
+		lineageTag: e792e13f-b068-49ec-917e-94078fe87735
+		summarizeBy: none
+		sourceColumn: LowerQuartileHousePrice
+
+	column LowerQuartileWorkplaceEarnings
+		dataType: double
+		isHidden
+		lineageTag: 913e6d14-64d8-4658-b841-93afaf1be9a2
+		summarizeBy: none
+		sourceColumn: LowerQuartileWorkplaceEarnings
+
+	column LowerQuartileAffordabilityRatio
+		dataType: double
+		isHidden
+		lineageTag: 85dbc42d-ab7b-4d91-9c2f-de35f6d25cd9
+		summarizeBy: none
+		sourceColumn: LowerQuartileAffordabilityRatio
+
+	column LowerQuartileFiveYearAverageAffordabilityRatio
+		dataType: double
+		isHidden
+		lineageTag: 97ee1286-b4a5-416e-9e38-66cb246ed47f
+		summarizeBy: none
+		sourceColumn: LowerQuartileFiveYearAverageAffordabilityRatio
+
+	column GeographyLevel
+		dataType: string
+		isHidden
+		lineageTag: a5e2cc89-2d87-4315-b114-6473efa5784c
+		summarizeBy: none
+		sourceColumn: GeographyLevel
+
+	column AffordabilityThresholdPurchase
+		dataType: double
+		isHidden
+		lineageTag: cdccb730-6644-4ec3-80d5-6c738b0536fc
+		summarizeBy: none
+		sourceColumn: AffordabilityThresholdPurchase
+
+	column AffordabilityBandPurchase
+		dataType: string
+		isHidden
+		lineageTag: 6ecbcc7f-7394-49b0-90a2-bfe432609f63
+		summarizeBy: none
+		sourceColumn: AffordabilityBandPurchase
+
+	partition 'Fact Purchase Local' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(CuratedDataFolder & "\fact_purchase_local.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {
+						{"RegionCode", type text},
+						{"RegionName", type text},
+						{"GeographyCode", type text},
+						{"GeographyName", type text},
+						{"PeriodLabel", type text},
+						{"MedianHousePrice", type number},
+						{"Year", Int64.Type},
+						{"PeriodEndDate", type date},
+						{"MedianWorkplaceEarnings", type number},
+						{"MedianAffordabilityRatio", type number},
+						{"MedianFiveYearAverageAffordabilityRatio", type number},
+						{"LowerQuartileHousePrice", type number},
+						{"LowerQuartileWorkplaceEarnings", type number},
+						{"LowerQuartileAffordabilityRatio", type number},
+						{"LowerQuartileFiveYearAverageAffordabilityRatio", type number},
+						{"GeographyLevel", type text},
+						{"AffordabilityThresholdPurchase", type number},
+						{"AffordabilityBandPurchase", type text}
+					}, "en-GB")
+				in
+					Typed
+

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "p01tx10def",
+  "position": {
+    "x": 59.381443298969074,
+    "y": 412.57731958762884,
+    "z": 12000,
+    "height": 55.670103092783506,
+    "width": 450.30927835051546,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Definition: purchase affordability ratio = typical house price divided by annual earnings or income. A higher ratio means homes cost more years of income, so affordability is worse.",
+                    "textStyle": {
+                      "fontSize": "8pt",
+                      "color": "#13293d"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

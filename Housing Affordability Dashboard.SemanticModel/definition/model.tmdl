@@ -1,0 +1,33 @@
+model Model
+	culture: en-GB
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-GB
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["Dim Date","Dim Geography","Fact Purchase Local","Fact Purchase Region","Fact Rental Local","Fact Rental Region","Fact UK Purchase Country Region Median","Fact HPI Monthly","Fact Market Events Monthly","Fact Bank Rate Monthly","Fact UK Market Monthly","Fact Labour Market Monthly","Fact Macro Indicator Monthly"]
+
+ref table 'Dim Date'
+ref table 'Dim Geography'
+ref table 'Fact Purchase Local'
+ref table 'Fact Purchase Region'
+ref table 'Fact Rental Local'
+ref table 'Fact Rental Region'
+ref table 'Fact UK Purchase Country Region Median'
+ref table DateTableTemplate_d30d32d9-12ec-4325-a0b7-c627c5ed0c31
+ref table LocalDateTable_2287f54a-4d49-446b-8030-85079721df5d
+ref table 'Fact HPI Monthly'
+ref table 'Fact Market Events Monthly'
+ref table 'Fact Bank Rate Monthly'
+ref table 'Fact UK Market Monthly'
+ref table 'Fact Labour Market Monthly'
+ref table 'Fact Macro Indicator Monthly'
+
+ref cultureInfo en-GB
+

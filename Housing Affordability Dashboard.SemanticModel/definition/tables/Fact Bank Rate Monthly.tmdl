@@ -1,0 +1,112 @@
+table 'Fact Bank Rate Monthly'
+	lineageTag: 5c1c924d-a18d-43de-8f87-76ed4d8a2151
+
+	measure 'Latest Bank Rate Month' = CALCULATE(MAX('Fact Bank Rate Monthly'[Date]), REMOVEFILTERS('Dim Date'))
+		formatString: Long Date
+		lineageTag: 0c917a61-b43b-440c-a587-51ac1a78f146
+
+	measure 'Bank Rate' = AVERAGE('Fact Bank Rate Monthly'[BankRatePct])
+		formatString: 0.00%
+		lineageTag: 3c74000e-54f6-4c41-8fb7-a3e58fd7db5e
+
+	measure 'Bank Rate Latest' =
+			VAR _latestDate = [Latest Bank Rate Month]
+			RETURN
+				CALCULATE(
+					[Bank Rate],
+					KEEPFILTERS('Dim Date'[Date] = _latestDate)
+				)
+		formatString: 0.00%
+		lineageTag: d8bd7481-51e9-4d03-87df-516bf7fd737b
+
+	measure 'Bank Rate 12M Change' =
+			VAR _latestDate = [Latest Bank Rate Month]
+			RETURN
+				CALCULATE(
+					AVERAGE('Fact Bank Rate Monthly'[BankRatePctPointChange12M]),
+					KEEPFILTERS('Dim Date'[Date] = _latestDate)
+				)
+		formatString: 0.00%
+		lineageTag: 55b4d478-b0c3-4717-89c5-9428eec6a942
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: a41f15c0-1500-49f9-9258-d6b6547a07db
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ReportedDate
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 14d1548b-096e-4ff2-a614-f8273f168159
+		summarizeBy: none
+		sourceColumn: ReportedDate
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PeriodLabel
+		dataType: string
+		isHidden
+		lineageTag: aa2bdbb6-9c3d-4929-9d35-31cde243cd86
+		summarizeBy: none
+		sourceColumn: PeriodLabel
+
+	column Year
+		dataType: int64
+		isHidden
+		lineageTag: 2e7e4679-d8b1-427a-a28d-4e068e68ae46
+		summarizeBy: none
+		sourceColumn: Year
+
+	column MonthNumber
+		dataType: int64
+		isHidden
+		lineageTag: ef40cc83-adc0-4520-8863-e7fb5dd0e756
+		summarizeBy: none
+		sourceColumn: MonthNumber
+
+	column BankRatePct
+		dataType: double
+		isHidden
+		lineageTag: 97ace5ca-55ce-48b1-8a4c-38905f5aca43
+		summarizeBy: none
+		sourceColumn: BankRatePct
+
+	column BankRatePctPointChange1M
+		dataType: double
+		isHidden
+		lineageTag: f5c85598-97fb-4c81-9aad-e901f60f2900
+		summarizeBy: none
+		sourceColumn: BankRatePctPointChange1M
+
+	column BankRatePctPointChange12M
+		dataType: double
+		isHidden
+		lineageTag: 582bc5a3-f4c4-4b48-b48a-2d5ddb6f3025
+		summarizeBy: none
+		sourceColumn: BankRatePctPointChange12M
+
+	partition 'Fact Bank Rate Monthly' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(CuratedDataFolder & "\fact_bank_rate_monthly.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {
+						{"Date", type date},
+						{"ReportedDate", type date},
+						{"PeriodLabel", type text},
+						{"Year", Int64.Type},
+						{"MonthNumber", Int64.Type},
+						{"BankRatePct", type number},
+						{"BankRatePctPointChange1M", type number},
+						{"BankRatePctPointChange12M", type number}
+					}, "en-GB")
+				in
+					Typed
+
