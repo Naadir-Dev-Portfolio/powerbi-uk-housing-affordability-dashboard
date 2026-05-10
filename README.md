@@ -8,6 +8,8 @@
 
 <p>Built for analysts, portfolio reviewers, and public-data users who need to understand where housing pressure is worsening, easing, or becoming structurally unaffordable.</p>
 
+<p><strong>Technical documentation:</strong> <a href="https://naadir-dev-portfolio.github.io/powerbi-uk-housing-affordability-dashboard/">View the published report documentation</a></p>
+
 <p>
   <a href="#overview">Overview</a> |
   <a href="#what-problem-it-solves">What It Solves</a> |
