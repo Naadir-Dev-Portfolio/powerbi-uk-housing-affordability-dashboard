@@ -1,0 +1,2353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UK Housing Affordability Dashboard — Report Documentation</title>
+  <meta name="description" content="A page-by-page breakdown of the UK Housing Affordability Dashboard Power BI report — visuals, fields, and DAX measures explained." />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+  <style>
+    :root {
+      --bg: #f4f2ee;
+      --soft: #faf9f6;
+      --ink: #151515;
+      --muted: #6d6a64;
+      --line: #dedbd2;
+      --gold: #c8a24a;
+      --gold-soft: #efe1bd;
+      --shadow: 0 24px 70px rgba(0,0,0,.10);
+      --shadow-soft: 0 14px 40px rgba(0,0,0,.06);
+      --radius-xl: 28px;
+      --radius-lg: 18px;
+      --max: 1760px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,.75), transparent 34rem),
+        linear-gradient(135deg, #f8f7f3 0%, var(--bg) 48%, #ebe7df 100%);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -36px;
+      pointer-events: none;
+      background: url("portfolio/Screen1.png") center top / cover no-repeat;
+      opacity: .22;
+      filter: blur(8px) saturate(1.15) contrast(1.08);
+      transform: scale(1.04);
+      transform-origin: center;
+      z-index: 0;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+
+    .shell { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; position: relative; z-index: 1; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      color: white;
+      border-bottom: 1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(255,255,255,.20), transparent 28rem),
+        linear-gradient(135deg, #070a12 0%, #111827 48%, #24151d 100%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(90deg, black, transparent 76%);
+      z-index: 1;
+    }
+
+    .hero-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0;
+      filter: blur(8px) saturate(1.08);
+      transform: scale(1.04);
+      transition: opacity .25s ease;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero.has-image .hero-image { opacity: .22; }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(3,7,18,.92) 0%, rgba(8,13,25,.78) 54%, rgba(9,8,16,.64) 100%),
+        linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 44%, rgba(0,0,0,.16) 100%);
+      z-index: 1;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 36px 0 34px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 26px;
+      align-items: end;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .brand-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 12px 28px rgba(21,21,21,.18), 0 0 0 1px rgba(21,21,21,.08);
+      background: var(--ink);
+    }
+
+    .brand-text {
+      display: grid;
+      gap: 2px;
+    }
+
+    .brand-name {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .brand-tag {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .creator-mark {
+      margin: 0;
+      max-width: 980px;
+      font-size: clamp(34px, 4.8vw, 68px);
+      line-height: .98;
+      letter-spacing: -.052em;
+      font-weight: 875;
+      text-wrap: balance;
+    }
+
+    .report-line {
+      margin: 18px 0 0;
+      font-size: clamp(20px, 2.2vw, 30px);
+      color: var(--muted);
+      letter-spacing: -.035em;
+      line-height: 1.12;
+    }
+
+    .report-line strong, .report-line span { color: var(--ink); }
+    .report-line strong { font-weight: 900; }
+    .report-line span { font-weight: 750; }
+
+    .hero-actions { min-width: 260px; display: grid; gap: 12px; }
+
+    .button {
+      min-height: 48px;
+      border: 1px solid #c8c2b6;
+      border-radius: 999px;
+      padding: 12px 16px;
+      background: white;
+      color: var(--ink);
+      font-weight: 750;
+      transition: transform .18s ease, border-color .18s ease, opacity .18s ease;
+    }
+
+    .button.primary { background: var(--ink); color: white; border-color: var(--ink); }
+    .button:hover { transform: translateY(-1px); border-color: var(--ink); }
+    .button:disabled { cursor: not-allowed; opacity: .45; transform: none; }
+    .hero .brand-name, .hero .creator-mark, .hero .report-line, .hero .report-line strong, .hero .report-line span { color: white; }
+    .hero .brand-tag { color: rgba(255,255,255,.72); }
+    .hero .brand-logo { box-shadow: 0 16px 34px rgba(0,0,0,.42), 0 0 0 1px rgba(255,255,255,.20); }
+    .hero .button { background: rgba(255,255,255,.10); color: white; border-color: rgba(255,255,255,.36); backdrop-filter: blur(10px); }
+    .hero .button.primary { background: white; color: #111827; border-color: white; }
+    .hero .button:hover { border-color: rgba(255,255,255,.82); }
+
+    .layout {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 18px 0 36px;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) 320px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-rows: auto auto;
+      align-content: start;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      gap: 16px;
+      align-items: center;
+      height: 80px;
+      min-height: 80px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: rgba(255,255,255,.78);
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .search-wrap { position: relative; }
+    .search-wrap span { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+    .search-wrap input {
+      width: 100%;
+      height: 50px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 18px 0 44px;
+      background: white;
+      outline: none;
+    }
+    .search-wrap input:focus { border-color: var(--ink); }
+    .pager-controls { display: flex; gap: 10px; align-items: center; height: 50px; white-space: nowrap; }
+
+    .page-shell {
+      align-self: start;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      background: rgba(255,255,255,.86);
+      box-shadow: var(--shadow);
+    }
+
+    .page-card { animation: pageEnter .26s ease both; }
+    @keyframes pageEnter { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
+
+    .page-header {
+      position: relative;
+      height: 198px;
+      min-height: 198px;
+      overflow: hidden;
+      padding: 26px 30px 18px;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      gap: 18px;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+
+    .page-header > div:first-child { min-width: 0; padding-right: 10px; }
+
+    .page-kicker { margin: 0 0 8px; color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .page-title { margin: 0; font-size: clamp(24px, 3vw, 40px); line-height: 1; letter-spacing: -.045em; font-weight: 875;  max-height: 2.12em; overflow: hidden; }
+    .page-summary {
+      margin: 14px 0 0;
+      width: 100%;
+      max-width: none;
+      height: 68px;
+      max-height: 68px;
+      overflow-y: auto;
+      padding-right: 10px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+      scrollbar-width: thin;
+    }
+
+    .screenshot-panel {
+      overflow: hidden;
+      min-height: 0;
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: rgba(255,255,255,.74);
+      display: grid;
+      place-items: center;
+      position: relative;
+      padding: 14px;
+    }
+
+    .screenshot-panel img {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      border-radius: 14px;
+      box-shadow: 0 18px 44px rgba(15, 25, 50, .18), 0 4px 10px rgba(15, 25, 50, .08);
+    }
+
+    .screenshot-placeholder {
+      width: min(660px, calc(100% - 48px));
+      aspect-ratio: 16/9;
+      border: 1px dashed #c8c2b6;
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.72);
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .screenshot-placeholder strong { display: block; margin-bottom: 10px; color: var(--ink); font-size: 20px; }
+
+    .panel {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: var(--soft);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto minmax(0,1fr);
+    }
+
+    .details-panel { min-height: 360px; height: 640px; }
+
+    .tab-strip { display: grid; grid-template-columns: repeat(2,1fr); border-bottom: 1px solid var(--line); background: white; }
+    .tab-button { border: 0; border-right: 1px solid var(--line); background: white; padding: 16px; color: var(--muted); font-weight: 850; }
+    .tab-button:last-child { border-right: 0; }
+    .tab-button.active { background: var(--ink); color: white; }
+    .tab-panel { display: none; min-height: 0; padding: 16px; overflow-y: auto; }
+    .tab-panel.active { display: block; }
+
+    .collection, .measure-grid { display: grid; gap: 12px; }
+    details.item, .measure-card, .empty {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+    }
+
+    details.item { overflow: hidden; }
+    details.item summary { list-style: none; cursor: pointer; padding: 15px; }
+    details.item summary::-webkit-details-marker { display: none; }
+    .item-head { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+    .item-title { margin: 0; font-size: 14px; font-weight: 850; }
+    .item-subtitle { margin: 5px 0 0; font-size: 12px; color: var(--muted); }
+    .plus { color: var(--muted); font-size: 18px; line-height: 1; transition: transform .18s ease; }
+    details[open] .plus { transform: rotate(45deg); }
+    .item-body { border-top: 1px solid var(--line); padding: 0 15px 14px; }
+
+    .meta-row { display: grid; grid-template-columns: 96px 1fr; gap: 12px; border-bottom: 1px solid var(--line); padding: 13px 0; }
+    .meta-row:last-child { border-bottom: 0; }
+    .meta-label { color: var(--muted); font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .meta-value { margin: 0; color: var(--ink); font-size: 13px; line-height: 1.55; overflow-wrap: anywhere; }
+
+    .measure-card { width: 100%; padding: 15px; text-align: left; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    .measure-card:hover { transform: translateY(-1px); border-color: var(--ink); box-shadow: 0 16px 36px rgba(0,0,0,.08); }
+    .measure-card h4 { margin: 0; font-size: 14px; font-weight: 850; }
+    .measure-card p { margin: 8px 0 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .empty { padding: 18px; color: var(--muted); font-size: 14px; }
+
+    .context-menu { position: sticky; top: 18px; height: fit-content; display: grid; align-content: start; gap: 14px; }
+    .context-card { border: 1px solid var(--line); border-radius: var(--radius-xl); background: rgba(255,255,255,.76); box-shadow: var(--shadow-soft); overflow: hidden; }
+    .context-card-inner { padding: 16px; }
+    .context-title { margin: 0 0 10px; font-size: 12px; color: var(--muted); font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+    .page-nav { display: grid; gap: 8px; }
+    .page-nav button { border: 1px solid transparent; border-radius: 14px; background: transparent; padding: 12px; text-align: left; color: var(--muted); font-weight: 750; }
+    .page-nav button:hover, .page-nav button.active { border-color: var(--line); background: white; color: var(--ink); }
+    .stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+    .stat { border: 1px solid var(--line); border-radius: 16px; background: white; padding: 14px; }
+    .stat strong { display: block; font-size: 34px; line-height: .95; letter-spacing: -.06em; }
+    .stat span { color: var(--muted); font-size: 12px; font-weight: 750; }
+
+    .drawer-root { position: fixed; inset: 0; z-index: 100; pointer-events: none; }
+    .drawer-root.open { pointer-events: auto; }
+    .drawer-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.30); opacity: 0; transition: opacity .2s ease; }
+    .drawer-root.open .drawer-backdrop { opacity: 1; }
+    .drawer { position: absolute; top: 0; right: 0; width: min(620px,100%); height: 100%; background: white; box-shadow: -30px 0 80px rgba(0,0,0,.24); transform: translateX(105%); transition: transform .26s ease; overflow: auto; }
+    .drawer-root.open .drawer { transform: translateX(0); }
+    .drawer-inner { padding: 28px; }
+    .drawer-head { display: flex; justify-content: space-between; gap: 18px; align-items: start; margin-bottom: 24px; }
+    .drawer-kicker { margin: 0 0 8px; color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+    .drawer-title { margin: 0; font-size: 34px; line-height: 1; letter-spacing: -.06em; }
+    .code-block { margin: 0; max-height: 460px; overflow: auto; border-radius: 18px; background: #111; color: #f5f5f5; padding: 18px; font-size: 13px; line-height: 1.65; white-space: pre-wrap; }
+
+    .footer { border-top: 1px solid var(--line); background: rgba(255,255,255,.62); }
+    .footer-inner { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; padding: 26px 0; display: flex; justify-content: space-between; gap: 18px; align-items: center; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
+    .footer-brand { display: flex; align-items: center; gap: 12px; }
+    .footer-brand img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px rgba(21,21,21,.12); }
+    .footer-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .footer-links a { font-weight: 800; color: var(--ink); border-bottom: 1px solid var(--ink); }
+
+    @media (max-width: 1180px) {
+      .layout { grid-template-columns: 1fr; }
+      .context-menu { position: static; }
+      .visual-area { grid-template-columns: 1fr; }
+      .screenshot-panel { min-height: 0; }
+      .details-panel { height: 520px; }
+    }
+
+    @media (max-width: 760px) {
+      .hero.has-image .hero-image { opacity: .18; }
+      .hero-inner, .page-header { grid-template-columns: 1fr; }
+      .hero-actions, .pager-controls { width: 100%; }
+      .topbar { grid-template-columns: 1fr; height: 132px; min-height: 132px; align-items: stretch; }
+      .pager-controls { display: grid; grid-template-columns: 1fr 1fr; height: 50px; }
+      .visual-area { padding: 14px; }
+      .screenshot-panel { min-height: 260px; padding: 8px; }
+      .page-header { height: 236px; min-height: 236px; padding: 22px 18px 18px; }
+      .page-summary { height: 92px; max-height: 92px; }
+      .details-panel { height: 520px; }
+      .meta-row { grid-template-columns: 1fr; }
+      .brand-logo { width: 52px; height: 52px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="hero" id="hero">
+      <img class="hero-image" id="heroImage" src="portfolio/Screen1.png" alt="" aria-hidden="true" />
+      <div class="hero-inner">
+        <div>
+          <div class="brand-row">
+            <img class="brand-logo" src="assets/logo.png" alt="Naadir brand logo" />
+            <div class="brand-text">
+              <p class="brand-name">Naadir | Portfolio</p>
+              <p class="brand-tag">Power BI Report Documentation</p>
+            </div>
+          </div>
+          <p class="creator-mark">Report Build Designed and Documented by Naadir</p>
+          <p class="report-line"><strong>Report name:</strong> <span id="reportName">UK Housing Affordability Dashboard</span></p>
+        </div>
+        <div class="hero-actions">
+          <button class="button primary" type="button" data-action="focus-search">Search documentation</button>
+          <button class="button" type="button" data-action="open-current-measures">View page measures</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <main class="stage">
+        <section class="topbar" aria-label="Report navigation controls">
+          <div class="search-wrap">
+            <span>⌕</span>
+            <input id="searchInput" type="search" placeholder="Search pages, visuals, measures, fields, DAX..." autocomplete="off" />
+          </div>
+          <div class="pager-controls">
+            <button class="button" type="button" id="previousPage">← Previous</button>
+            <button class="button primary" type="button" id="nextPage">Next →</button>
+          </div>
+        </section>
+
+        <section class="page-shell" id="pageShell" aria-live="polite"></section>
+      </main>
+
+      <aside class="context-menu" aria-label="Page context menu">
+        <section class="context-card">
+          <div class="context-card-inner">
+            <p class="context-title">Pages</p>
+            <nav class="page-nav" id="pageNav"></nav>
+          </div>
+        </section>
+
+        <section class="context-card">
+          <div class="context-card-inner">
+            <p class="context-title">Current page</p>
+            <div class="stats">
+              <div class="stat"><strong id="visualCount">0</strong><span>Visuals</span></div>
+              <div class="stat"><strong id="measureCount">0</strong><span>Measures</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel details-panel" id="detailsPanel" aria-label="Current page visual and measure details"></section>
+      </aside>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="assets/logo.png" alt="Naadir brand logo" />
+          <span>© <span id="year"></span> Naadir | Portfolio. UK Housing Affordability Dashboard documentation.</span>
+        </div>
+        <nav class="footer-links" aria-label="Footer links">
+          <a href="https://naadir-dev-portfolio.github.io/" target="_blank" rel="noreferrer">Portfolio</a>
+          <a href="https://github.com/Naadir-Dev-Portfolio" target="_blank" rel="noreferrer">GitHub</a>
+        </nav>
+      </div>
+    </footer>
+  </div>
+
+  <div class="drawer-root" id="drawerRoot" aria-hidden="true">
+    <div class="drawer-backdrop" data-action="close-drawer"></div>
+    <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+      <div class="drawer-inner">
+        <div class="drawer-head">
+          <div>
+            <p class="drawer-kicker">Measure definition</p>
+            <h2 class="drawer-title" id="drawerTitle">Measure</h2>
+          </div>
+          <button class="button" type="button" data-action="close-drawer">Close</button>
+        </div>
+        <dl id="drawerMeta"></dl>
+        <p class="drawer-kicker" style="margin-top:24px;">DAX</p>
+        <pre class="code-block"><code id="drawerCode"></code></pre>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    (() => {
+      'use strict';
+
+      var templateData = {
+        "reportName": "UK Housing Affordability Dashboard",
+        "pages": [
+                {
+                        "id": "page-1",
+                        "name": "Executive Summary",
+                        "screenshot": "portfolio/powerbi-uk-housing-affordability-dashboard-full.png",
+                        "accent": "#8b6b3a",
+                        "summary": "Headline read of UK housing affordability. Average house price, the median purchase affordability ratio (price-to-earnings), the latest Bank Rate and a count of severely-pressured local areas sit alongside trend visuals so the user can see the pressure without comparing spreadsheets.",
+                        "visuals": [
+                                {
+                                        "id": "v1-1",
+                                        "name": "Latest UK Market Month",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Latest UK Market Month"
+                                        ]
+                                },
+                                {
+                                        "id": "v1-2",
+                                        "name": "UK Average House Price",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "UK Average House Price Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v1-3",
+                                        "name": "Latest Affordability Ratio (E&W)",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Purchase Ratio Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v1-4",
+                                        "name": "Bank Rate At Latest HPI Month",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "UK Bank Rate Latest At HPI Month"
+                                        ]
+                                },
+                                {
+                                        "id": "v1-5",
+                                        "name": "Severe Pressure Local Areas",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Severe Pressure Areas Count"
+                                        ]
+                                },
+                                {
+                                        "id": "v1-6",
+                                        "name": "Affordability trend: England, Wales, and combined view",
+                                        "type": "Line chart",
+                                        "description": "Line chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Year]",
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "Purchase Ratio"
+                                        ]
+                                },
+                                {
+                                        "id": "v1-7",
+                                        "name": "Latest purchase affordability across UK countries",
+                                        "type": "Clustered column chart",
+                                        "description": "Clustered column chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "UK Purchase Ratio Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v1-8",
+                                        "name": "Regional hotspot pattern in the latest purchase ratio",
+                                        "type": "Treemap",
+                                        "description": "Treemap extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "Lower Quartile Gap vs Median Latest",
+                                                "Rental Ratio Latest",
+                                                "Purchase Ratio Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v1-9",
+                                        "name": "Latest regional affordability, price, and rental snapshot",
+                                        "type": "Matrix",
+                                        "description": "Matrix extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "Median House Price Latest",
+                                                "Purchase Ratio Latest",
+                                                "Lower Quartile Gap vs Median Latest",
+                                                "Rental Ratio Latest"
+                                        ]
+                                }
+                        ],
+                        "measures": [
+                                {
+                                        "id": "p1-m1",
+                                        "name": "Latest UK Market Month",
+                                        "description": "Measure used by Latest UK Market Month.",
+                                        "dax": "CALCULATE(\nMAX('Fact UK Market Monthly'[Date]),\nFILTER(\nALL('Fact UK Market Monthly'),\n'Fact UK Market Monthly'[Scenario] = \"Actual\"\n&& NOT ISBLANK('Fact UK Market Monthly'[DisplayPrice])\n)\n)",
+                                        "usedInVisuals": [
+                                                "Latest UK Market Month"
+                                        ],
+                                        "notes": "Format: Long Date | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p1-m2",
+                                        "name": "UK Average House Price Latest",
+                                        "description": "Measure used by UK Average House Price.",
+                                        "dax": "VAR _latestDate = [Latest UK Market Month]\nRETURN\nCALCULATE(\n[UK Average House Price],\nFILTER(\nALL('Fact UK Market Monthly'),\n'Fact UK Market Monthly'[Date] = _latestDate\n&& 'Fact UK Market Monthly'[Scenario] = \"Actual\"\n)\n)",
+                                        "usedInVisuals": [
+                                                "UK Average House Price"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p1-m3",
+                                        "name": "UK Average House Price",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact UK Market Monthly'[DisplayPrice])",
+                                        "usedInVisuals": [
+                                                "Supports UK Average House Price Latest"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p1-m4",
+                                        "name": "Purchase Ratio Latest",
+                                        "description": "Measure used by Latest Affordability Ratio (E&W), Regional hotspot pattern in the latest purchase ratio, Latest regional affordability, price, and rental snapshot.",
+                                        "dax": "VAR _latestYear = [Purchase Latest Year]\nRETURN\nCALCULATE(\n[Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Latest Affordability Ratio (E&W)",
+                                                "Regional hotspot pattern in the latest purchase ratio",
+                                                "Latest regional affordability, price, and rental snapshot"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p1-m5",
+                                        "name": "Purchase Latest Year",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "CALCULATE(MAX('Fact Purchase Region'[Year]), REMOVEFILTERS('Dim Date'))",
+                                        "usedInVisuals": [
+                                                "Supports Purchase Ratio Latest",
+                                                "Supports Median House Price Latest"
+                                        ],
+                                        "notes": "Format: 0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p1-m6",
+                                        "name": "Purchase Ratio",
+                                        "description": "Measure used by Affordability trend: England, Wales, and combined view.",
+                                        "dax": "AVERAGE('Fact Purchase Region'[MedianAffordabilityRatio])",
+                                        "usedInVisuals": [
+                                                "Affordability trend: England, Wales, and combined view"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p1-m7",
+                                        "name": "UK Bank Rate Latest At HPI Month",
+                                        "description": "Measure used by Bank Rate At Latest HPI Month.",
+                                        "dax": "VAR _latestDate = [Latest UK Market Month]\nRETURN\nCALCULATE(\n[UK Bank Rate],\nFILTER(\nALL('Fact UK Market Monthly'),\n'Fact UK Market Monthly'[Date] = _latestDate\n&& 'Fact UK Market Monthly'[Scenario] = \"Actual\"\n)\n)",
+                                        "usedInVisuals": [
+                                                "Bank Rate At Latest HPI Month"
+                                        ],
+                                        "notes": "Format: 0.00% | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p1-m8",
+                                        "name": "UK Bank Rate",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact UK Market Monthly'[BankRatePct])",
+                                        "usedInVisuals": [
+                                                "Supports UK Bank Rate Latest At HPI Month"
+                                        ],
+                                        "notes": "Format: 0.00% | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p1-m9",
+                                        "name": "Severe Pressure Areas Count",
+                                        "description": "Measure used by Severe Pressure Local Areas.",
+                                        "dax": "VAR _latestYear = [Local Purchase Latest Year]\nRETURN\nCOUNTROWS(\nFILTER(\nVALUES('Dim Geography'[GeographyCode]),\nCALCULATE(\n[Local Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n) >= 12\n)\n)",
+                                        "usedInVisuals": [
+                                                "Severe Pressure Local Areas"
+                                        ],
+                                        "notes": "Format: #,##0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p1-m10",
+                                        "name": "Local Purchase Latest Year",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "CALCULATE(MAX('Fact Purchase Local'[Year]), REMOVEFILTERS('Dim Date'))",
+                                        "usedInVisuals": [
+                                                "Supports Severe Pressure Areas Count"
+                                        ],
+                                        "notes": "Format: 0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p1-m11",
+                                        "name": "Local Purchase Ratio",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Purchase Local'[MedianAffordabilityRatio])",
+                                        "usedInVisuals": [
+                                                "Supports Severe Pressure Areas Count"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p1-m12",
+                                        "name": "UK Purchase Ratio Latest",
+                                        "description": "Measure used by Latest purchase affordability across UK countries.",
+                                        "dax": "VAR _latestYear = [UK Purchase Latest Year]\nRETURN\nCALCULATE(\n[UK Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Latest purchase affordability across UK countries"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact UK Purchase Country Region Median"
+                                },
+                                {
+                                        "id": "p1-m13",
+                                        "name": "UK Purchase Latest Year",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "CALCULATE(MAX('Fact UK Purchase Country Region Median'[Year]), REMOVEFILTERS('Dim Date'))",
+                                        "usedInVisuals": [
+                                                "Supports UK Purchase Ratio Latest"
+                                        ],
+                                        "notes": "Format: 0 | Table: Fact UK Purchase Country Region Median"
+                                },
+                                {
+                                        "id": "p1-m14",
+                                        "name": "UK Purchase Ratio",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact UK Purchase Country Region Median'[MedianPurchaseAffordabilityRatioUK])",
+                                        "usedInVisuals": [
+                                                "Supports UK Purchase Ratio Latest"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact UK Purchase Country Region Median"
+                                },
+                                {
+                                        "id": "p1-m15",
+                                        "name": "Lower Quartile Gap vs Median Latest",
+                                        "description": "Measure used by Regional hotspot pattern in the latest purchase ratio, Latest regional affordability, price, and rental snapshot.",
+                                        "dax": "[Lower Quartile Purchase Ratio Latest] - [Purchase Ratio Latest]",
+                                        "usedInVisuals": [
+                                                "Regional hotspot pattern in the latest purchase ratio",
+                                                "Latest regional affordability, price, and rental snapshot"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p1-m16",
+                                        "name": "Lower Quartile Purchase Ratio Latest",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "VAR _latestYear = [Purchase Latest Year]\nRETURN\nCALCULATE(\n[Lower Quartile Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Supports Lower Quartile Gap vs Median Latest"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p1-m17",
+                                        "name": "Lower Quartile Purchase Ratio",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Purchase Region'[LowerQuartileAffordabilityRatio])",
+                                        "usedInVisuals": [],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p1-m18",
+                                        "name": "Rental Ratio Latest",
+                                        "description": "Measure used by Regional hotspot pattern in the latest purchase ratio, Latest regional affordability, price, and rental snapshot.",
+                                        "dax": "VAR _latestYear = [Rental Latest Year]\nRETURN\nCALCULATE(\n[Rental Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Regional hotspot pattern in the latest purchase ratio",
+                                                "Latest regional affordability, price, and rental snapshot"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Rental Region"
+                                },
+                                {
+                                        "id": "p1-m19",
+                                        "name": "Rental Latest Year",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "CALCULATE(MAX('Fact Rental Region'[Year]), REMOVEFILTERS('Dim Date'))",
+                                        "usedInVisuals": [
+                                                "Supports Rental Ratio Latest"
+                                        ],
+                                        "notes": "Format: 0 | Table: Fact Rental Region"
+                                },
+                                {
+                                        "id": "p1-m20",
+                                        "name": "Rental Ratio",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Rental Region'[RentalAffordabilityRatio])",
+                                        "usedInVisuals": [
+                                                "Supports Rental Ratio Latest"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Rental Region"
+                                },
+                                {
+                                        "id": "p1-m21",
+                                        "name": "Median House Price Latest",
+                                        "description": "Measure used by Latest regional affordability, price, and rental snapshot.",
+                                        "dax": "VAR _latestYear = [Purchase Latest Year]\nRETURN\nCALCULATE(\n[Median House Price],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Latest regional affordability, price, and rental snapshot"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p1-m22",
+                                        "name": "Median House Price",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Purchase Region'[MedianHousePrice])",
+                                        "usedInVisuals": [
+                                                "Supports Median House Price Latest"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Purchase Region"
+                                }
+                        ]
+                },
+                {
+                        "id": "page-2",
+                        "name": "House Prices, Rates And Market Cycles",
+                        "screenshot": "portfolio/Screen1.png",
+                        "accent": "#a47950",
+                        "summary": "Long-window UK HPI history alongside Bank Rate movement. The page exposes the rate-vs-price correlation, the current drawdown from peak and a forecast 12-month price path so the user can see whether prices are recovering, plateauing or rolling over.",
+                        "visuals": [
+                                {
+                                        "id": "v2-1",
+                                        "name": "Latest UK Market Month",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Latest UK Market Month"
+                                        ]
+                                },
+                                {
+                                        "id": "v2-2",
+                                        "name": "UK HPI Index",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "UK HPI Index Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v2-3",
+                                        "name": "Annual Price Change",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "UK HPI Annual Change Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v2-4",
+                                        "name": "UK Average House Price",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "UK Average House Price Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v2-5",
+                                        "name": "Bank Rate",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "UK Bank Rate Latest At HPI Month"
+                                        ]
+                                },
+                                {
+                                        "id": "v2-6",
+                                        "name": "UK average house price: actuals and baseline forecast",
+                                        "type": "Line chart",
+                                        "description": "Line chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Date]"
+                                        ],
+                                        "measures": [
+                                                "UK Average House Price"
+                                        ]
+                                },
+                                {
+                                        "id": "v2-7",
+                                        "name": "House price path across selected market stress periods",
+                                        "type": "Line chart",
+                                        "description": "Line chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Date]",
+                                                "Fact UK Market Monthly[MarketPeriod]"
+                                        ],
+                                        "measures": [
+                                                "UK Average House Price"
+                                        ]
+                                },
+                                {
+                                        "id": "v2-8",
+                                        "name": "Bank Rate history at monthly grain",
+                                        "type": "Line chart",
+                                        "description": "Line chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Date]"
+                                        ],
+                                        "measures": [
+                                                "UK Bank Rate"
+                                        ]
+                                },
+                                {
+                                        "id": "v2-9",
+                                        "name": "How house-price growth reacted after rate moves",
+                                        "type": "Clustered bar chart",
+                                        "description": "Clustered bar chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Fact UK Market Monthly[BankRateChangeBand12M]"
+                                        ],
+                                        "measures": [
+                                                "UK HPI Growth 12M After Rate Move"
+                                        ]
+                                },
+                                {
+                                        "id": "v2-10",
+                                        "name": "Monthly house prices split by UK area",
+                                        "type": "Line chart",
+                                        "description": "Line chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Date]",
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "Monthly HPI Price"
+                                        ]
+                                },
+                                {
+                                        "id": "v2-11",
+                                        "name": "Monthly market diagnostics",
+                                        "type": "Matrix",
+                                        "description": "Matrix extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Date]"
+                                        ],
+                                        "measures": [
+                                                "UK Average House Price",
+                                                "UK HPI Index",
+                                                "UK HPI Annual Change",
+                                                "UK Bank Rate"
+                                        ]
+                                }
+                        ],
+                        "measures": [
+                                {
+                                        "id": "p2-m1",
+                                        "name": "Latest UK Market Month",
+                                        "description": "Measure used by Latest UK Market Month.",
+                                        "dax": "CALCULATE(\nMAX('Fact UK Market Monthly'[Date]),\nFILTER(\nALL('Fact UK Market Monthly'),\n'Fact UK Market Monthly'[Scenario] = \"Actual\"\n&& NOT ISBLANK('Fact UK Market Monthly'[DisplayPrice])\n)\n)",
+                                        "usedInVisuals": [
+                                                "Latest UK Market Month"
+                                        ],
+                                        "notes": "Format: Long Date | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p2-m2",
+                                        "name": "UK HPI Index Latest",
+                                        "description": "Measure used by UK HPI Index.",
+                                        "dax": "VAR _latestDate = [Latest UK Market Month]\nRETURN\nCALCULATE(\n[UK HPI Index],\nFILTER(\nALL('Fact UK Market Monthly'),\n'Fact UK Market Monthly'[Date] = _latestDate\n&& 'Fact UK Market Monthly'[Scenario] = \"Actual\"\n)\n)",
+                                        "usedInVisuals": [
+                                                "UK HPI Index"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p2-m3",
+                                        "name": "UK HPI Index",
+                                        "description": "Measure used by Monthly market diagnostics.",
+                                        "dax": "AVERAGE('Fact UK Market Monthly'[Index])",
+                                        "usedInVisuals": [
+                                                "Monthly market diagnostics"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p2-m4",
+                                        "name": "UK HPI Annual Change Latest",
+                                        "description": "Measure used by Annual Price Change.",
+                                        "dax": "VAR _latestDate = [Latest UK Market Month]\nRETURN\nCALCULATE(\n[UK HPI Annual Change],\nFILTER(\nALL('Fact UK Market Monthly'),\n'Fact UK Market Monthly'[Date] = _latestDate\n&& 'Fact UK Market Monthly'[Scenario] = \"Actual\"\n)\n)",
+                                        "usedInVisuals": [
+                                                "Annual Price Change"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p2-m5",
+                                        "name": "UK HPI Annual Change",
+                                        "description": "Measure used by Monthly market diagnostics.",
+                                        "dax": "AVERAGE('Fact UK Market Monthly'[AnnualChangePct])",
+                                        "usedInVisuals": [
+                                                "Monthly market diagnostics"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p2-m6",
+                                        "name": "UK Average House Price Latest",
+                                        "description": "Measure used by UK Average House Price.",
+                                        "dax": "VAR _latestDate = [Latest UK Market Month]\nRETURN\nCALCULATE(\n[UK Average House Price],\nFILTER(\nALL('Fact UK Market Monthly'),\n'Fact UK Market Monthly'[Date] = _latestDate\n&& 'Fact UK Market Monthly'[Scenario] = \"Actual\"\n)\n)",
+                                        "usedInVisuals": [
+                                                "UK Average House Price"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p2-m7",
+                                        "name": "UK Average House Price",
+                                        "description": "Measure used by UK average house price: actuals and baseline forecast, House price path across selected market stress periods, Monthly market diagnostics.",
+                                        "dax": "AVERAGE('Fact UK Market Monthly'[DisplayPrice])",
+                                        "usedInVisuals": [
+                                                "UK average house price: actuals and baseline forecast",
+                                                "House price path across selected market stress periods",
+                                                "Monthly market diagnostics"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p2-m8",
+                                        "name": "UK Bank Rate Latest At HPI Month",
+                                        "description": "Measure used by Bank Rate.",
+                                        "dax": "VAR _latestDate = [Latest UK Market Month]\nRETURN\nCALCULATE(\n[UK Bank Rate],\nFILTER(\nALL('Fact UK Market Monthly'),\n'Fact UK Market Monthly'[Date] = _latestDate\n&& 'Fact UK Market Monthly'[Scenario] = \"Actual\"\n)\n)",
+                                        "usedInVisuals": [
+                                                "Bank Rate"
+                                        ],
+                                        "notes": "Format: 0.00% | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p2-m9",
+                                        "name": "UK Bank Rate",
+                                        "description": "Measure used by Bank Rate history at monthly grain, Monthly market diagnostics.",
+                                        "dax": "AVERAGE('Fact UK Market Monthly'[BankRatePct])",
+                                        "usedInVisuals": [
+                                                "Bank Rate history at monthly grain",
+                                                "Monthly market diagnostics"
+                                        ],
+                                        "notes": "Format: 0.00% | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p2-m10",
+                                        "name": "UK HPI Growth 12M After Rate Move",
+                                        "description": "Measure used by How house-price growth reacted after rate moves.",
+                                        "dax": "AVERAGE('Fact UK Market Monthly'[HousePriceAnnualGrowthLead12M])",
+                                        "usedInVisuals": [
+                                                "How house-price growth reacted after rate moves"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p2-m11",
+                                        "name": "Monthly HPI Price",
+                                        "description": "Measure used by Monthly house prices split by UK area.",
+                                        "dax": "AVERAGE('Fact HPI Monthly'[DisplayPrice])",
+                                        "usedInVisuals": [
+                                                "Monthly house prices split by UK area"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact HPI Monthly"
+                                }
+                        ]
+                },
+                {
+                        "id": "page-3",
+                        "name": "Local Authority Pressure Explorer",
+                        "screenshot": "portfolio/Screen2.png",
+                        "accent": "#6b502c",
+                        "summary": "A drill view by local authority. Median price, median earnings, the median and lower-quartile affordability ratios and a rental ratio sit alongside ranking and \"highest pressure area\" string measures so the user can navigate from regional pressure into the specific places driving it.",
+                        "visuals": [
+                                {
+                                        "id": "v3-1",
+                                        "name": "Latest UK Market Month",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Latest UK Market Month"
+                                        ]
+                                },
+                                {
+                                        "id": "v3-2",
+                                        "name": "Highest Purchase Pressure",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Highest Pressure Area"
+                                        ]
+                                },
+                                {
+                                        "id": "v3-3",
+                                        "name": "Highest Rental Pressure",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Highest Rental Pressure Area"
+                                        ]
+                                },
+                                {
+                                        "id": "v3-4",
+                                        "name": "Severe Pressure Areas",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Severe Pressure Areas Count"
+                                        ]
+                                },
+                                {
+                                        "id": "v3-5",
+                                        "name": "Areas Above 30% Rent",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Areas Above 30% Rent Count"
+                                        ]
+                                },
+                                {
+                                        "id": "v3-6",
+                                        "name": "Latest local prices vs earnings, sized by purchase pressure",
+                                        "type": "Scatter chart",
+                                        "description": "Scatter chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "Local Purchase Ratio Latest",
+                                                "Local Median Earnings Latest",
+                                                "Local Median House Price Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v3-7",
+                                        "name": "Local authority detail: prices, incomes, affordability and rent",
+                                        "type": "Matrix",
+                                        "description": "Matrix extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "Local Purchase Rank (Latest)",
+                                                "Local Median House Price Latest",
+                                                "Local Median Earnings Latest",
+                                                "Local Purchase Ratio Latest",
+                                                "Local Rental Ratio Latest",
+                                                "Local Rental Ratio YoY Change Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v3-8",
+                                        "name": "Average monthly HPI across filtered local authorities",
+                                        "type": "Line chart",
+                                        "description": "Line chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Date]"
+                                        ],
+                                        "measures": [
+                                                "Monthly HPI Price"
+                                        ]
+                                },
+                                {
+                                        "id": "v3-9",
+                                        "name": "Local ranking by latest purchase ratio",
+                                        "type": "Clustered bar chart",
+                                        "description": "Clustered bar chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "Local Purchase Ratio Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v3-10",
+                                        "name": "Local rental pressure YoY change",
+                                        "type": "Clustered bar chart",
+                                        "description": "Clustered bar chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "Local Rental Ratio YoY Change Latest"
+                                        ]
+                                }
+                        ],
+                        "measures": [
+                                {
+                                        "id": "p3-m1",
+                                        "name": "Latest UK Market Month",
+                                        "description": "Measure used by Latest UK Market Month.",
+                                        "dax": "CALCULATE(\nMAX('Fact UK Market Monthly'[Date]),\nFILTER(\nALL('Fact UK Market Monthly'),\n'Fact UK Market Monthly'[Scenario] = \"Actual\"\n&& NOT ISBLANK('Fact UK Market Monthly'[DisplayPrice])\n)\n)",
+                                        "usedInVisuals": [
+                                                "Latest UK Market Month"
+                                        ],
+                                        "notes": "Format: Long Date | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p3-m2",
+                                        "name": "Highest Pressure Area",
+                                        "description": "Measure used by Highest Purchase Pressure.",
+                                        "dax": "VAR _latestYear = [Local Purchase Latest Year]\nVAR _topArea =\nTOPN(\n1,\nFILTER(\nALL('Dim Geography'[GeographyCode], 'Dim Geography'[GeographyName]),\nNOT ISBLANK(\nCALCULATE(\n[Local Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)\n)\n),\nCALCULATE(\n[Local Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n),\nDESC,\n'Dim Geography'[GeographyName],\nASC\n)\nRETURN\nCONCATENATEX(_topArea, 'Dim Geography'[GeographyName], \", \")",
+                                        "usedInVisuals": [
+                                                "Highest Purchase Pressure"
+                                        ],
+                                        "notes": "Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p3-m3",
+                                        "name": "Local Purchase Latest Year",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "CALCULATE(MAX('Fact Purchase Local'[Year]), REMOVEFILTERS('Dim Date'))",
+                                        "usedInVisuals": [
+                                                "Supports Highest Pressure Area",
+                                                "Supports Severe Pressure Areas Count",
+                                                "Supports Local Purchase Ratio Latest",
+                                                "Supports Local Median Earnings Latest",
+                                                "Supports Local Median House Price Latest",
+                                                "Supports Local Purchase Rank (Latest)"
+                                        ],
+                                        "notes": "Format: 0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p3-m4",
+                                        "name": "Local Purchase Ratio",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Purchase Local'[MedianAffordabilityRatio])",
+                                        "usedInVisuals": [
+                                                "Supports Highest Pressure Area",
+                                                "Supports Severe Pressure Areas Count",
+                                                "Supports Local Purchase Ratio Latest",
+                                                "Supports Local Purchase Rank (Latest)"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p3-m5",
+                                        "name": "Highest Rental Pressure Area",
+                                        "description": "Measure used by Highest Rental Pressure.",
+                                        "dax": "VAR _latestYear = [Local Rental Latest Year]\nVAR _topArea =\nTOPN(\n1,\nFILTER(\nALL('Dim Geography'[GeographyCode], 'Dim Geography'[GeographyName]),\nNOT ISBLANK(\nCALCULATE(\n[Local Rental Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)\n)\n),\nCALCULATE(\n[Local Rental Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n),\nDESC,\n'Dim Geography'[GeographyName],\nASC\n)\nRETURN\nCONCATENATEX(_topArea, 'Dim Geography'[GeographyName], \", \")",
+                                        "usedInVisuals": [
+                                                "Highest Rental Pressure"
+                                        ],
+                                        "notes": "Table: Fact Rental Local"
+                                },
+                                {
+                                        "id": "p3-m6",
+                                        "name": "Local Rental Latest Year",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "CALCULATE(MAX('Fact Rental Local'[Year]), REMOVEFILTERS('Dim Date'))",
+                                        "usedInVisuals": [
+                                                "Supports Highest Rental Pressure Area",
+                                                "Supports Areas Above 30% Rent Count",
+                                                "Supports Local Rental Ratio Latest",
+                                                "Supports Local Rental Ratio YoY Change Latest"
+                                        ],
+                                        "notes": "Format: 0 | Table: Fact Rental Local"
+                                },
+                                {
+                                        "id": "p3-m7",
+                                        "name": "Local Rental Ratio",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Rental Local'[RentalAffordabilityRatio])",
+                                        "usedInVisuals": [
+                                                "Supports Highest Rental Pressure Area",
+                                                "Supports Areas Above 30% Rent Count",
+                                                "Supports Local Rental Ratio Latest"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Rental Local"
+                                },
+                                {
+                                        "id": "p3-m8",
+                                        "name": "Severe Pressure Areas Count",
+                                        "description": "Measure used by Severe Pressure Areas.",
+                                        "dax": "VAR _latestYear = [Local Purchase Latest Year]\nRETURN\nCOUNTROWS(\nFILTER(\nVALUES('Dim Geography'[GeographyCode]),\nCALCULATE(\n[Local Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n) >= 12\n)\n)",
+                                        "usedInVisuals": [
+                                                "Severe Pressure Areas"
+                                        ],
+                                        "notes": "Format: #,##0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p3-m9",
+                                        "name": "Areas Above 30% Rent Count",
+                                        "description": "Measure used by Areas Above 30% Rent.",
+                                        "dax": "VAR _latestYear = [Local Rental Latest Year]\nRETURN\nCOUNTROWS(\nFILTER(\nVALUES('Dim Geography'[GeographyCode]),\nCALCULATE(\n[Local Rental Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n) > 0.3\n)\n)",
+                                        "usedInVisuals": [
+                                                "Areas Above 30% Rent"
+                                        ],
+                                        "notes": "Format: #,##0 | Table: Fact Rental Local"
+                                },
+                                {
+                                        "id": "p3-m10",
+                                        "name": "Local Purchase Ratio Latest",
+                                        "description": "Measure used by Latest local prices vs earnings, sized by purchase pressure, Local authority detail: prices, incomes, affordability and rent, Local ranking by latest purchase ratio.",
+                                        "dax": "VAR _latestYear = [Local Purchase Latest Year]\nRETURN\nCALCULATE(\n[Local Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Latest local prices vs earnings, sized by purchase pressure",
+                                                "Local authority detail: prices, incomes, affordability and rent",
+                                                "Local ranking by latest purchase ratio"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p3-m11",
+                                        "name": "Local Median Earnings Latest",
+                                        "description": "Measure used by Latest local prices vs earnings, sized by purchase pressure, Local authority detail: prices, incomes, affordability and rent.",
+                                        "dax": "VAR _latestYear = [Local Purchase Latest Year]\nRETURN\nCALCULATE(\n[Local Median Earnings],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Latest local prices vs earnings, sized by purchase pressure",
+                                                "Local authority detail: prices, incomes, affordability and rent"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p3-m12",
+                                        "name": "Local Median Earnings",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Purchase Local'[MedianWorkplaceEarnings])",
+                                        "usedInVisuals": [
+                                                "Supports Local Median Earnings Latest"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p3-m13",
+                                        "name": "Local Median House Price Latest",
+                                        "description": "Measure used by Latest local prices vs earnings, sized by purchase pressure, Local authority detail: prices, incomes, affordability and rent.",
+                                        "dax": "VAR _latestYear = [Local Purchase Latest Year]\nRETURN\nCALCULATE(\n[Local Median House Price],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Latest local prices vs earnings, sized by purchase pressure",
+                                                "Local authority detail: prices, incomes, affordability and rent"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p3-m14",
+                                        "name": "Local Median House Price",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Purchase Local'[MedianHousePrice])",
+                                        "usedInVisuals": [
+                                                "Supports Local Median House Price Latest"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p3-m15",
+                                        "name": "Local Purchase Rank (Latest)",
+                                        "description": "Measure used by Local authority detail: prices, incomes, affordability and rent.",
+                                        "dax": "VAR _latestYear = [Local Purchase Latest Year]\nRETURN\nIF(\nISINSCOPE('Dim Geography'[GeographyName]),\nRANKX(\nFILTER(\nALLSELECTED('Dim Geography'[GeographyCode], 'Dim Geography'[GeographyName]),\nNOT ISBLANK(\nCALCULATE(\n[Local Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)\n)\n),\nCALCULATE(\n[Local Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n),\n,\nDESC,\nDense\n)\n)",
+                                        "usedInVisuals": [
+                                                "Local authority detail: prices, incomes, affordability and rent"
+                                        ],
+                                        "notes": "Format: 0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p3-m16",
+                                        "name": "Local Rental Ratio Latest",
+                                        "description": "Measure used by Local authority detail: prices, incomes, affordability and rent.",
+                                        "dax": "VAR _latestYear = [Local Rental Latest Year]\nRETURN\nCALCULATE(\n[Local Rental Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Local authority detail: prices, incomes, affordability and rent"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Rental Local"
+                                },
+                                {
+                                        "id": "p3-m17",
+                                        "name": "Local Rental Ratio YoY Change Latest",
+                                        "description": "Measure used by Local authority detail: prices, incomes, affordability and rent, Local rental pressure YoY change.",
+                                        "dax": "VAR _latestYear = [Local Rental Latest Year]\nRETURN\nCALCULATE(\n[Local Rental Ratio YoY Change],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Local authority detail: prices, incomes, affordability and rent",
+                                                "Local rental pressure YoY change"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Rental Local"
+                                },
+                                {
+                                        "id": "p3-m18",
+                                        "name": "Local Rental Ratio YoY Change",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "VAR _year = MAX('Dim Date'[Year])\nVAR _previous =\nCALCULATE(\n[Local Rental Ratio],\nREMOVEFILTERS('Dim Date'[Date]),\n'Dim Date'[Year] = _year - 1\n)\nRETURN\nIF(NOT ISBLANK(_year), [Local Rental Ratio] - _previous)",
+                                        "usedInVisuals": [
+                                                "Supports Local Rental Ratio YoY Change Latest"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Rental Local"
+                                },
+                                {
+                                        "id": "p3-m19",
+                                        "name": "Monthly HPI Price",
+                                        "description": "Measure used by Average monthly HPI across filtered local authorities.",
+                                        "dax": "AVERAGE('Fact HPI Monthly'[DisplayPrice])",
+                                        "usedInVisuals": [
+                                                "Average monthly HPI across filtered local authorities"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact HPI Monthly"
+                                }
+                        ]
+                },
+                {
+                        "id": "page-4",
+                        "name": "Income Distribution And Rental Strain",
+                        "screenshot": "portfolio/Screen3.png",
+                        "accent": "#7a5a3a",
+                        "summary": "A pure-rental view paired with the income side. Median vs lower-quartile purchase ratio, rental affordability ratio (rent ÷ private renter income), share of areas above the 30% rent affordability threshold, and the change since 2021 for both rent and renter income.",
+                        "visuals": [
+                                {
+                                        "id": "v4-1",
+                                        "name": "Latest UK Market Month",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Latest UK Market Month"
+                                        ]
+                                },
+                                {
+                                        "id": "v4-2",
+                                        "name": "Widest Lower-Quartile Gap",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Widest Lower Quartile Gap Area"
+                                        ]
+                                },
+                                {
+                                        "id": "v4-3",
+                                        "name": "Lower-Quartile Ratio",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Lower Quartile Purchase Ratio Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v4-4",
+                                        "name": "LQ Gap vs Median",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Lower Quartile Gap vs Median Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v4-5",
+                                        "name": "Rent Above 30% Share",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Areas Above 30% Rent Share"
+                                        ]
+                                },
+                                {
+                                        "id": "v4-6",
+                                        "name": "Average Weekly Earnings",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Average Weekly Earnings Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v4-7",
+                                        "name": "Latest lower-quartile gap by region",
+                                        "type": "Clustered bar chart",
+                                        "description": "Clustered bar chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "Lower Quartile Gap vs Median Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v4-8",
+                                        "name": "Local authorities: median vs lower-quartile pressure, sized by rental strain",
+                                        "type": "Scatter chart",
+                                        "description": "Scatter chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "Local Rental Ratio Latest",
+                                                "Local Purchase Ratio Latest",
+                                                "Local Lower Quartile Purchase Ratio Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v4-9",
+                                        "name": "Lower-quartile affordability trend by region",
+                                        "type": "Line chart",
+                                        "description": "Line chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Year]",
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "Lower Quartile Purchase Ratio"
+                                        ]
+                                },
+                                {
+                                        "id": "v4-10",
+                                        "name": "Local lower-quartile and rental detail",
+                                        "type": "Matrix",
+                                        "description": "Matrix extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Geography[GeographyName]"
+                                        ],
+                                        "measures": [
+                                                "Local Median House Price Latest",
+                                                "Local Purchase Ratio Latest",
+                                                "Local Lower Quartile Purchase Ratio Latest",
+                                                "Local Lower Quartile Gap vs Median Latest",
+                                                "Local Rental Ratio Latest"
+                                        ]
+                                }
+                        ],
+                        "measures": [
+                                {
+                                        "id": "p4-m1",
+                                        "name": "Latest UK Market Month",
+                                        "description": "Measure used by Latest UK Market Month.",
+                                        "dax": "CALCULATE(\nMAX('Fact UK Market Monthly'[Date]),\nFILTER(\nALL('Fact UK Market Monthly'),\n'Fact UK Market Monthly'[Scenario] = \"Actual\"\n&& NOT ISBLANK('Fact UK Market Monthly'[DisplayPrice])\n)\n)",
+                                        "usedInVisuals": [
+                                                "Latest UK Market Month"
+                                        ],
+                                        "notes": "Format: Long Date | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p4-m2",
+                                        "name": "Widest Lower Quartile Gap Area",
+                                        "description": "Measure used by Widest Lower-Quartile Gap.",
+                                        "dax": "VAR _latestYear = [Local Purchase Latest Year]\nVAR _topArea =\nTOPN(\n1,\nFILTER(\nALL('Dim Geography'[GeographyCode], 'Dim Geography'[GeographyName]),\nNOT ISBLANK(\nCALCULATE(\n[Local Lower Quartile Gap vs Median],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)\n)\n),\nCALCULATE(\n[Local Lower Quartile Gap vs Median],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n),\nDESC,\n'Dim Geography'[GeographyName],\nASC\n)\nRETURN\nCONCATENATEX(_topArea, 'Dim Geography'[GeographyName], \", \")",
+                                        "usedInVisuals": [
+                                                "Widest Lower-Quartile Gap"
+                                        ],
+                                        "notes": "Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p4-m3",
+                                        "name": "Local Purchase Latest Year",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "CALCULATE(MAX('Fact Purchase Local'[Year]), REMOVEFILTERS('Dim Date'))",
+                                        "usedInVisuals": [
+                                                "Supports Widest Lower Quartile Gap Area",
+                                                "Supports Local Purchase Ratio Latest",
+                                                "Supports Local Lower Quartile Purchase Ratio Latest",
+                                                "Supports Local Median House Price Latest"
+                                        ],
+                                        "notes": "Format: 0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p4-m4",
+                                        "name": "Local Lower Quartile Gap vs Median",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "[Local Lower Quartile Purchase Ratio] - [Local Purchase Ratio]",
+                                        "usedInVisuals": [
+                                                "Supports Widest Lower Quartile Gap Area"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p4-m5",
+                                        "name": "Local Lower Quartile Purchase Ratio",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Purchase Local'[LowerQuartileAffordabilityRatio])",
+                                        "usedInVisuals": [
+                                                "Supports Local Lower Quartile Purchase Ratio Latest"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p4-m6",
+                                        "name": "Local Purchase Ratio",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Purchase Local'[MedianAffordabilityRatio])",
+                                        "usedInVisuals": [
+                                                "Supports Local Purchase Ratio Latest"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p4-m7",
+                                        "name": "Lower Quartile Purchase Ratio Latest",
+                                        "description": "Measure used by Lower-Quartile Ratio.",
+                                        "dax": "VAR _latestYear = [Purchase Latest Year]\nRETURN\nCALCULATE(\n[Lower Quartile Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Lower-Quartile Ratio"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p4-m8",
+                                        "name": "Purchase Latest Year",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "CALCULATE(MAX('Fact Purchase Region'[Year]), REMOVEFILTERS('Dim Date'))",
+                                        "usedInVisuals": [
+                                                "Supports Lower Quartile Purchase Ratio Latest"
+                                        ],
+                                        "notes": "Format: 0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p4-m9",
+                                        "name": "Lower Quartile Purchase Ratio",
+                                        "description": "Measure used by Lower-quartile affordability trend by region.",
+                                        "dax": "AVERAGE('Fact Purchase Region'[LowerQuartileAffordabilityRatio])",
+                                        "usedInVisuals": [
+                                                "Lower-quartile affordability trend by region"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p4-m10",
+                                        "name": "Lower Quartile Gap vs Median Latest",
+                                        "description": "Measure used by LQ Gap vs Median, Latest lower-quartile gap by region.",
+                                        "dax": "[Lower Quartile Purchase Ratio Latest] - [Purchase Ratio Latest]",
+                                        "usedInVisuals": [
+                                                "LQ Gap vs Median",
+                                                "Latest lower-quartile gap by region"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p4-m11",
+                                        "name": "Purchase Ratio Latest",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "VAR _latestYear = [Purchase Latest Year]\nRETURN\nCALCULATE(\n[Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Supports Lower Quartile Gap vs Median Latest"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p4-m12",
+                                        "name": "Purchase Ratio",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Purchase Region'[MedianAffordabilityRatio])",
+                                        "usedInVisuals": [],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Region"
+                                },
+                                {
+                                        "id": "p4-m13",
+                                        "name": "Areas Above 30% Rent Share",
+                                        "description": "Measure used by Rent Above 30% Share.",
+                                        "dax": "VAR _latestYear = [Local Rental Latest Year]\nVAR _total =\nCOUNTROWS(\nFILTER(\nVALUES('Dim Geography'[GeographyCode]),\nNOT ISBLANK(\nCALCULATE(\n[Local Rental Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)\n)\n)\n)\nRETURN\nDIVIDE([Areas Above 30% Rent Count], _total)",
+                                        "usedInVisuals": [
+                                                "Rent Above 30% Share"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Rental Local"
+                                },
+                                {
+                                        "id": "p4-m14",
+                                        "name": "Local Rental Latest Year",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "CALCULATE(MAX('Fact Rental Local'[Year]), REMOVEFILTERS('Dim Date'))",
+                                        "usedInVisuals": [
+                                                "Supports Areas Above 30% Rent Share",
+                                                "Supports Local Rental Ratio Latest"
+                                        ],
+                                        "notes": "Format: 0 | Table: Fact Rental Local"
+                                },
+                                {
+                                        "id": "p4-m15",
+                                        "name": "Local Rental Ratio",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Rental Local'[RentalAffordabilityRatio])",
+                                        "usedInVisuals": [
+                                                "Supports Areas Above 30% Rent Share",
+                                                "Supports Local Rental Ratio Latest"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Rental Local"
+                                },
+                                {
+                                        "id": "p4-m16",
+                                        "name": "Areas Above 30% Rent Count",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "VAR _latestYear = [Local Rental Latest Year]\nRETURN\nCOUNTROWS(\nFILTER(\nVALUES('Dim Geography'[GeographyCode]),\nCALCULATE(\n[Local Rental Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n) > 0.3\n)\n)",
+                                        "usedInVisuals": [
+                                                "Supports Areas Above 30% Rent Share"
+                                        ],
+                                        "notes": "Format: #,##0 | Table: Fact Rental Local"
+                                },
+                                {
+                                        "id": "p4-m17",
+                                        "name": "Average Weekly Earnings Latest",
+                                        "description": "Measure used by Average Weekly Earnings.",
+                                        "dax": "VAR _latestDate = [Latest Labour Market Month]\nRETURN\nCALCULATE(\n[Average Weekly Earnings],\nFILTER(\nALL('Fact Labour Market Monthly'),\n'Fact Labour Market Monthly'[Date] = _latestDate\n)\n)",
+                                        "usedInVisuals": [
+                                                "Average Weekly Earnings"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p4-m18",
+                                        "name": "Latest Labour Market Month",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "CALCULATE(\nMAX('Fact Labour Market Monthly'[Date]),\nFILTER(\nALL('Fact Labour Market Monthly'),\nNOT ISBLANK('Fact Labour Market Monthly'[AverageWeeklyEarnings])\n&& NOT ISBLANK('Fact Labour Market Monthly'[UKAverageHousePrice])\n)\n)",
+                                        "usedInVisuals": [
+                                                "Supports Average Weekly Earnings Latest"
+                                        ],
+                                        "notes": "Format: Long Date | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p4-m19",
+                                        "name": "Average Weekly Earnings",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Labour Market Monthly'[AverageWeeklyEarnings])",
+                                        "usedInVisuals": [
+                                                "Supports Average Weekly Earnings Latest"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p4-m20",
+                                        "name": "Local Rental Ratio Latest",
+                                        "description": "Measure used by Local authorities: median vs lower-quartile pressure, sized by rental strain, Local lower-quartile and rental detail.",
+                                        "dax": "VAR _latestYear = [Local Rental Latest Year]\nRETURN\nCALCULATE(\n[Local Rental Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Local authorities: median vs lower-quartile pressure, sized by rental strain",
+                                                "Local lower-quartile and rental detail"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Rental Local"
+                                },
+                                {
+                                        "id": "p4-m21",
+                                        "name": "Local Purchase Ratio Latest",
+                                        "description": "Measure used by Local authorities: median vs lower-quartile pressure, sized by rental strain, Local lower-quartile and rental detail.",
+                                        "dax": "VAR _latestYear = [Local Purchase Latest Year]\nRETURN\nCALCULATE(\n[Local Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Local authorities: median vs lower-quartile pressure, sized by rental strain",
+                                                "Local lower-quartile and rental detail"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p4-m22",
+                                        "name": "Local Lower Quartile Purchase Ratio Latest",
+                                        "description": "Measure used by Local authorities: median vs lower-quartile pressure, sized by rental strain, Local lower-quartile and rental detail.",
+                                        "dax": "VAR _latestYear = [Local Purchase Latest Year]\nRETURN\nCALCULATE(\n[Local Lower Quartile Purchase Ratio],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Local authorities: median vs lower-quartile pressure, sized by rental strain",
+                                                "Local lower-quartile and rental detail"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p4-m23",
+                                        "name": "Local Median House Price Latest",
+                                        "description": "Measure used by Local lower-quartile and rental detail.",
+                                        "dax": "VAR _latestYear = [Local Purchase Latest Year]\nRETURN\nCALCULATE(\n[Local Median House Price],\nKEEPFILTERS('Dim Date'[Year] = _latestYear)\n)",
+                                        "usedInVisuals": [
+                                                "Local lower-quartile and rental detail"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p4-m24",
+                                        "name": "Local Median House Price",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Purchase Local'[MedianHousePrice])",
+                                        "usedInVisuals": [
+                                                "Supports Local Median House Price Latest"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Purchase Local"
+                                },
+                                {
+                                        "id": "p4-m25",
+                                        "name": "Local Lower Quartile Gap vs Median Latest",
+                                        "description": "Measure used by Local lower-quartile and rental detail.",
+                                        "dax": "[Local Lower Quartile Purchase Ratio Latest] - [Local Purchase Ratio Latest]",
+                                        "usedInVisuals": [
+                                                "Local lower-quartile and rental detail"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Purchase Local"
+                                }
+                        ]
+                },
+                {
+                        "id": "page-5",
+                        "name": "Wages, Jobs And House Prices",
+                        "screenshot": "portfolio/Screen4.png",
+                        "accent": "#946e3e",
+                        "summary": "A macro context page joining the housing series with labour-market reads. Indexed house price vs indexed wage growth shows whether earnings are keeping pace with prices, with the unemployment rate plotted alongside as the third leg of the affordability stool.",
+                        "visuals": [
+                                {
+                                        "id": "v5-1",
+                                        "name": "Average Weekly Earnings",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Average Weekly Earnings Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v5-2",
+                                        "name": "Wage Growth YoY",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Average Weekly Earnings Annual Growth Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v5-3",
+                                        "name": "House Price / Annual Wage",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "House Price To Annual Wage Ratio Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v5-4",
+                                        "name": "Unemployment Rate",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Unemployment Rate Latest"
+                                        ]
+                                },
+                                {
+                                        "id": "v5-5",
+                                        "name": "Latest UK Market Month",
+                                        "type": "Card",
+                                        "description": "Card extracted from the PBIP report definition.",
+                                        "fields": [],
+                                        "measures": [
+                                                "Latest UK Market Month"
+                                        ]
+                                },
+                                {
+                                        "id": "v5-6",
+                                        "name": "House prices, wages and unemployment indexed to the same base",
+                                        "type": "Line chart",
+                                        "description": "Line chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Date]",
+                                                "Fact Macro Indicator Monthly[Indicator]"
+                                        ],
+                                        "measures": [
+                                                "Macro Indexed Value"
+                                        ]
+                                },
+                                {
+                                        "id": "v5-7",
+                                        "name": "Annual movement: house prices, wages and unemployment",
+                                        "type": "Line chart",
+                                        "description": "Line chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Date]",
+                                                "Fact Macro Indicator Monthly[Indicator]"
+                                        ],
+                                        "measures": [
+                                                "Macro Annual Movement"
+                                        ]
+                                },
+                                {
+                                        "id": "v5-8",
+                                        "name": "House price to annual wage ratio by month",
+                                        "type": "Line chart",
+                                        "description": "Line chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Date]"
+                                        ],
+                                        "measures": [
+                                                "House Price To Annual Wage Ratio"
+                                        ]
+                                },
+                                {
+                                        "id": "v5-9",
+                                        "name": "House price growth minus wage growth",
+                                        "type": "Line chart",
+                                        "description": "Line chart extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Date]"
+                                        ],
+                                        "measures": [
+                                                "House Price Growth Less Wage Growth"
+                                        ]
+                                },
+                                {
+                                        "id": "v5-10",
+                                        "name": "Latest monthly wage, jobs and house-price diagnostics",
+                                        "type": "Matrix",
+                                        "description": "Matrix extracted from the PBIP report definition.",
+                                        "fields": [
+                                                "Dim Date[Date]"
+                                        ],
+                                        "measures": [
+                                                "Average Weekly Earnings",
+                                                "UK Average House Price Labour View",
+                                                "House Price To Annual Wage Ratio",
+                                                "Unemployment Rate"
+                                        ]
+                                }
+                        ],
+                        "measures": [
+                                {
+                                        "id": "p5-m1",
+                                        "name": "Average Weekly Earnings Latest",
+                                        "description": "Measure used by Average Weekly Earnings.",
+                                        "dax": "VAR _latestDate = [Latest Labour Market Month]\nRETURN\nCALCULATE(\n[Average Weekly Earnings],\nFILTER(\nALL('Fact Labour Market Monthly'),\n'Fact Labour Market Monthly'[Date] = _latestDate\n)\n)",
+                                        "usedInVisuals": [
+                                                "Average Weekly Earnings"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p5-m2",
+                                        "name": "Latest Labour Market Month",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "CALCULATE(\nMAX('Fact Labour Market Monthly'[Date]),\nFILTER(\nALL('Fact Labour Market Monthly'),\nNOT ISBLANK('Fact Labour Market Monthly'[AverageWeeklyEarnings])\n&& NOT ISBLANK('Fact Labour Market Monthly'[UKAverageHousePrice])\n)\n)",
+                                        "usedInVisuals": [
+                                                "Supports Average Weekly Earnings Latest",
+                                                "Supports Average Weekly Earnings Annual Growth Latest",
+                                                "Supports House Price To Annual Wage Ratio Latest"
+                                        ],
+                                        "notes": "Format: Long Date | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p5-m3",
+                                        "name": "Average Weekly Earnings",
+                                        "description": "Measure used by Latest monthly wage, jobs and house-price diagnostics.",
+                                        "dax": "AVERAGE('Fact Labour Market Monthly'[AverageWeeklyEarnings])",
+                                        "usedInVisuals": [
+                                                "Latest monthly wage, jobs and house-price diagnostics"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p5-m4",
+                                        "name": "Average Weekly Earnings Annual Growth Latest",
+                                        "description": "Measure used by Wage Growth YoY.",
+                                        "dax": "VAR _latestDate = [Latest Labour Market Month]\nRETURN\nCALCULATE(\n[Average Weekly Earnings Annual Growth],\nFILTER(\nALL('Fact Labour Market Monthly'),\n'Fact Labour Market Monthly'[Date] = _latestDate\n)\n)",
+                                        "usedInVisuals": [
+                                                "Wage Growth YoY"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p5-m5",
+                                        "name": "Average Weekly Earnings Annual Growth",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "AVERAGE('Fact Labour Market Monthly'[AverageWeeklyEarningsAnnualGrowth])",
+                                        "usedInVisuals": [
+                                                "Supports Average Weekly Earnings Annual Growth Latest"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p5-m6",
+                                        "name": "House Price To Annual Wage Ratio Latest",
+                                        "description": "Measure used by House Price / Annual Wage.",
+                                        "dax": "VAR _latestDate = [Latest Labour Market Month]\nRETURN\nCALCULATE(\n[House Price To Annual Wage Ratio],\nFILTER(\nALL('Fact Labour Market Monthly'),\n'Fact Labour Market Monthly'[Date] = _latestDate\n)\n)",
+                                        "usedInVisuals": [
+                                                "House Price / Annual Wage"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p5-m7",
+                                        "name": "House Price To Annual Wage Ratio",
+                                        "description": "Measure used by House price to annual wage ratio by month, Latest monthly wage, jobs and house-price diagnostics.",
+                                        "dax": "AVERAGE('Fact Labour Market Monthly'[HousePriceToAnnualWageRatio])",
+                                        "usedInVisuals": [
+                                                "House price to annual wage ratio by month",
+                                                "Latest monthly wage, jobs and house-price diagnostics"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p5-m8",
+                                        "name": "Unemployment Rate Latest",
+                                        "description": "Measure used by Unemployment Rate.",
+                                        "dax": "VAR _latestDate = [Latest Unemployment Month]\nRETURN\nCALCULATE(\n[Unemployment Rate],\nFILTER(\nALL('Fact Labour Market Monthly'),\n'Fact Labour Market Monthly'[Date] = _latestDate\n)\n)",
+                                        "usedInVisuals": [
+                                                "Unemployment Rate"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p5-m9",
+                                        "name": "Latest Unemployment Month",
+                                        "description": "Supporting measure referenced by page measures.",
+                                        "dax": "CALCULATE(\nMAX('Fact Labour Market Monthly'[Date]),\nFILTER(\nALL('Fact Labour Market Monthly'),\nNOT ISBLANK('Fact Labour Market Monthly'[UnemploymentRate])\n)\n)",
+                                        "usedInVisuals": [
+                                                "Supports Unemployment Rate Latest"
+                                        ],
+                                        "notes": "Format: Long Date | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p5-m10",
+                                        "name": "Unemployment Rate",
+                                        "description": "Measure used by Latest monthly wage, jobs and house-price diagnostics.",
+                                        "dax": "AVERAGE('Fact Labour Market Monthly'[UnemploymentRate])",
+                                        "usedInVisuals": [
+                                                "Latest monthly wage, jobs and house-price diagnostics"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p5-m11",
+                                        "name": "Latest UK Market Month",
+                                        "description": "Measure used by Latest UK Market Month.",
+                                        "dax": "CALCULATE(\nMAX('Fact UK Market Monthly'[Date]),\nFILTER(\nALL('Fact UK Market Monthly'),\n'Fact UK Market Monthly'[Scenario] = \"Actual\"\n&& NOT ISBLANK('Fact UK Market Monthly'[DisplayPrice])\n)\n)",
+                                        "usedInVisuals": [
+                                                "Latest UK Market Month"
+                                        ],
+                                        "notes": "Format: Long Date | Table: Fact UK Market Monthly"
+                                },
+                                {
+                                        "id": "p5-m12",
+                                        "name": "Macro Indexed Value",
+                                        "description": "Measure used by House prices, wages and unemployment indexed to the same base.",
+                                        "dax": "AVERAGE('Fact Macro Indicator Monthly'[IndexedValue])",
+                                        "usedInVisuals": [
+                                                "House prices, wages and unemployment indexed to the same base"
+                                        ],
+                                        "notes": "Format: 0.0 | Table: Fact Macro Indicator Monthly"
+                                },
+                                {
+                                        "id": "p5-m13",
+                                        "name": "Macro Annual Movement",
+                                        "description": "Measure used by Annual movement: house prices, wages and unemployment.",
+                                        "dax": "AVERAGE('Fact Macro Indicator Monthly'[AnnualMovementValue])",
+                                        "usedInVisuals": [
+                                                "Annual movement: house prices, wages and unemployment"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Macro Indicator Monthly"
+                                },
+                                {
+                                        "id": "p5-m14",
+                                        "name": "House Price Growth Less Wage Growth",
+                                        "description": "Measure used by House price growth minus wage growth.",
+                                        "dax": "AVERAGE('Fact Labour Market Monthly'[HousePriceGrowthLessWageGrowth])",
+                                        "usedInVisuals": [
+                                                "House price growth minus wage growth"
+                                        ],
+                                        "notes": "Format: 0.0% | Table: Fact Labour Market Monthly"
+                                },
+                                {
+                                        "id": "p5-m15",
+                                        "name": "UK Average House Price Labour View",
+                                        "description": "Measure used by Latest monthly wage, jobs and house-price diagnostics.",
+                                        "dax": "AVERAGE('Fact Labour Market Monthly'[UKAverageHousePrice])",
+                                        "usedInVisuals": [
+                                                "Latest monthly wage, jobs and house-price diagnostics"
+                                        ],
+                                        "notes": "Format: £#,##0 | Table: Fact Labour Market Monthly"
+                                }
+                        ]
+                }
+        ]
+};
+
+      var state = { activePageIndex: 0, activeTabs: {}, query: '' };
+
+      var el = {
+        hero: document.getElementById('hero'),
+        heroImage: document.getElementById('heroImage'),
+        reportName: document.getElementById('reportName'),
+        pageShell: document.getElementById('pageShell'),
+        pageNav: document.getElementById('pageNav'),
+        searchInput: document.getElementById('searchInput'),
+        previousPage: document.getElementById('previousPage'),
+        nextPage: document.getElementById('nextPage'),
+        visualCount: document.getElementById('visualCount'),
+        measureCount: document.getElementById('measureCount'),
+        detailsPanel: document.getElementById('detailsPanel'),
+        drawerRoot: document.getElementById('drawerRoot'),
+        drawerTitle: document.getElementById('drawerTitle'),
+        drawerMeta: document.getElementById('drawerMeta'),
+        drawerCode: document.getElementById('drawerCode'),
+        year: document.getElementById('year')
+      };
+
+      function hasPlaceholder(value) { return String(value || '').includes('{{'); }
+      function text(value) { return String(value || '').toLowerCase().trim(); }
+      function esc(value) {
+        return String(value ?? '')
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#039;');
+      }
+
+      function pageMatches(page, query) {
+        var q = text(query);
+        if (!q) return true;
+        var combined = [
+          page.name,
+          page.summary,
+          ...page.visuals.flatMap(v => [v.name, v.type, v.description, ...v.fields, ...v.measures]),
+          ...page.measures.flatMap(m => [m.name, m.description, m.dax, m.notes, ...m.usedInVisuals])
+        ].join(' ');
+        return text(combined).includes(q);
+      }
+
+      function visiblePages() { return templateData.pages.filter(page => pageMatches(page, state.query)); }
+
+      function currentPage() {
+        var pages = visiblePages();
+        if (!pages.length) return null;
+        if (state.activePageIndex > pages.length - 1) state.activePageIndex = 0;
+        return pages[state.activePageIndex];
+      }
+
+      function activeTab(pageId) { return state.activeTabs[pageId] || 'visuals'; }
+
+      function row(label, value) {
+        var display = Array.isArray(value) ? value.join(', ') : value;
+        if (!display) return '';
+        return '<div class="meta-row"><dt class="meta-label">' + esc(label) + '</dt><dd class="meta-value">' + esc(display) + '</dd></div>';
+      }
+
+      function screenshot(page) {
+        if (page.screenshot && !hasPlaceholder(page.screenshot)) {
+          return '<img src="' + esc(page.screenshot) + '" alt="' + esc(page.name) + ' screenshot" />';
+        }
+        return '<div class="screenshot-placeholder"><div><strong>Screenshot pending</strong><span>This page&rsquo;s screenshot will appear here once it has been added to the portfolio folder.</span></div></div>';
+      }
+
+      function visuals(page) {
+        if (!page.visuals.length) return '<div class="empty">No visuals documented for this page yet.</div>';
+        return '<div class="collection">' + page.visuals.map(v => (
+          '<details class="item">' +
+            '<summary><div class="item-head"><div><h4 class="item-title">' + esc(v.name) + '</h4><p class="item-subtitle">' + esc(v.type) + '</p></div><span class="plus">+</span></div></summary>' +
+            '<div class="item-body"><dl>' + row('Description', v.description) + row('Fields', v.fields) + row('Measures', v.measures) + '</dl></div>' +
+          '</details>'
+        )).join('') + '</div>';
+      }
+
+      function measures(page) {
+        if (!page.measures.length) return '<div class="empty">No measures documented for this page yet.</div>';
+        return '<div class="measure-grid">' + page.measures.map(m => (
+          '<button class="measure-card" type="button" data-measure-id="' + esc(m.id) + '"><h4>' + esc(m.name) + '</h4><p>' + esc(m.description) + '</p></button>'
+        )).join('') + '</div>';
+      }
+
+      function renderNav() {
+        var pages = visiblePages();
+        el.pageNav.innerHTML = pages.length ? pages.map((page, index) => (
+          '<button type="button" class="' + (index === state.activePageIndex ? 'active' : '') + '" data-page-index="' + index + '">' + esc(page.name) + '</button>'
+        )).join('') : '<div class="empty">No matching pages.</div>';
+        el.previousPage.disabled = pages.length <= 1;
+        el.nextPage.disabled = pages.length <= 1;
+      }
+
+      function detailPanel(page, tab) {
+        return '<div class="tab-strip">' +
+          '<button class="tab-button ' + (tab === 'visuals' ? 'active' : '') + '" type="button" data-tab="visuals">Visuals</button>' +
+          '<button class="tab-button ' + (tab === 'measures' ? 'active' : '') + '" type="button" data-tab="measures">Measures</button>' +
+        '</div>' +
+        '<div class="tab-panel ' + (tab === 'visuals' ? 'active' : '') + '">' + visuals(page) + '</div>' +
+        '<div class="tab-panel ' + (tab === 'measures' ? 'active' : '') + '">' + measures(page) + '</div>';
+      }
+
+      function renderPage(page) {
+        var pages = visiblePages();
+        var tab = activeTab(page.id);
+        el.visualCount.textContent = page.visuals.length;
+        el.measureCount.textContent = page.measures.length;
+        el.detailsPanel.innerHTML = detailPanel(page, tab);
+        el.pageShell.innerHTML =
+          '<article class="page-card">' +
+            '<div class="page-header">' +
+              '<div><p class="page-kicker">Report page</p><h2 class="page-title">' + esc(page.name) + '</h2><p class="page-summary">' + esc(page.summary) + '</p></div>' +
+              '<div class="page-count">' + (state.activePageIndex + 1) + ' / ' + pages.length + '</div>' +
+            '</div>' +
+            '<div class="visual-area">' +
+              '<div class="screenshot-panel">' + screenshot(page) + '</div>' +
+            '</div>' +
+          '</article>';
+        syncDetailsPanelHeight();
+      }
+
+      function syncDetailsPanelHeight() {
+        if (!el.detailsPanel) return;
+        var panel = document.querySelector('.screenshot-panel');
+        if (!panel || window.matchMedia('(max-width: 1180px)').matches) {
+          el.detailsPanel.style.height = '';
+          return;
+        }
+        var panelRect = panel.getBoundingClientRect();
+        var detailsRect = el.detailsPanel.getBoundingClientRect();
+        var height = Math.max(360, Math.round(panelRect.bottom - detailsRect.top));
+        el.detailsPanel.style.height = height + 'px';
+      }
+
+      function renderEmpty() {
+        el.visualCount.textContent = '0';
+        el.measureCount.textContent = '0';
+        el.detailsPanel.innerHTML = '<div class="empty">No matching pages.</div>';
+        el.pageShell.innerHTML = '<section class="page-card"><div class="page-header"><div><p class="page-kicker">Search result</p><h2 class="page-title">No matching pages</h2><p class="page-summary">No page on this report matched your search. Try a shorter or different term.</p></div></div></section>';
+      }
+
+      function render() {
+        var page = currentPage();
+        el.reportName.textContent = templateData.reportName;
+        renderNav();
+        if (!page) { renderEmpty(); return; }
+        renderPage(page);
+      }
+
+      function openDrawer(measure) {
+        el.drawerTitle.textContent = measure.name;
+        el.drawerCode.textContent = measure.dax;
+        el.drawerMeta.innerHTML = row('Definition', measure.description) + row('Used in', measure.usedInVisuals) + row('Notes', measure.notes);
+        el.drawerRoot.classList.add('open');
+        el.drawerRoot.setAttribute('aria-hidden', 'false');
+      }
+
+      function closeDrawer() {
+        el.drawerRoot.classList.remove('open');
+        el.drawerRoot.setAttribute('aria-hidden', 'true');
+      }
+
+      function movePage(direction) {
+        var pages = visiblePages();
+        if (!pages.length) return;
+        state.activePageIndex = (state.activePageIndex + direction + pages.length) % pages.length;
+        render();
+      }
+
+      function initHeroImage() {
+        if (!el.heroImage || hasPlaceholder(el.heroImage.getAttribute('src'))) return;
+        el.heroImage.addEventListener('load', () => el.hero.classList.add('has-image'));
+        el.heroImage.addEventListener('error', () => el.hero.classList.remove('has-image'));
+        if (el.heroImage.complete && el.heroImage.naturalWidth > 0) el.hero.classList.add('has-image');
+      }
+
+      document.addEventListener('click', event => {
+        var pageButton = event.target.closest('[data-page-index]');
+        if (pageButton) { state.activePageIndex = Number(pageButton.dataset.pageIndex); render(); return; }
+
+        var tabButton = event.target.closest('[data-tab]');
+        if (tabButton) {
+          var page = currentPage();
+          if (page) { state.activeTabs[page.id] = tabButton.dataset.tab; render(); }
+          return;
+        }
+
+        var measureButton = event.target.closest('[data-measure-id]');
+        if (measureButton) {
+          var current = currentPage();
+          var measure = current?.measures.find(item => item.id === measureButton.dataset.measureId);
+          if (measure) openDrawer(measure);
+          return;
+        }
+
+        var action = event.target.closest('[data-action]')?.dataset.action;
+        if (action === 'close-drawer') { closeDrawer(); return; }
+        if (action === 'focus-search') { el.searchInput.focus(); return; }
+        if (action === 'open-current-measures') {
+          var active = currentPage();
+          if (active) { state.activeTabs[active.id] = 'measures'; render(); }
+        }
+      });
+
+      el.previousPage.addEventListener('click', () => movePage(-1));
+      el.nextPage.addEventListener('click', () => movePage(1));
+      window.addEventListener('resize', syncDetailsPanelHeight);
+      el.searchInput.addEventListener('input', event => {
+        state.query = event.target.value;
+        state.activePageIndex = 0;
+        render();
+      });
+
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') closeDrawer();
+        if (event.key === 'ArrowRight' && !event.target.matches('input')) movePage(1);
+        if (event.key === 'ArrowLeft' && !event.target.matches('input')) movePage(-1);
+      });
+
+      el.year.textContent = new Date().getFullYear();
+      initHeroImage();
+      render();
+    })();
+  </script>
+</body>
+</html>
